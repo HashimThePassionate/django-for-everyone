@@ -1,1 +1,16 @@
 # Getting started with django models
+
+#Setup mysql as Db
+1. we need to install mysqlclient package
+2. pip install mysqlclient
+3. Configure  Db settings in settings.py file
+4. DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'store',         
+        'USER': 'root',       
+        'PASSWORD': '',   
+        'HOST': 'localhost',
+        'PORT': '3306', 
+    }
+}

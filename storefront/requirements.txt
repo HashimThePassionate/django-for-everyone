@@ -1,5 +1,6 @@
 asgiref==3.7.2
 Django==5.0.1
 django-debug-toolbar==4.2.0
+mysqlclient==2.2.1
 sqlparse==0.4.4
 tzdata==2023.4
