@@ -15,3 +15,5 @@
     }
 }
 5. Building models
+6.Defining choices field
+7. Defining one to one relationship
