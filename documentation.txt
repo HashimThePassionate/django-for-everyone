@@ -20,3 +20,4 @@
 8. Defining one to many relationship
 9. Defining many to many relationship
 10. Resolving circular relationship
+11. Generic  relationship to solve dependend models
