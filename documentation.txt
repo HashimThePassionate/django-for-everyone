@@ -21,3 +21,4 @@
 9. Defining many to many relationship
 10. Resolving circular relationship
 11. Generic  relationship to solve dependend models
+11. To change the table names we use django meta data
