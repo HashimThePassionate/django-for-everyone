@@ -22,3 +22,5 @@
 10. Resolving circular relationship
 11. Generic  relationship to solve dependend models
 11. To change the table names we use django meta data
+11. To revert previous migration run python manage.py migrate store 0003 
+12. delete the migration file 0004 also delete the changes in model otherwise next time django will create migration again
