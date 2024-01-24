@@ -47,3 +47,4 @@ class Migration(migrations.Migration):
 """)
     ]
 18. python manage.py migrate
+19. Populate dummy data using mackaroo
