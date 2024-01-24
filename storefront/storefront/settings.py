@@ -58,7 +58,7 @@ INTERNAL_IPS = [
     # ...
 ]
 ROOT_URLCONF = 'storefront.urls'
-TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -84,12 +84,16 @@ WSGI_APPLICATION = 'storefront.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'storefront',         
-        'USER': 'root',       
-        'PASSWORD': '',   
+        'NAME': 'storefront',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '3306', 
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_ALL_TABLES'",
+        },
     }
+
 }
 
 # Password validation
