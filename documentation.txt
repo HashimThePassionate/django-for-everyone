@@ -28,3 +28,22 @@
 14. python manage.py makemigrations
 15. python manage.py sqlmigrate
 16. python manage.py migrate
+17. Run raw sql 
+python manage.py makemigrations store --empty
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('store', '0001_initial'),
+    ]
+
+    operations = [
+        migrations.RunSQL("""
+                    INSERT INTO store_collection(title)
+                    VALUES('collection1')
+                          """,
+                    """ 
+                    DELETE store_collection
+                    where title = 'collection1'
+""")
+    ]
+18. python manage.py migrate
