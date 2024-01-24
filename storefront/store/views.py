@@ -5,7 +5,8 @@ from store.models import Product
 
 
 def home(request):
-    query_set = Product.objects.all()
+    query_set = Product.objects.all() 
+    #objects is manager that is a interface of database
     for p in query_set:
         print(p)
     return render(request, 'index.html')
