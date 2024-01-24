@@ -25,3 +25,6 @@
 11. To revert previous migration run python manage.py migrate store 0003 
 12. delete the migration file 0004 also delete the changes in model otherwise next time django will create migration again
 13. git reset --hard  HEAD~1
+14. python manage.py makemigrations
+15. python manage.py sqlmigrate
+16. python manage.py migrate

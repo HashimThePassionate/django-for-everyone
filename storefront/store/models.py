@@ -59,7 +59,7 @@ class Address(models.Model):
 class Address1(models.Model):
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
-    customer = models.models.ForeignKey(Customer,on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
 
 class Orderitem(models.Model):
     order = models.ForeignKey(Order,on_delete=models.PROTECT)
