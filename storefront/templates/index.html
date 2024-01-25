@@ -1,12 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "css/style.css" %}'>
     <title>Models</title>
 </head>
 <body>
     <h1>Welcome to Models in Django</h1>
-    
+    <div class="container">
+    {% if product %}
+    <table class="table table-bordered border-primary">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">TITLE</th>
+          <th scope="col">DESCRIPTION</th>
+          <th scope="col">PRICE</th>
+          <th scope="col">INVENTORY</th>
+          <th scope="col">LAST_UPDATE</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in product %}
+    <tr>
+        <th scope="row">{{p.id}}</th>
+        <td>{{p.title}}</td>
+        <td>{{p.description}}</td>
+        <td>{{p.price}}</td>
+        <td>{{p.inventory}}</td>
+        <td>{{p.last_update}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% else %}
+    <p class="bg-danger">
+        No Timing Available
+    </p>
+    {% endif %}
+</div>
 </body>
 </html>

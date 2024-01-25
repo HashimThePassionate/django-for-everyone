@@ -27,7 +27,11 @@ def home(request):
 
     # Filter using
     # keyword argument
-    product = Product.objects.filter(price__gte=23.29)
-    for p in product:
-        print(p)
-    return render(request, 'index.html')
+    # query_set api
+    # product = Product.objects.filter(price__gte=23.29)
+    # for p in product:
+    #     print(p)
+
+    product = Product.objects.filter(price__range=(30, 47))
+    print(product)
+    return render(request, 'index.html', {'product':list(product)})
