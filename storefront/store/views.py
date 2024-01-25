@@ -18,6 +18,11 @@ def home(request):
     # except ObjectDoesNotExist:
     #     pass
 
-    product = Product.objects.filter(pk=0).exists()
+    # product = Product.objects.filter(pk=0).exists()
+    #Filtering Data
+    #find those dollars who have unit_price = 20
+    product = Product.objects.filter(price=20)
+    for p in product:
+            print(product)
 
     return render(request, 'index.html')
