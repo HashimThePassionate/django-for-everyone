@@ -13,9 +13,11 @@ def home(request):
     # product = Product.objects.get(pk=5) 
     # print(product)
     #get only specific record using where clause
-    try:
-        product = Product.objects.get(pk=0)
-    except ObjectDoesNotExist:
-        pass
+    # try:
+    #     product = Product.objects.get(pk=0)
+    # except ObjectDoesNotExist:
+    #     pass
+
+    product = Product.objects.filter(pk=0).exists()
 
     return render(request, 'index.html')
