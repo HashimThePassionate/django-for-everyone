@@ -49,3 +49,7 @@ class Migration(migrations.Migration):
 18. python manage.py migrate
 19. Populate dummy data using mackaroo
 20. Products : inventory < 10 price < 20
+21. Complex lookups using Q objects 
+Reference below 
+https://docs.djangoproject.com/en/5.0/topics/db/queries/#complex-lookups-with-q
+
