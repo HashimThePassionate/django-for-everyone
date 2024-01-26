@@ -42,6 +42,30 @@
         No Timing Available
     </p>
     {% endif %}
+    {% if pl %}
+    <div class="container">
+    <div class="row alert alert-success">
+    <div class="col">{{pl.id}}</div>
+    <div class="col">{{pl.title}}</div>
+    <div class="col">{{pl.description}}</div>
+    <div class="col">{{pl.price}}</div>
+    <div class="col">{{pl.inventory}}</div>
+    <div class="col">{{pl.last_update}}</div>
+    </div>
+    </div>
+    {% endif %}
+    {% if pe %}
+    <div class="container">
+    <div class="row alert alert-danger">
+    <div class="col">{{pe.id}}</div>
+    <div class="col">{{pe.title}}</div>
+    <div class="col">{{pe.description}}</div>
+    <div class="col">{{pe.price}}</div>
+    <div class="col">{{pe.inventory}}</div>
+    <div class="col">{{pe.last_update}}</div>
+    </div>
+    </div>
+    {% endif %}
 </div>
 </body>
 </html>

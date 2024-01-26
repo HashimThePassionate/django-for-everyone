@@ -42,4 +42,6 @@ def home(request):
     # Sort in Ascending order
     # Order_by is a quert_set method so its return a query objects
     product = Product.objects.filter(collection_id=5).order_by('price').reverse()
-    return render(request, 'index.html', {'product': product})
+    pl = Product.objects.latest('id')
+    pe = Product.objects.earliest('id')
+    return render(request, 'index.html', {'product': product,'pl':pl,'pe':pe})
