@@ -1,0 +1,11 @@
+INSERT INTO store_product_promotions()
+VALUES (DEFAULT,1,1),
+(DEFAULT,2,2),
+(DEFAULT,3,5),
+(DEFAULT,6,8),
+(DEFAULT,3,6),
+(DEFAULT,7,9),
+(DEFAULT,7,6),
+(DEFAULT,5,1),
+(DEFAULT,3,4),
+(DEFAULT,8,7);
