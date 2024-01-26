@@ -53,4 +53,4 @@ class Migration(migrations.Migration):
 Reference below 
 https://docs.djangoproject.com/en/5.0/topics/db/queries/#complex-lookups-with-q
 22. F Objects to compare field with related field
-
+23.  Sorting Objects

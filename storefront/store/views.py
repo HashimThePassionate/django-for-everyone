@@ -39,5 +39,6 @@ def home(request):
     # product = Product.objects.filter(Q(inventory__lt=10)& ~Q(price__lt=40))
     # We can compare related fields with F class Object
     # product = Product.objects.filter(inventory=price)
-    product = Product.objects.filter(inventory=F('price'))
+    # Sort in Ascending order
+    product = Product.objects.order_by('price')
     return render(request, 'index.html', {'product': product})
