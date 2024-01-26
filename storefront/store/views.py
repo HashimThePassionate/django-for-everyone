@@ -46,5 +46,5 @@ def home(request):
     # pe = Product.objects.earliest('id')
     # product = Product.objects.all()[:5]
     # product = Product.objects.all()[4:10]
-    product = Product.objects.values('id','title','description','price','inventory','last_update')
+    product = Product.objects.values('id','title','description','price','inventory','collection__title')
     return render(request, 'index.html', {'product': product})

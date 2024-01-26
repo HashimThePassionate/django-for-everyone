@@ -55,3 +55,4 @@ https://docs.djangoproject.com/en/5.0/topics/db/queries/#complex-lookups-with-q
 22. F Objects to compare field with related field
 23.  Sorting Objects
 25: Limit Clause
+26. Selecting fields with inner join
