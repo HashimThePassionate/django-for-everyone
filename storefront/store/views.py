@@ -44,5 +44,6 @@ def home(request):
     # product = Product.objects.filter(collection_id=5).order_by('price').reverse()
     # pl = Product.objects.latest('id')
     # pe = Product.objects.earliest('id')
-    product = Product.objects.all()[:5]
+    # product = Product.objects.all()[:5]
+    product = Product.objects.all()[4:10]
     return render(request, 'index.html', {'product': product})
