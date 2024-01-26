@@ -52,4 +52,5 @@ class Migration(migrations.Migration):
 21. Complex lookups using Q objects 
 Reference below 
 https://docs.djangoproject.com/en/5.0/topics/db/queries/#complex-lookups-with-q
+22. F Objects to compare field with related field
 

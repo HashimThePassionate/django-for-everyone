@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product
-from django.db.models import Q
+from django.db.models import Q, F
 # Create your views here.
 
 
@@ -36,5 +36,8 @@ def home(request):
     # product = Product.objects.filter(inventory__lt=10,price__lt=20)
     # product = Product.objects.filter(inventory__lt=10).filter(price__lt=20)
     # Q object to make complex lookups
-    product = Product.objects.filter(Q(inventory__lt=10)& ~Q(price__lt=40))
+    # product = Product.objects.filter(Q(inventory__lt=10)& ~Q(price__lt=40))
+    # We can compare related fields with F class Object
+    # product = Product.objects.filter(inventory=price)
+    product = Product.objects.filter(inventory=F('price'))
     return render(request, 'index.html', {'product': product})
