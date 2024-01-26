@@ -1,6 +1,6 @@
 from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product
+from store.models import Product, Orderitem
 from django.db.models import Q, F
 # Create your views here.
 
@@ -46,5 +46,9 @@ def home(request):
     # pe = Product.objects.earliest('id')
     # product = Product.objects.all()[:5]
     # product = Product.objects.all()[4:10]
-    product = Product.objects.values('id','title','description','price','inventory','collection__title')
+    # product = Product.objects.values('id','title','description','price','inventory','collection__title')
+    # Tasks Select Products that have been ordered
+    # And Sort them by title
+    product = Orderitem.objects.values('product_id__id', 'product_id__title', 'product_id__description',
+                                       'product_id__price', 'product_id__inventory', 'unit_price').order_by('product_id__title')
     return render(request, 'index.html', {'product': product})
