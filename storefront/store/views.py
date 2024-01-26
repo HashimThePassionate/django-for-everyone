@@ -49,6 +49,7 @@ def home(request):
     # product = Product.objects.values('id','title','description','price','inventory','collection__title')
     # Tasks Select Products that have been ordered
     # And Sort them by title
-    product = Orderitem.objects.values('product_id__id', 'product_id__title', 'product_id__description',
-                                       'product_id__price', 'product_id__inventory', 'unit_price').order_by('product_id__title')
+    # product = Orderitem.objects.values('product_id__id', 'product_id__title', 'product_id__description',
+    #                                    'product_id__price', 'product_id__inventory', 'unit_price').order_by('product_id__title')
+    product = Product.objects.only('id','title','price','description','inventory','last_update')
     return render(request, 'index.html', {'product': product})

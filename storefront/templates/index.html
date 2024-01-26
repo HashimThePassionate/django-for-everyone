@@ -21,18 +21,18 @@
           <th scope="col">DESCRIPTION</th>
           <th scope="col">PRICE</th>
           <th scope="col">INVENTORY</th>
-          <th scope="col">Price</th>
+          <th scope="col">last_update</th>
         </tr>
     </thead>
     <tbody>
     {% for p in product %}
     <tr>
-        <th scope="row">{{p.product_id__id}}</th>
-        <td>{{p.product_id__title}}</td>
-        <td>{{p.product_id__description}}</td>
-        <td>{{p.product_id__price}}</td>
-        <td>{{p.product_id__inventory}}</td>
-        <td>{{p.unit_price}}</td>
+        <th scope="row">{{p.id}}</th>
+        <td>{{p.title}}</td>
+        <td>{{p.description}}</td>
+        <td>{{p.price}}</td>
+        <td>{{p.inventory}}</td>
+        <td>{{p.last_update}}</td>
     </tr>
     {% endfor %}
     </tbody>
