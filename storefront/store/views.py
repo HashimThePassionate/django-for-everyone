@@ -36,5 +36,5 @@ def home(request):
     # product = Product.objects.filter(inventory__lt=10,price__lt=20)
     # product = Product.objects.filter(inventory__lt=10).filter(price__lt=20)
     # Q object to make complex lookups
-    product = Product.objects.filter(Q(inventory__lt=10)&Q(price__lt=20))
+    product = Product.objects.filter(Q(inventory__lt=10)& ~Q(price__lt=40))
     return render(request, 'index.html', {'product': product})
