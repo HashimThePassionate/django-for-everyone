@@ -45,5 +45,6 @@ def home(request):
     # pl = Product.objects.latest('id')
     # pe = Product.objects.earliest('id')
     # product = Product.objects.all()[:5]
-    product = Product.objects.all()[4:10]
+    # product = Product.objects.all()[4:10]
+    product = Product.objects.values('id','title','description','price','inventory','last_update')
     return render(request, 'index.html', {'product': product})
