@@ -51,5 +51,6 @@ def home(request):
     # And Sort them by title
     # product = Orderitem.objects.values('product_id__id', 'product_id__title', 'product_id__description',
     #                                    'product_id__price', 'product_id__inventory', 'unit_price').order_by('product_id__title')
-    product = Product.objects.only('id','title','price','description','inventory','last_update')
+    # product = Product.objects.only('id','title','price','description','inventory','last_update')
+    product = Product.objects.only('id','title','description','inventory','last_update')
     return render(request, 'index.html', {'product': product})
