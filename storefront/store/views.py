@@ -33,5 +33,6 @@ def home(request):
     #     print(p)
 
     # product = Product.objects.filter(title__contains='Wine')
-    product = Product.objects.filter(inventory__lt=10,price__lt=20)
+    # product = Product.objects.filter(inventory__lt=10,price__lt=20)
+    product = Product.objects.filter(inventory__lt=10).filter(price__lt=20)
     return render(request, 'index.html', {'product': product})
