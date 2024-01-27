@@ -16,12 +16,12 @@
     <table class="table table-bordered border-primary table-hover">
     <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">TITLE</th>
-          <th scope="col">DESCRIPTION</th>
-          <th scope="col">PRICE</th>
-          <th scope="col">INVENTORY</th>
-          <th scope="col">last_update</th>
+          <th scope="col">PRODUCT ID</th>
+          <th scope="col">PRODUCT TITLE</th>
+          <th scope="col">PRODUCT INVENTORY</th>
+          <th scope="col">PRODUCT PRICE</th>
+          <th scope="col">PROMOTION DESC</th>
+          <th scope="col">PROMOTION DISCOUNT</th>
         </tr>
     </thead>
     <tbody>
@@ -29,10 +29,23 @@
     <tr>
         <th scope="row">{{p.id}}</th>
         <td>{{p.title}}</td>
-        <td>{{p.description}}</td>
-        <td>{{p.price}}</td>
         <td>{{p.inventory}}</td>
-        <td>{{p.collection.title}}</td>
+        <td>{{p.price}}</td>
+        <td>
+            {% for pro in p.promotions.all %}
+                {{ pro.description }} ({{ pro.discount }})
+                {% if not forloop.last %}, 
+                {% endif %}
+            {% endfor %}
+        </td>
+        
+        <td>
+            {% for pro in p.promotions.all %}
+            {{ pro.discount }}
+            {% if not forloop.last %}, 
+            {% endif %}
+        {% endfor %}
+        </td>
     </tr>
     {% endfor %}
     </tbody>
