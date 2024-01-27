@@ -1,6 +1,12 @@
 # Wellcome to Django-for-absolute-biginners repositry
 In this repostry,  we learn to make website without  virtualenv
-## Step-01
+
+# To use this repo please clone first
+```
+https://github.com/HashimThePassionate/django-for-absolute-beginners.git
+```
+
+## If you learn and get started follow step by step
 ### install django
 Enter this command
 ```
