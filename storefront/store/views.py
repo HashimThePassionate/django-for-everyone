@@ -58,6 +58,6 @@ def home(request):
     # select_related (1)
     # prefetch_related (n)
     # product = Product.objects.prefetch_related('promotions').all()
-    product = Product.objects.prefetch_related('promotions').all()
+    product = Product.objects.select_related('collection').prefetch_related('promotions').all()
     # product = Product.objects.prefetch_related('promotions').all()
     return render(request, 'index.html', {'product': product})
