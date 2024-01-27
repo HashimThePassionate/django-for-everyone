@@ -1,4 +1,4 @@
-# WellCome to Django-for-absolute-biggners repostry
+# Wellcome to Django-for-absolute-biginners repositry
 In this repostry,  we learn to make website without  virtualenv
 ## Step-01
 ### install django
