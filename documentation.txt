@@ -63,4 +63,4 @@ https://docs.djangoproject.com/en/5.0/topics/db/queries/#complex-lookups-with-q
 32. WE can also use short by importing CONCAT Class
 You can go check all the functions 
 " https://docs.djangoproject.com/en/5.0/ref/models/database-functions/ "
-33. Grouping Data using left join
+33. Grouping Data using left join and inner join

@@ -74,16 +74,21 @@ def home(request):
         'price'), max_price=Max('price'), average=Avg('price'), total_sum=Sum('price'))
 
     customer = Customer.objects.annotate(bonus=F(
-        'points')+30, full_name=Func(F('first_name'), Value(' '), F('last_name'),function='CONCAT'))
+        'points')+30, full_name=Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'))
 
     customer = Customer.objects.annotate(
         bonus=F(
             'points')+30,
         full_name=Concat('first_name', Value(' '), 'last_name'))
-    
-    customer_c = Customer.objects.annotate(
+
+    customer_lj = Customer.objects.annotate(
         order_count=Count('order'),
         total_sum=Sum('points')
     )
 
-    return render(request, 'index.html', {'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer,'cus_c':customer_c})
+    customer_ij = Customer.objects.filter(order__isnull=False).annotate(
+        order_count=Count('order'),
+        total_sum=Sum('points')
+    )
+
+    return render(request, 'index.html', {'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
