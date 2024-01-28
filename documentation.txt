@@ -57,4 +57,5 @@ https://docs.djangoproject.com/en/5.0/topics/db/queries/#complex-lookups-with-q
 25: Limit Clause
 26. Selecting fields with inner join
 27. Selecting prefetched related
-28. 
+28. Aggregates functions in django
+30. Annotating objects creating fields in run time

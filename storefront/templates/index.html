@@ -11,6 +11,7 @@
     <div class="container bg-success opacity-50 p-4 mb-3">
     <h1 class="text-light">Welcome to Models in Django</h1>
 </div>
+{% comment %} -------------------------------------------------------------- {% endcomment %}
     <div class="container">
     {% if order %}
     <table class="table table-bordered border-primary table-hover">
@@ -56,6 +57,43 @@
         No Timing Available
     </p>
     {% endif %}
+</div>
+{% comment %} -------------------------------------------------------------------- {% endcomment %}
+<div class="container bg-primary opacity-50 p-4 mb-3">
+    <h1 class="text-light">Customer Table</h1>
+</div>
+    <div class="container">
+    {% if customer %}
+    <table class="table table-bordered border-primary table-hover">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">NAME</th>
+          <th scope="col">EMAIL</th>
+          <th scope="col">POINTS</th>
+          <th scope="col">BONUS</th>
+          {% comment %} <th scope="col">DISCOUNT</th> {% endcomment %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for c in customer %}
+    <tr>
+        <th scope="row">{{c.id}}</th>
+        <th scope="row">{{c.first_name}}</th>
+        <td>{{c.email}}</td>
+        <td>{{c.points}}</td>
+        <td>{{c.bonus}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% else %}
+    <p class="bg-danger">
+        No Timing Available
+    </p>
+    {% endif %}
+</div>
+{% comment %} --------------------------------------------------------------- {% endcomment %}
     {% if result %}
     <div class="container">
     <div class="row alert alert-info">
@@ -72,8 +110,8 @@
     <div class="col">{{result.average}}</div>
     </div>
     {% endif %}
+    {% comment %} ------------------------------------------------------------ {% endcomment %}
     {% if pl %}
-
     <div class="container">
     <div class="row alert alert-success">
     <div class="col">{{pl.id}}</div>
@@ -85,6 +123,7 @@
     </div>
     </div>
     {% endif %}
+    {% comment %} --------------------------------------------------------------- {% endcomment %}
     {% if pe %}
     <div class="container">
     <div class="row alert alert-danger">
@@ -97,6 +136,5 @@
     </div>
     </div>
     {% endif %}
-</div>
 </body>
 </html>

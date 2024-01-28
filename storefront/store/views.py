@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Orderitem, Order
-from django.db.models import Q, F
+from store.models import Product, Orderitem, Order, Customer
+from django.db.models import Q, F, Value
 from django.db.models import Max, Min, Avg, Count, Sum
 # Create your views here.
 
@@ -70,6 +70,7 @@ def home(request):
         'price'), max_price=Max('price'), average=Avg('price'))
 
     result_collection = Product.objects.filter(collection__id=5).aggregate(count=Count('id'), min_price=Min(
-        'price'), max_price=Max('price'), average=Avg('price'),total_sum=Sum('price'))
+        'price'), max_price=Max('price'), average=Avg('price'), total_sum=Sum('price'))
 
-    return render(request, 'index.html', {'result': result, 'order': order, 'result_c': result_collection})
+    customer = Customer.objects.annotate(bonus=F('points')+30)
+    return render(request, 'index.html', {'result': result, 'order': order, 'result_c': result_collection, 'customer': customer})
