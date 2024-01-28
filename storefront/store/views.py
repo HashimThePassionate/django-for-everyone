@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product, Orderitem, Order, Customer
-from django.db.models import Q, F, Value, Func, Count, Sum
+from django.db.models import Q, F, Value, Func, Count, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
 # Create your views here.
@@ -76,10 +76,10 @@ def home(request):
     customer = Customer.objects.annotate(bonus=F(
         'points')+30, full_name=Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'))
 
-    customer = Customer.objects.annotate(
-        bonus=F(
-            'points')+30,
-        full_name=Concat('first_name', Value(' '), 'last_name'))
+    # customer = Customer.objects.annotate(
+    #     bonus=F(
+    #         'points')+30,
+    #     full_name=Concat('first_name', Value(' '), 'last_name'))
 
     customer_lj = Customer.objects.annotate(
         order_count=Count('order'),
@@ -90,5 +90,8 @@ def home(request):
         order_count=Count('order'),
         total_sum=Sum('points')
     )
+    disc = ExpressionWrapper(F('price')*0.8, output_field=DecimalField())
+    product = Product.objects.annotate(
+        discounted_price=disc)
 
-    return render(request, 'index.html', {'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
+    return render(request, 'index.html', {'product': product, 'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
