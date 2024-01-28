@@ -56,7 +56,24 @@
         No Timing Available
     </p>
     {% endif %}
+    {% if result %}
+    <div class="container">
+    <div class="row alert alert-info">
+    <div class="col">Aggregate</div>
+    <div class="col">Total Records</div>
+    <div class="col">Minimum Price</div>
+    <div class="col">Maximum Price</div>
+    <div class="col">Total Average</div>
+    <div class="row alert alert-secondary"> 
+    <div class="col">Functions</div>
+    <div class="col">{{result.count}}</div>
+    <div class="col">{{result.min_price}}</div>
+    <div class="col">{{result.max_price}}</div>
+    <div class="col">{{result.average}}</div>
+    </div>
+    {% endif %}
     {% if pl %}
+
     <div class="container">
     <div class="row alert alert-success">
     <div class="col">{{pl.id}}</div>

@@ -2,6 +2,7 @@ from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product, Orderitem, Order
 from django.db.models import Q, F
+from django.db.models import Max, Min, Avg, Count, Sum
 # Create your views here.
 
 
@@ -65,4 +66,10 @@ def home(request):
     # and items (incl product)
     order = Order.objects.select_related('customer').prefetch_related(
         'orderitem_set__product').order_by('-id')[:5]
-    return render(request, 'index.html', {'order': order})
+    result = Product.objects.aggregate(count=Count('id'), min_price=Min(
+        'price'), max_price=Max('price'), average=Avg('price'))
+
+    result_collection = Product.objects.filter(collection__id=5).aggregate(count=Count('id'), min_price=Min(
+        'price'), max_price=Max('price'), average=Avg('price'),total_sum=Sum('price'))
+
+    return render(request, 'index.html', {'result': result, 'order': order, 'result_c': result_collection})
