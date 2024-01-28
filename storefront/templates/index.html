@@ -12,26 +12,27 @@
     <h1 class="text-light">Welcome to Models in Django</h1>
 </div>
     <div class="container">
-    {% if product %}
+    {% if order %}
     <table class="table table-bordered border-primary table-hover">
     <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">TITLE</th>
-          <th scope="col">PRICE</th>
-          <th scope="col">TITLE</th>
-          <th scope="col">DESC</th>
-          <th scope="col">DISCOUNT</th>
+          <th scope="col">NAME</th>
+          <th scope="col">MEMBERSHIP</th>
+          <th scope="col">PHONE</th>
+          <th scope="col">PAYMENT STATUS</th>
+          {% comment %} <th scope="col">DISCOUNT</th> {% endcomment %}
         </tr>
     </thead>
     <tbody>
-    {% for p in product %}
+    {% for o in order %}
     <tr>
-        <th scope="row">{{p.id}}</th>
-        <td>{{p.title}}</td>
-        <td>{{p.price}}</td>
-        <td>{{p.collection.title}}</td>
-        <td>
+        <th scope="row">{{o.id}}</th>
+        <th scope="row">{{o.customer.first_name}}</th>
+        <td>{{o.customer.membership}}</td>
+        <td>{{o.customer.phone}}</td>
+        <td>{{o.payment_status}}</td>
+        {% comment %} <td>
             {% for pro in p.promotions.all %}
                 {{ pro.description }}
                 {% if not forloop.last %}, 
@@ -45,7 +46,7 @@
             {% if not forloop.last %}, 
             {% endif %}
         {% endfor %}
-        </td>
+        </td> {% endcomment %}
     </tr>
     {% endfor %}
     </tbody>

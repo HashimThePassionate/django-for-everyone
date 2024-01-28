@@ -1,6 +1,6 @@
 from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Orderitem
+from store.models import Product, Orderitem, Order
 from django.db.models import Q, F
 # Create your views here.
 
@@ -58,6 +58,11 @@ def home(request):
     # select_related (1)
     # prefetch_related (n)
     # product = Product.objects.prefetch_related('promotions').all()
-    product = Product.objects.select_related('collection').prefetch_related('promotions').all()
+    # product = Product.objects.select_related('collection').prefetch_related('promotions').all()
     # product = Product.objects.prefetch_related('promotions').all()
-    return render(request, 'index.html', {'product': product})
+    # Task
+    # Get the last 5 orders with their customer
+    # and items (incl product)
+    order = Order.objects.select_related('customer').prefetch_related(
+        'orderitem_set__product').order_by('-id')[:5]
+    return render(request, 'index.html', {'order': order})
