@@ -59,3 +59,7 @@ https://docs.djangoproject.com/en/5.0/topics/db/queries/#complex-lookups-with-q
 27. Selecting prefetched related
 28. Aggregates functions in django
 30. Annotating objects creating fields in run time
+31. Calling Database functions CONCAT
+32. WE can also use short by importing CONCAT Class
+You can go check all the functions 
+" https://docs.djangoproject.com/en/5.0/ref/models/database-functions/ "

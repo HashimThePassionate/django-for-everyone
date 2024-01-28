@@ -68,7 +68,9 @@
     <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">NAME</th>
+          <th scope="col">FIRST NAME</th>
+          <th scope="col">LAST LAST</th>
+          <th scope="col">FULL NAME</th>
           <th scope="col">EMAIL</th>
           <th scope="col">POINTS</th>
           <th scope="col">BONUS</th>
@@ -79,7 +81,9 @@
     {% for c in customer %}
     <tr>
         <th scope="row">{{c.id}}</th>
-        <th scope="row">{{c.first_name}}</th>
+        <td>{{c.first_name}}</td>
+        <td>{{c.last_name}}</td>
+        <td>{{c.full_name}}</td>
         <td>{{c.email}}</td>
         <td>{{c.points}}</td>
         <td>{{c.bonus}}</td>
