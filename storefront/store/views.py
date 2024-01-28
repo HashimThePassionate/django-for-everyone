@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product, Orderitem, Order, Customer
-from django.db.models import Q, F, Value, Func
+from django.db.models import Q, F, Value, Func, Count, Sum
 from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
 # Create your views here.
@@ -80,5 +80,10 @@ def home(request):
         bonus=F(
             'points')+30,
         full_name=Concat('first_name', Value(' '), 'last_name'))
+    
+    customer_c = Customer.objects.annotate(
+        order_count=Count('order'),
+        total_sum=Sum('points')
+    )
 
-    return render(request, 'index.html', {'result': result, 'order': order, 'result_c': result_collection, 'customer': customer})
+    return render(request, 'index.html', {'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer,'cus_c':customer_c})

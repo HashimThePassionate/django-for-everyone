@@ -114,6 +114,39 @@
     <div class="col">{{result.average}}</div>
     </div>
     {% endif %}
+    {% comment %} --------------------------------------------------------------- {% endcomment %}
+    <div class="container bg-primary opacity-50 p-4 mb-3">
+        <h1 class="text-light">Customer Table</h1>
+    </div>
+        <div class="container">
+        {% if cus_c %}
+        <table class="table table-bordered border-primary table-hover">
+        <thead>
+            <tr>
+              <th scope="col">CUSTOMER ID</th>
+              <th scope="col">FIRST NAME</th>
+              <th scope="col">TOTAL COUNT</th>
+              <th scope="col">SUM</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for c in cus_c%}
+        <tr>
+            <th scope="row">{{c.id}}</th>
+            <td>{{c.first_name}}</td>
+            <td>{{c.order_count}}</td>
+            <td>{{c.total_sum}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        {% else %}
+        <p class="bg-danger">
+            No Timing Available
+        </p>
+        {% endif %}
+    </div>
+
     {% comment %} ------------------------------------------------------------ {% endcomment %}
     {% if pl %}
     <div class="container">
