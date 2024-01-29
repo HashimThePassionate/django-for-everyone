@@ -67,3 +67,5 @@ You can go check all the functions
 34. Expressionwrapper class for complex expression
 35. Generic Relationship 
 36. Custom Manager
+37.Creating objects
+38.Updating Objects

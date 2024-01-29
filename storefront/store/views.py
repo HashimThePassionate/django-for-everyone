@@ -98,10 +98,13 @@ def home(request):
 
     # return render(request, 'index.html', {'product': product, 'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
     # query = Tagitem.objects.get_tags_for(Product,1)
-    promotion = Promotion()
-    promotion.description = "The classes documented below provide a way for users to use functions provided by the underlying database as annotations, aggregations, or filters in Django"
-    promotion.discount = 32.34
-    promotion.featured_product = Product(pk=3)
-    # promotion.featured_product_id=3
-    promotion.save()
+    # promotion = Promotion()
+    # promotion.description = "The classes documented below provide a way for users to use functions provided by the underlying database as annotations, aggregations, or filters in Django"
+    # promotion.discount = 32.34
+    # promotion.featured_product = Product(pk=3)
+    # # promotion.featured_product_id=3
+    # promotion.save()
+    pro = Promotion.objects.get(pk=26)
+    pro.description="New Description here"
+    pro.save()
     return render(request, 'index.html')
