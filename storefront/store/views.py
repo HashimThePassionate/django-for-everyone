@@ -95,13 +95,7 @@ def home(request):
     # disc = ExpressionWrapper(F('price')*0.8, output_field=DecimalField())
     # product = Product.objects.annotate(
     #     discounted_price=disc)
-    content_type = ContentType.objects.get_for_model(Product)
-    queryset=Tagitem.objects \
-    .select_related('tag')\
-    .filter(
-        content_type=content_type,
-        object_id=13
-    )
+ 
     # return render(request, 'index.html', {'product': product, 'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
-    print(queryset)
-    return render(request, 'index.html', {'query':queryset})
+    query = Tagitem.objects.get_tags_for(Product,1)
+    return render(request, 'index.html',{'query':query})
