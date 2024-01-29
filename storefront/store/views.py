@@ -104,7 +104,11 @@ def home(request):
     # promotion.featured_product = Product(pk=3)
     # # promotion.featured_product_id=3
     # promotion.save()
-    pro = Promotion.objects.get(pk=26)
-    pro.description="New Description here"
-    pro.save()
+    # pro = Promotion.objects.get(pk=26)
+    # pro.description="New Description here"
+    # pro.save()
+    # pro = Promotion(pk=26)
+    # pro.delete()
+    # pro = Promotion.objects.filter(id__gt=5).delete()
+
     return render(request, 'index.html')

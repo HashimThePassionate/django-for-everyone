@@ -69,3 +69,4 @@ You can go check all the functions
 36. Custom Manager
 37.Creating objects
 38.Updating Objects
+39. Deleting Objects
