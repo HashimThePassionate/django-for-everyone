@@ -59,11 +59,11 @@
     {% endif %}
 </div>
 {% comment %} -------------------------------------------------------------------- {% endcomment %}
-<div class="container bg-primary opacity-50 p-4 mb-3">
-    <h1 class="text-light">Customer Table</h1>
-</div>
     <div class="container">
     {% if customer %}
+    <div class="container bg-primary opacity-50 p-4 mb-3">
+        <h1 class="text-light">Customer Table</h1>
+    </div>
     <table class="table table-bordered border-primary table-hover">
     <thead>
         <tr>
@@ -115,11 +115,11 @@
     </div>
     {% endif %}
     {% comment %} --------------------------------------------------------------- {% endcomment %}
-    <div class="container bg-primary opacity-50 p-4 mb-3">
-        <h1 class="text-light">Customer Table</h1>
-    </div>
         <div class="container">
         {% if cus_lj %}
+        <div class="container bg-primary opacity-50 p-4 mb-3">
+            <h1 class="text-light">Customer Table</h1>
+        </div>
         <table class="table table-bordered border-primary table-hover">
         <thead>
             <tr>
@@ -175,11 +175,11 @@
     {% endif %}
 
       {% comment %} --------------------------------------------------------------- {% endcomment %}
-      <div class="container bg-primary opacity-50 p-4 mb-3">
-        <h1 class="text-light">Customer Table</h1>
-    </div>
         <div class="container">
         {% if product %}
+        <div class="container bg-primary opacity-50 p-4 mb-3">
+            <h1 class="text-light">Customer Table</h1>
+        </div>
         <table class="table table-bordered border-primary table-hover">
         <thead>
             <tr>
@@ -207,5 +207,36 @@
         {% endif %}
     </div>
 
+    {% comment %} --------------------------------------------------------------- {% endcomment %}
+    <div class="container">
+        {% if query %}
+        <div class="container bg-primary opacity-50 p-4 mb-3">
+            <h1 class="text-light">Product Information</h1>
+        </div>
+        <table class="table table-bordered border-primary table-hover">
+        <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">TITLE</th>
+              <th scope="col">PRICE</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in query %}
+        <tr>
+            <th scope="row">{{p.id}}</th>
+            <td>{{p.content_object.title}}</td>
+            <td>{{p.price}}</td>
+            <td>{{p.discounted_price|floatformat:2}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        {% else %}
+        <p class="bg-info">
+            No Timing Available
+        </p>
+        {% endif %}
+    </div>
 </body>
 </html>

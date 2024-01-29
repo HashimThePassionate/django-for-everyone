@@ -65,3 +65,4 @@ You can go check all the functions
 " https://docs.djangoproject.com/en/5.0/ref/models/database-functions/ "
 33. Grouping Data using left join and inner join
 34. Expressionwrapper class for complex expression
+35. Generic Relationship 

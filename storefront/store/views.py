@@ -4,6 +4,8 @@ from store.models import Product, Orderitem, Order, Customer
 from django.db.models import Q, F, Value, Func, Count, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
+from django.contrib.contenttypes.models import ContentType
+from tags.models import Tagitem
 # Create your views here.
 
 
@@ -65,33 +67,41 @@ def home(request):
     # Task
     # Get the last 5 orders with their customer
     # and items (incl product)
-    order = Order.objects.select_related('customer').prefetch_related(
-        'orderitem_set__product').order_by('-id')[:5]
-    result = Product.objects.aggregate(count=Count('id'), min_price=Min(
-        'price'), max_price=Max('price'), average=Avg('price'))
+    # order = Order.objects.select_related('customer').prefetch_related(
+    #     'orderitem_set__product').order_by('-id')[:5]
+    # result = Product.objects.aggregate(count=Count('id'), min_price=Min(
+    #     'price'), max_price=Max('price'), average=Avg('price'))
 
-    result_collection = Product.objects.filter(collection__id=5).aggregate(count=Count('id'), min_price=Min(
-        'price'), max_price=Max('price'), average=Avg('price'), total_sum=Sum('price'))
+    # result_collection = Product.objects.filter(collection__id=5).aggregate(count=Count('id'), min_price=Min(
+    #     'price'), max_price=Max('price'), average=Avg('price'), total_sum=Sum('price'))
 
-    customer = Customer.objects.annotate(bonus=F(
-        'points')+30, full_name=Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'))
+    # customer = Customer.objects.annotate(bonus=F(
+    #     'points')+30, full_name=Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'))
 
     # customer = Customer.objects.annotate(
     #     bonus=F(
     #         'points')+30,
     #     full_name=Concat('first_name', Value(' '), 'last_name'))
 
-    customer_lj = Customer.objects.annotate(
-        order_count=Count('order'),
-        total_sum=Sum('points')
-    )
+    # customer_lj = Customer.objects.annotate(
+    #     order_count=Count('order'),
+    #     total_sum=Sum('points')
+    # )
 
-    customer_ij = Customer.objects.filter(order__isnull=False).annotate(
-        order_count=Count('order'),
-        total_sum=Sum('points')
+    # customer_ij = Customer.objects.filter(order__isnull=False).annotate(
+    #     order_count=Count('order'),
+    #     total_sum=Sum('points')
+    # )
+    # disc = ExpressionWrapper(F('price')*0.8, output_field=DecimalField())
+    # product = Product.objects.annotate(
+    #     discounted_price=disc)
+    content_type = ContentType.objects.get_for_model(Product)
+    queryset=Tagitem.objects \
+    .select_related('tag')\
+    .filter(
+        content_type=content_type,
+        object_id=13
     )
-    disc = ExpressionWrapper(F('price')*0.8, output_field=DecimalField())
-    product = Product.objects.annotate(
-        discounted_price=disc)
-
-    return render(request, 'index.html', {'product': product, 'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
+    # return render(request, 'index.html', {'product': product, 'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
+    print(queryset)
+    return render(request, 'index.html', {'query':queryset})
