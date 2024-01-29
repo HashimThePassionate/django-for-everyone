@@ -1,6 +1,6 @@
 from django.shortcuts import render
 # from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Orderitem, Order, Customer
+from store.models import Product, Orderitem, Order, Customer, Promotion
 from django.db.models import Q, F, Value, Func, Count, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
@@ -95,7 +95,13 @@ def home(request):
     # disc = ExpressionWrapper(F('price')*0.8, output_field=DecimalField())
     # product = Product.objects.annotate(
     #     discounted_price=disc)
- 
+
     # return render(request, 'index.html', {'product': product, 'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
-    query = Tagitem.objects.get_tags_for(Product,1)
-    return render(request, 'index.html',{'query':query})
+    # query = Tagitem.objects.get_tags_for(Product,1)
+    promotion = Promotion()
+    promotion.description = "The classes documented below provide a way for users to use functions provided by the underlying database as annotations, aggregations, or filters in Django"
+    promotion.discount = 32.34
+    promotion.featured_product = Product(pk=3)
+    # promotion.featured_product_id=3
+    promotion.save()
+    return render(request, 'index.html')
