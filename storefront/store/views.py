@@ -110,5 +110,5 @@ def home(request):
     # pro = Promotion(pk=26)
     # pro.delete()
     # pro = Promotion.objects.filter(id__gt=5).delete()
-
-    return render(request, 'index.html')
+    cus = Customer.objects.raw('SELECT * FROM store_customer')
+    return render(request, 'index.html',{'customer':cus})

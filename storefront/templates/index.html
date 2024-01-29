@@ -209,7 +209,7 @@
 
     {% comment %} --------------------------------------------------------------- {% endcomment %}
     <div class="container">
-        {% if query %}
+        {% if customer %}
         <div class="container bg-primary opacity-50 p-4 mb-3">
             <h1 class="text-light">Product Information</h1>
         </div>
@@ -217,17 +217,18 @@
         <thead>
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">TITLE</th>
-              <th scope="col">PRICE</th>
+              <th scope="col">FIRST NAME</th>
+              <th scope="col">LAST NAME</th>
+              <th scope="col">MEMBERSHIP</th>
             </tr>
         </thead>
         <tbody>
-        {% for p in query %}
+        {% for c in customer%}
         <tr>
-            <th scope="row">{{p.id}}</th>
-            <td>{{p.content_object.title}}</td>
-            <td>{{p.price}}</td>
-            <td>{{p.discounted_price|floatformat:2}}</td>
+            <th scope="row">{{c.id}}</th>
+            <td>{{c.first_name}}</td>
+            <td>{{c.last_name}}</td>
+            <td>{{c.membership}}</td>
         </tr>
         {% endfor %}
         </tbody>
