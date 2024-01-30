@@ -71,3 +71,9 @@ You can go check all the functions
 38.Updating Objects
 39. Deleting Objects
 40. Raw Sql
+41. Setting up the admin site 
+42. python manage.py createsuperuser
+43. python manage.py changepassword 'user_name'
+44. admin.site.site_header = 'Storefront Admin'
+45. admin.site.index_title = 'Admin Interface'
+ 

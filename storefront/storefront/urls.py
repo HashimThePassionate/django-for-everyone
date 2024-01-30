@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from store import views
+admin.site.site_header = 'Storefront Admin'
+admin.site.index_title = 'Admin Interface'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.home ),
+    path('', views.home),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
