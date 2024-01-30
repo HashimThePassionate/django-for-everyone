@@ -1,11 +1,12 @@
 from django.contrib import admin
-from store.models import Collection, Product,Customer
+from store.models import Collection, Product,Customer,Order
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title','description','price','inventory','inventory_status','collection']
     list_editable = ['price']
     list_per_page = 10
+    list_select_related=['collection']
     @admin.display(ordering='inventory')
     def inventory_status(self,Product):
         if Product.inventory < 3:
@@ -20,5 +21,15 @@ class CustomerAdmin(admin.ModelAdmin):
     ordering = ['first_name','last_name']
     list_per_page = 10
 
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display=['id','place_at','customer','payment_status','customer_email']
+    # list_editable=['payment_status']
+    list_per_page=10
+    def customer_email(self, Order):
+        return Order.customer.email
+    
 admin.site.register(Collection)
 # admin.site.register(Product)
+
+

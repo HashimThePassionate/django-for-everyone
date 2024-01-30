@@ -79,3 +79,4 @@ You can go check all the functions
 46. Registering models in admin site
 47. Customizing the list page 
 48. Adding Computed Columns
+49. Select Related Objects

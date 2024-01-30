@@ -48,6 +48,11 @@ class Customer(models.Model):
     membership = models.CharField(
         max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_SILVER)
     points = models.IntegerField(default=50)
+    
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+    class Meta:
+        ordering = ['first_name','last_name']
 
 class Order(models.Model):
     PAYMENT_PENDING = 'P'
@@ -62,7 +67,8 @@ class Order(models.Model):
     payment_status = models.CharField(
         max_length=1, choices=PAYMENT_CHOICES, default=PAYMENT_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-
+    class Meta:
+        ordering = ['id']
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
