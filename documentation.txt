@@ -80,3 +80,4 @@ You can go check all the functions
 47. Customizing the list page 
 48. Adding Computed Columns
 49. Select Related Objects
+51. Migrate to add new field feature_product in collection

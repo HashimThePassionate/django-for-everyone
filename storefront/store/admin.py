@@ -29,7 +29,10 @@ class OrderAdmin(admin.ModelAdmin):
     def customer_email(self, Order):
         return Order.customer.email
     
-admin.site.register(Collection)
+# admin.site.register(Collection)
 # admin.site.register(Product)
+@admin.register(Collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display=['title']
 
 
