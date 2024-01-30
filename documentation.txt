@@ -78,3 +78,4 @@ You can go check all the functions
 45. admin.site.index_title = 'Admin Interface'
 46. Registering models in admin site
 47. Customizing the list page 
+48. Adding Computed Columns
