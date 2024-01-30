@@ -81,3 +81,4 @@ You can go check all the functions
 48. Adding Computed Columns
 49. Select Related Objects
 51. Migrate to add new field feature_product in collection
+52. Overriding the base queryset
