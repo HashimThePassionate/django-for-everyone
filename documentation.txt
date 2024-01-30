@@ -77,3 +77,4 @@ You can go check all the functions
 44. admin.site.site_header = 'Storefront Admin'
 45. admin.site.index_title = 'Admin Interface'
 46. Registering models in admin site
+47. Customizing the list page 

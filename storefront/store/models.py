@@ -6,8 +6,7 @@ class Promotion(models.Model):
     discount = models.FloatField()
     featured_product = models.ForeignKey(
         'Product', on_delete=models.SET_NULL, null=True, related_name='product_f')
-
-
+    
 class Collection(models.Model):
     title = models.CharField(max_length=255)
     
@@ -16,10 +15,6 @@ class Collection(models.Model):
     class Meta:
         ordering = ['title']
     
-
-
-
-
 class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(default='-')
@@ -35,8 +30,6 @@ class Product(models.Model):
     class Meta:
         ordering = ['title']
     
-
-
 class Customer(models.Model):
     MEMBERSHIP_SILVER = 'S'
     MEMBERSHIP_GOLD = 'G'
@@ -55,7 +48,6 @@ class Customer(models.Model):
     membership = models.CharField(
         max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_SILVER)
     points = models.IntegerField(default=50)
-
 
 class Order(models.Model):
     PAYMENT_PENDING = 'P'
