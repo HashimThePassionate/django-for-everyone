@@ -4,6 +4,7 @@ from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 from store.models import Collection, Product, Customer, Order
 from django.db.models import Count
+from django.utils.html import format_html
 
 
 @admin.register(Product)
@@ -51,7 +52,9 @@ class CollectionAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='products_count')
     def products_count(self, Collection):
-        return Collection.products_count
+        return format_html('<a href="https://google.com">{}</a>',
+                           Collection.products_count)
+        # return Collection.products_count
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         return super().get_queryset(request).annotate(
