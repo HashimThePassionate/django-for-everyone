@@ -4,24 +4,26 @@ from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 from store.models import Collection, Product, Customer, Order
 from django.db.models import Count
-from django.utils.html import format_html
+from django.utils.html import format_html, urlencode
 from django.urls import reverse
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'price',
-                    'inventory', 'inventory_status', 'collection']
-    list_editable = ['price']
+    list_display = ['id', 'title', 'price', 'inventory_status', 'collection']
     list_per_page = 10
+    list_editable = ['price']
     list_select_related = ['collection']
+    list_filter = ['collection']
+    # def collection_title(self,Product):
+    #     return Product.collection.title
 
     @admin.display(ordering='inventory')
     def inventory_status(self, Product):
         if Product.inventory < 3:
             return 'Low'
         else:
-            return 'High'
+            return 'OK'
 
 
 @admin.register(Customer)
@@ -53,7 +55,14 @@ class CollectionAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='products_count')
     def products_count(self, Collection):
-        url = reverse('admin:store_product_changelist')
+        url = (
+            reverse('admin:store_product_changelist')
+            + '?'
+            + urlencode({
+                'collection__id':str(Collection.id)
+            })
+
+        )
         return format_html('<a href="{}">{}</a>', url,
                            Collection.products_count)
         # return Collection.products_count
