@@ -5,6 +5,7 @@ from django.http.request import HttpRequest
 from store.models import Collection, Product, Customer, Order
 from django.db.models import Count
 from django.utils.html import format_html
+from django.urls import reverse
 
 
 @admin.register(Product)
@@ -52,7 +53,8 @@ class CollectionAdmin(admin.ModelAdmin):
 
     @admin.display(ordering='products_count')
     def products_count(self, Collection):
-        return format_html('<a href="https://google.com">{}</a>',
+        url = reverse('admin:store_product_changelist')
+        return format_html('<a href="{}">{}</a>', url,
                            Collection.products_count)
         # return Collection.products_count
 
