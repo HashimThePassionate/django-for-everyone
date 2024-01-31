@@ -362,7 +362,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
   path("__debug__/", include("debug_toolbar.urls")),
 ]
-
+</pre>
+  
 **3. Add the Middleware**
 Inside this code
 <pre>
@@ -377,7 +378,7 @@ MIDDLEWARE = [
 ]
 </pre>
 In this code add this
-```python
+```bash
  "debug_toolbar.middleware.DebugToolbarMiddleware",
 ```
 See this
@@ -453,6 +454,7 @@ DATABASES = {
     }
 }
 ```
+
 - Install XAMPP
 - Create New DateBase 
 - Go to Previliges
@@ -461,12 +463,20 @@ DATABASES = {
 - copy 'root' and 'localhost'
 - Paste  it in User and Host.
 
+
+
+
+
 ## Step-18
 ### Create DBMS tables/models in models.py inside store
 In django, DBMS tables are also called models
 Lets Start;
 Write code
+
+
+
 ```python
+
 from django.db import models
 
 
@@ -474,11 +484,19 @@ class Promotion(models.Model):
     description = models.CharField(max_length=255)
     discount = models.FloatField()
     featured_product = models.ForeignKey(
-        'Product', on_delete=models.SET_NULL, null=True, related_name='product_f')
+        'Product', on_delete=models.SET_NULL, null=True)
 
 
 class Collection(models.Model):
     title = models.CharField(max_length=255)
+    featured_product = models.ForeignKey(
+        'Product', on_delete=models.SET_NULL, null=True, related_name='+')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['id']
 
 
 class Product(models.Model):
@@ -490,6 +508,12 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['id']
 
 
 class Customer(models.Model):
@@ -509,6 +533,13 @@ class Customer(models.Model):
     birth_date = models.DateField(null=True)
     membership = models.CharField(
         max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_SILVER)
+    points = models.IntegerField(default=50)
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        ordering = ['first_name', 'last_name']
 
 
 class Order(models.Model):
@@ -525,12 +556,22 @@ class Order(models.Model):
         max_length=1, choices=PAYMENT_CHOICES, default=PAYMENT_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
+    class Meta:
+        ordering = ['id']
+
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     customer = models.OneToOneField(
         Customer, on_delete=models.CASCADE, primary_key=True)
+
+
+class Address1(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+
 
 class Orderitem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
@@ -549,58 +590,91 @@ class CarItem(models.Model):
     quantity = models.PositiveSmallIntegerField()
 ```
 #### Explaination
-Here's a detailed explanation of the code, covering its structure, relationships, and key features:
+Here's a detailed explanation of the Django models and their relationships:
 
-**Models**:
+#### Promotion:
+Represents a discount or special offer.
+Fields:
+description (text)
+discount (percentage)
+featured_product (optional link to a promoted product)
 
-**Promotion**:
-- Stores details about promotions (description, discount).
-- Can optionally feature a product (featured_product).
-**Collection**:
-- Organizes products into groups (title).
-**Product**:
-- Represents individual products with attributes like title, description, price, inventory, last update, and collection.
-- Can have multiple promotions (promotions).
-**Customer**:
-- Represents customers with personal information and membership level.
-**Order**:
-- Represents orders with payment status, placement date, and associated customer.
-**Address**:
-- Stores customer addresses (street, city).
-- Has a one-to-one relationship with Customer (one address per customer).
+#### Collection:
+Represents a grouping of products, like a category or theme.
+Fields:
+title (name of the collection)
+featured_product (optional link to a highlighted product)
 
-**Orderitem**:
-- Represents individual items within an order, specifying product, quantity, and unit price.
-**Cart**:
-- Potentially used for temporary shopping cart storage (created at timestamp).
-**CarItem**:
-- Items within a cart, linked to a product and quantity.
+#### Product:
+Represents an individual item available for purchase.
+Fields:
+title (name of the product)
+slug (URL-friendly identifier)
+description (detailed information)
+price (cost per unit)
+inventory (number of items in stock)
+last_update (date and time of last modification)
+collection (which collection the product belongs to)
+promotions (many-to-many relationship with promotions that apply to it)
 
-**Relationships:**
+#### Customer:
+Represents a person who interacts with the store.
+Fields:
+first_name, last_name, email, phone
+birth_date (optional)
+membership (type of membership: SILVER, GOLD, DIAMOND)
+points (earned through purchases or actions)
 
-**One-to-Many**:
-- Collection to Product (one collection can have many products).
-- Customer to Order (one customer can have many orders).
-- Order to Orderitem (one order can have many order items).
-- Cart to CarItem (one cart can have many items).
-**Many-to-Many**:
- -Product to Promotion (many products can have many promotions).
-**One-to-One**:
-- Customer to Address (one customer has one primary address).
+#### Order:
+Represents a purchase made by a customer.
+Fields:
+place_at (date and time when the order was placed)
+payment_status (PENDING, COMPLETE, FAILED)
+customer (who placed the order)
 
-**Key Features**:
+#### Address:
+Represents a customer's shipping or billing address.
+Fields:
+street, city
+customer (two versions: OneToOneField for primary address, ForeignKey for additional addresses)
+#### OrderItem:
+Represents a specific product within an order.
+Fields:
+order (which order it belongs to)
+product (the item being ordered)
+quantity (number of units purchased)
+unit_price (price per unit at the time of purchase)
 
-- Membership Levels: Customers have defined membership tiers (Silver, Gold, Diamond).
-- Payment Statuses: Orders have distinct payment statuses (Pending, Complete, Failed).
-- Inventory Tracking: Products have inventory levels.
-- Last Update Tracking: Products have a last_update field.
-- Product Slugs: Products have slug fields for URL generation.
-- Cart Functionality: Potential for shopping cart implementation.
+#### Cart:
+Represents a temporary collection of products a customer intends to buy.
+Fields:
+created_at (date and time when the cart was created)
 
-**Additional Notes**:
+#### CartItem:
+Represents a specific product within a cart.
+Fields:
+cart (which cart it belongs to)
+product (the item in the cart)
+quantity (number of units)
 
-- The purpose of Address1 is unclear without further context.
-- Consider clarifying the intended use of Cart and CarItem models.
+#### Relationships:
+
+- **One-to-many**:
+Collection to Product (a collection can have multiple products)
+Customer to Order (a customer can place multiple orders)
+Order to OrderItem (an order can have multiple items)
+Cart to CartItem (a cart can have multiple items)
+- **Many-to-many**:
+Product to Promotion (a product can be part of multiple promotions)
+- **One-to-one**:
+Customer to Address (the primary address model has a one-to-one relationship with Customer)
+
+#### Key Points:
+
+- The on_delete argument in ForeignKey fields specifies actions to take when a related object is deleted.
+- The __str__ method defines how a model instance is represented as a string.
+- The Meta class within a model allows for setting model-level options like default ordering.
+
 
 ## Step-19
 ### Create DBMS tables/models in models.py inside tags
@@ -610,18 +684,61 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 # Create your models here.
+
+
+class TagItemManager(models.Manager):
+    def get_tags_for(self, obj_type, obj_id):
+        content_type = ContentType.objects.get_for_model(obj_type)
+        return Tagitem.objects \
+            .select_related('tag')\
+            .filter(
+                content_type=content_type,
+                object_id=obj_id
+            )
+
+
 class Tag(models.Model):
     label = models.CharField(max_length=255)
 
 
 class Tagitem(models.Model):
-    tag = models.ForeignKey(Tag,on_delete=models.CASCADE)
+    objects = TagItemManager()
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     # type (product)
-    # id table 
-    content_type = models.ForeignKey(ContentType,on_delete=models.CASCADE)
+    # id table
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey()
+    content_object = GenericForeignKey('content_type', 'object_id')
 ```
+### Explaination
+
+#### TagItemManager:
+
+- A custom model manager for the Tagitem model.
+- Offers a method get_tags_for(obj_type, obj_id) to retrieve tags associated with a specific object.
+- Leverages ContentType.objects.get_for_model(obj_type) to obtain the appropriate ContentType object.
+- Employs select_related for efficient retrieval of related Tag objects in a single query.
+
+#### Tag:
+
+Represents a single tag with a label field.
+
+#### Tagitem:
+
+Bridges tags with different model instances using a generic relationship.
+*Fields*:
+
+- tag: A foreign key linking to a Tag instance.
+- content_type: A foreign key linking to a ContentType object, indicating the type of object being tagged.
+- object_id: The primary key of the object being tagged.
+- content_object: A GenericForeignKey field providing access to the tagged object, regardless of its type.
+
+#### Relationships:
+
+- Tag <---> Tagitem (One-to-Many): A Tag can be associated with multiple Tagitem instances, but each Tagitem is connected to a single Tag.
+Tagitem <---> ContentType (Many-to-One): Each Tagitem references a ContentType object to specify the type of object it tags.
+Tagitem <---> GenericForeignKey: The content_object field establishes a generic relationship, enabling a Tagitem to link to any model instance in the system.
+
 
 ## Step-20
 ### Next step is Migrations
