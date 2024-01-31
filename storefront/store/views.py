@@ -97,6 +97,7 @@ def home(request):
     #     discounted_price=disc)
 
     # return render(request, 'index.html', {'product': product, 'result': result, 'order': order, 'result_collection': result_collection, 'customer': customer, 'cus_lj': customer_lj, 'cus_ij': customer_ij})
+
     # query = Tagitem.objects.get_tags_for(Product,1)
     # promotion = Promotion()
     # promotion.description = "The classes documented below provide a way for users to use functions provided by the underlying database as annotations, aggregations, or filters in Django"
@@ -110,5 +111,5 @@ def home(request):
     # pro = Promotion(pk=26)
     # pro.delete()
     # pro = Promotion.objects.filter(id__gt=5).delete()
-    cus = Customer.objects.raw('SELECT * FROM store_customer')
-    return render(request, 'index.html',{'customer':cus})
+    # cus = Customer.objects.raw('SELECT * FROM store_customer')
+    return render(request,'index.html')

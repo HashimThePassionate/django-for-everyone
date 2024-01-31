@@ -5,11 +5,19 @@ class Promotion(models.Model):
     description = models.CharField(max_length=255)
     discount = models.FloatField()
     featured_product = models.ForeignKey(
-        'Product', on_delete=models.SET_NULL, null=True, related_name='product_f')
+        'Product', on_delete=models.SET_NULL, null=True)
 
 
 class Collection(models.Model):
     title = models.CharField(max_length=255)
+    featured_product = models.ForeignKey(
+        'Product', on_delete=models.SET_NULL, null=True, related_name='+')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['id']
 
 
 class Product(models.Model):
@@ -21,6 +29,12 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['id']
 
 
 class Customer(models.Model):
@@ -42,6 +56,12 @@ class Customer(models.Model):
         max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_SILVER)
     points = models.IntegerField(default=50)
 
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        ordering = ['first_name', 'last_name']
+
 
 class Order(models.Model):
     PAYMENT_PENDING = 'P'
@@ -56,6 +76,9 @@ class Order(models.Model):
     payment_status = models.CharField(
         max_length=1, choices=PAYMENT_CHOICES, default=PAYMENT_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+
+    class Meta:
+        ordering = ['id']
 
 
 class Address(models.Model):
