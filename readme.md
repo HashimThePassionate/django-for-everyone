@@ -271,7 +271,7 @@ Code
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href='{% static "css/style.css" %}'>
+    <link rel="stylesheet" href="style.css">
     <title>Models</title>
 </head>
 <body>
@@ -320,16 +320,30 @@ INSTALLED_APPS = [
     
 ]
 </pre>
-Add this code, behind 'tags'
+Add in this code, behind 'tags'
 ```python
  "debug_toolbar",
 ```
+See this
+<pre>
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'store',
+    'tags',
+    'debug_toolbar',
+]
+</pre>
 
 **2. Add the URL IN urls.py**
 Inside this code
 <pre>
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from store import views
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -340,6 +354,14 @@ Add this code
 ```python
  path("__debug__/", include("debug_toolbar.urls")),
 ```
+<pre>
+from django.contrib import admin
+from django.urls import path, include
+from store import views
+urlpatterns = [
+    path('admin/', admin.site.urls),
+  path("__debug__/", include("debug_toolbar.urls")),
+]
 
 **3. Add the Middleware**
 Inside this code
@@ -358,6 +380,19 @@ In this code add this
 ```python
  "debug_toolbar.middleware.DebugToolbarMiddleware",
 ```
+See this
+<pre>
+MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+</pre>
 **4.  Then add INTERNAL_IPS**
 Code
 ```python
@@ -394,6 +429,7 @@ Quit the server with CTRL-BREAK.
 ## Step-17
 ### Setup my SQL DBMS
 
+
 In setting.py go to database
 <pre>
 DATABASES = {
@@ -407,8 +443,7 @@ add setup
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'store',         
         'USER': 'root',       
