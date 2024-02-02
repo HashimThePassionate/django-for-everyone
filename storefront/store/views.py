@@ -11,6 +11,16 @@ from tags.models import Tagitem
 
 def home(request):
     query_set = Product.objects.all()
+    customer_lj = Customer.objects.annotate(
+    order_count=Count('order'),
+    total_sum=Sum('points')
+    )
+
+    customer_ij = Customer.objects.filter(order__isnull=False).annotate(
+        order_count=Count('order'),
+        total_sum=Sum('points')
+    )
+    return render(request,'index.html',{'cus_lj':customer_lj,'cus_ij':customer_ij})
     # objects is manager that is a interface of database
     # for p in query_set:
     #     print(p)
@@ -83,15 +93,7 @@ def home(request):
     #         'points')+30,
     #     full_name=Concat('first_name', Value(' '), 'last_name'))
 
-    # customer_lj = Customer.objects.annotate(
-    #     order_count=Count('order'),
-    #     total_sum=Sum('points')
-    # )
 
-    # customer_ij = Customer.objects.filter(order__isnull=False).annotate(
-    #     order_count=Count('order'),
-    #     total_sum=Sum('points')
-    # )
     # disc = ExpressionWrapper(F('price')*0.8, output_field=DecimalField())
     # product = Product.objects.annotate(
     #     discounted_price=disc)
@@ -112,4 +114,4 @@ def home(request):
     # pro.delete()
     # pro = Promotion.objects.filter(id__gt=5).delete()
     # cus = Customer.objects.raw('SELECT * FROM store_customer')
-    return render(request,'index.html')
+    # return render(request,'index.html')
