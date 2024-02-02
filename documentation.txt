@@ -92,3 +92,4 @@ You can go check all the functions
 60. adding validation in admin model
 61. adding regex validation in customer email in admin panel
 62. Editting children using inline
+63. Using Generic Relationship
