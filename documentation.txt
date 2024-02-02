@@ -86,4 +86,4 @@ You can go check all the functions
 54. Adding search to the list page
 55. Adding filtering to the list
 56. actions
-
+57. Customizing model forms in admin panel

@@ -29,6 +29,8 @@ class InventoryFilter(admin.SimpleListFilter):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    # fields = ['title','description']
+    exclude = ['promotions']
     actions = ['clear_inventory']
     list_display = ['id', 'title', 'price',
                     'inventory', 'inventory_status', 'collection']
