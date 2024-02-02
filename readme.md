@@ -320,6 +320,7 @@ INSTALLED_APPS = [
     
 ]
 </pre>
+
 Add in this code, behind 'tags'
 ```python
  "debug_toolbar",
@@ -362,6 +363,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
   path("__debug__/", include("debug_toolbar.urls")),
 ]
+</pre>
 
 **3. Add the Middleware**
 Inside this code
@@ -375,7 +377,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+  
 </pre>
+
+
 In this code add this
 ```python
  "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -393,6 +398,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 </pre>
+
 **4.  Then add INTERNAL_IPS**
 Code
 ```python
