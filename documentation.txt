@@ -93,3 +93,4 @@ You can go check all the functions
 61. adding regex validation in customer email in admin panel
 62. Editting children using inline
 63. Using Generic Relationship
+64. Extending Pluggable Apps

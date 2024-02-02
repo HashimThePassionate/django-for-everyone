@@ -10,7 +10,6 @@ from django.urls import reverse
 from django.core.validators import RegexValidator
 from django import forms
 from store.models import Orderitem
-from django.contrib.contenttypes.admin import GenericStackedInline
 
 class InventoryFilter(admin.SimpleListFilter):
     title = 'Inventory'
@@ -30,10 +29,6 @@ class InventoryFilter(admin.SimpleListFilter):
         else:
             return None
 
-class TagInline(GenericStackedInline):
-    model = Tagitem
-    extra = 0
-    autocomplete_fields = ['tag']
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     # fields = ['title','description']
@@ -50,7 +45,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_select_related = ['collection']
     list_filter = ['collection', 'last_update', InventoryFilter]
     search_fields = ['title']
-    inlines = [TagInline]
     # def collection_title(self,Product):
     #     return Product.collection.title
 
