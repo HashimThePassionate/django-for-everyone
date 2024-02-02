@@ -89,3 +89,5 @@ You can go check all the functions
 57. Customizing model forms in admin panel
 58. Adding autopopulate slug in django
 59. Adding search fields in collection field
+60. adding validation in admin model
+61. adding regex validation in customer email in admin panel

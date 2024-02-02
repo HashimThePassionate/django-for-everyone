@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, EmailValidator
 
 
 class Promotion(models.Model):
@@ -23,8 +24,12 @@ class Collection(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(null=True)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    description = models.TextField(null=True, blank=True)
+    price = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        validators=[MinValueValidator(1)]
+    )
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)

@@ -6,8 +6,8 @@ from store.models import Collection, Product, Customer, Order
 from django.db.models import Count
 from django.utils.html import format_html, urlencode
 from django.urls import reverse
-
-
+from django.core.validators import RegexValidator
+from django import forms
 class InventoryFilter(admin.SimpleListFilter):
     title = 'Inventory'
     parameter_name = 'inventory'
@@ -60,9 +60,17 @@ class ProductAdmin(admin.ModelAdmin):
             f'{updated_count} products were updated successfully'
         )
 
+class CustomerAdminForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = '__all__'
 
+    email = forms.EmailField(
+        validators=[RegexValidator(regex='@',message='please use @ in your field')]
+    )
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
+    form = CustomerAdminForm
     list_display = ['first_name', 'last_name', 'membership', 'orders']
     list_editable = ['membership']
     list_per_page = 10
@@ -79,6 +87,7 @@ class OrderAdmin(admin.ModelAdmin):
                     'payment_status', 'customer_email']
     # list_editable=['payment_status']
     list_per_page = 10
+    autocomplete_fields=['customer']
 
     def customer_email(self, Order):
         return Order.customer.email
