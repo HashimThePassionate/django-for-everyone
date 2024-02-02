@@ -31,6 +31,9 @@ class InventoryFilter(admin.SimpleListFilter):
 class ProductAdmin(admin.ModelAdmin):
     # fields = ['title','description']
     exclude = ['promotions']
+    prepopulated_fields = {
+        'slug': ['title']
+    }
     actions = ['clear_inventory']
     list_display = ['id', 'title', 'price',
                     'inventory', 'inventory_status', 'collection']
