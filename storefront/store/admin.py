@@ -8,6 +8,9 @@ from django.utils.html import format_html, urlencode
 from django.urls import reverse
 from django.core.validators import RegexValidator
 from django import forms
+from store.models import Orderitem
+
+
 class InventoryFilter(admin.SimpleListFilter):
     title = 'Inventory'
     parameter_name = 'inventory'
@@ -42,6 +45,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['price']
     list_select_related = ['collection']
     list_filter = ['collection', 'last_update', InventoryFilter]
+    search_fields = ['title']
     # def collection_title(self,Product):
     #     return Product.collection.title
 
@@ -60,14 +64,18 @@ class ProductAdmin(admin.ModelAdmin):
             f'{updated_count} products were updated successfully'
         )
 
+
 class CustomerAdminForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = '__all__'
 
     email = forms.EmailField(
-        validators=[RegexValidator(regex='@',message='please use @ in your field')]
+        validators=[RegexValidator(
+            regex='@', message='please use @ in your field')]
     )
+
+
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     form = CustomerAdminForm
@@ -81,13 +89,22 @@ class CustomerAdmin(admin.ModelAdmin):
         return str(Order.order_set.count())+' ORDERS'
 
 
+class OrderItemInline(admin.StackedInline):
+    autocomplete_fields = ['product']
+    model = Orderitem
+    extra = 0
+    min_num = 1
+    max_num = 10
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    inlines = [OrderItemInline]
     list_display = ['id', 'place_at', 'customer',
                     'payment_status', 'customer_email']
     # list_editable=['payment_status']
     list_per_page = 10
-    autocomplete_fields=['customer']
+    autocomplete_fields = ['customer']
 
     def customer_email(self, Order):
         return Order.customer.email
@@ -99,7 +116,7 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'products_count']
-    search_fields=['title']
+    search_fields = ['title']
 
     @admin.display(ordering='products_count')
     def products_count(self, Collection):
