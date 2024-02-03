@@ -239,5 +239,97 @@
         </p>
         {% endif %}
     </div>
+	
+  <div class="container alert alert-dark">
+         <form action="" method="post" novalidate>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <label for="{{ customer.first_name.id_for_label}}"
+                    class='form-label fw-bolder fs-5 '>
+                   {{customer.first_name.label}}
+                
+                   </label>
+                </div>
+                <div class="col-12">
+                    {{customer.first_name}}
+                    {% if  customer.first_name.errors  %}
+                    <div class="alert alert-danger mt-2">
+                        {{ customer.first_name.errors }}
+                    </div>
+                    {% endif %}
+                   
+                </div>
+                {% comment %} --------------------------- {% endcomment %}
+                <div class="row">
+                    <div class="col-12">
+                        <label for="{{ customer.last_name.id_for_label}}"
+                        class='form-label fw-bolder fs-5 mt-2'>
+                       {{customer.last_name.label}} 
+                       </label>
+                    </div>
+                    <div class="col-12">
+                        {{customer.last_name}}
+                        {% if  customer.last_name.errors  %}
+                        <div class="alert alert-danger mt-2">
+                            {{ customer.last_name.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <label for="{{ customer.email.id_for_label}}"
+                        class='form-label fw-bolder fs-5 mt-2'>
+                       {{customer.email.label}}
+                  
+                       </label>
+                    </div>
+                    <div class="col-12">
+                        {{customer.email}}
+                        {% if  customer.email.errors  %}
+                        <div class="alert alert-danger mt-2">
+                            {{ customer.email.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <label for="{{ customer.phone_no.id_for_label}}"
+                        class='form-label fw-bolder fs-5 mt-2'>
+                       {{customer.phone_no.label}}
+                       </label>
+                    </div>
+                    <div class="col-12">
+                        {{customer.phone_no}}
+                        {% if  customer.phone_no.errors  %}
+                        <div class="alert alert-danger mt-2">
+                            {{ customer.phone_no.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="{{ customer.membership.id_for_label}}"
+                            class='form-label fw-bolder fs-5 mt-2'>
+                           {{customer.membership.label}}
+                           </label>
+                        </div>
+                        <div class="col-12">
+                            {{ customer.membership }}
+                    </div>
+
+
+
+                <div class="d-grid gap-2 mt-3">
+                    <input type="submit" value="Submit" class="btn btn-outline-secondary">
+                </div>
+            </div> 
+        </form>
+
+        </div>
+      </form>
 </body>
 </html>

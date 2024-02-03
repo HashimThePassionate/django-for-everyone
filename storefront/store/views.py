@@ -6,21 +6,24 @@ from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
 from django.contrib.contenttypes.models import ContentType
 from tags.models import Tagitem
+from django.db import IntegrityError
+from store.forms import CustomerForm
 # Create your views here.
 
 
-def home(request):
-    query_set = Product.objects.all()
-    customer_lj = Customer.objects.annotate(
-    order_count=Count('order'),
-    total_sum=Sum('points')
-    )
+#def home(request):
+ #   query_set = Product.objects.all()
+  ##  customer_lj = Customer.objects.annotate(
+    #order_count=Count('order'),
+  #  total_sum=Sum('points')
+   # )
 
-    customer_ij = Customer.objects.filter(order__isnull=False).annotate(
-        order_count=Count('order'),
-        total_sum=Sum('points')
-    )
-    return render(request,'index.html',{'cus_lj':customer_lj,'cus_ij':customer_ij})
+    #customer_ij = Customer.objects.filter(order__isnull=False).annotate(
+     #   order_count=Count('order'),
+      #  total_sum=Sum('points')
+    #)
+    #return render(request,'index.html',{'cus_lj':customer_lj,'cus_ij':customer_ij})
+    
     # objects is manager that is a interface of database
     # for p in query_set:
     #     print(p)
@@ -115,3 +118,32 @@ def home(request):
     # pro = Promotion.objects.filter(id__gt=5).delete()
     # cus = Customer.objects.raw('SELECT * FROM store_customer')
     # return render(request,'index.html')
+   
+
+
+def home(request):
+    if request.method == 'POST':
+        customer_form = CustomerForm(request.POST)
+        if customer_form.is_valid():
+            fname = customer_form.cleaned_data['first_name']
+            lname = customer_form.cleaned_data['last_name']
+            email = customer_form.cleaned_data['email']
+            phoneno = customer_form.cleaned_data['phone_no']
+            member = customer_form.cleaned_data['membership']
+            print("Form Validated with POST Data")
+            try:
+                customer = Customer.objects.create(
+                    first_name=fname,
+                    last_name=lname,
+                    email=email,
+                    phone=phoneno,
+                    membership=member
+                )
+                customer.save()
+                print(f"Customer {customer} saved successfully.")
+            except IntegrityError:
+                print(f"Error: Customer with email '{email}' already exists.")
+    else:
+        customer_form = CustomerForm()
+
+    return render(request, 'index.html', {'customer': customer_form})
