@@ -114,3 +114,20 @@ class CarItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
+    
+class User(models.Model):
+    MEMBERSHIP_SILVER = 'S'
+    MEMBERSHIP_GOLD = 'G'
+    MEMBERSHIP_DIAMOND = 'D'
+
+    MEMBERSHIP_CHOICES = [
+        (MEMBERSHIP_SILVER, 'SILVER'),
+        (MEMBERSHIP_GOLD, 'GOLD'),
+        (MEMBERSHIP_DIAMOND, 'DIAMOND'),
+    ]
+    username = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=254)
+    membership = models.CharField(
+        max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_SILVER, null=True)

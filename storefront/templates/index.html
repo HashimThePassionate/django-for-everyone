@@ -239,97 +239,115 @@
         </p>
         {% endif %}
     </div>
-	
-  <div class="container alert alert-dark">
-         <form action="" method="post" novalidate>
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-12">
-                    <label for="{{ customer.first_name.id_for_label}}"
-                    class='form-label fw-bolder fs-5 '>
-                   {{customer.first_name.label}}
-                
-                   </label>
-                </div>
-                <div class="col-12">
-                    {{customer.first_name}}
-                    {% if  customer.first_name.errors  %}
-                    <div class="alert alert-danger mt-2">
-                        {{ customer.first_name.errors }}
-                    </div>
-                    {% endif %}
-                   
-                </div>
-                {% comment %} --------------------------- {% endcomment %}
-                <div class="row">
-                    <div class="col-12">
-                        <label for="{{ customer.last_name.id_for_label}}"
-                        class='form-label fw-bolder fs-5 mt-2'>
-                       {{customer.last_name.label}} 
-                       </label>
-                    </div>
-                    <div class="col-12">
-                        {{customer.last_name}}
-                        {% if  customer.last_name.errors  %}
-                        <div class="alert alert-danger mt-2">
-                            {{ customer.last_name.errors }}
-                        </div>
-                        {% endif %}
-                    </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <label for="{{ customer.email.id_for_label}}"
-                        class='form-label fw-bolder fs-5 mt-2'>
-                       {{customer.email.label}}
-                  
-                       </label>
-                    </div>
-                    <div class="col-12">
-                        {{customer.email}}
-                        {% if  customer.email.errors  %}
-                        <div class="alert alert-danger mt-2">
-                            {{ customer.email.errors }}
-                        </div>
-                        {% endif %}
-                    </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <label for="{{ customer.phone_no.id_for_label}}"
-                        class='form-label fw-bolder fs-5 mt-2'>
-                       {{customer.phone_no.label}}
-                       </label>
-                    </div>
-                    <div class="col-12">
-                        {{customer.phone_no}}
-                        {% if  customer.phone_no.errors  %}
-                        <div class="alert alert-danger mt-2">
-                            {{ customer.phone_no.errors }}
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="{{ customer.membership.id_for_label}}"
-                            class='form-label fw-bolder fs-5 mt-2'>
-                           {{customer.membership.label}}
-                           </label>
-                        </div>
-                        <div class="col-12">
-                            {{ customer.membership }}
-                    </div>
-
-
-
-                <div class="d-grid gap-2 mt-3">
-                    <input type="submit" value="Submit" class="btn btn-outline-secondary">
-                </div>
-            </div> 
-        </form>
-
+ <div class="container alert alert-secondary p-5">
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <label 
+            for="{{ form.username.id_for_label}}" 
+            class='form-label fw-bolder fs-5 '>
+            {{form.username.label}}
+            </label>
         </div>
-      </form>
+        <div class="row">
+            {{form.username}}
+            {% if  form.username.errors  %}
+            <div class="alert alert-danger mt-2">
+                {{ form.username.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% comment %} -------------------------- {% endcomment %}
+        
+        <div class="row">
+            <label 
+            for="{{ form.first_name.id_for_label}}" 
+            class='form-label fw-bolder fs-5 '>
+            {{form.first_name.label}}
+            </label>
+        </div>
+        <div class="row">
+            {{form.first_name}}
+            {% if  form.first_name.errors  %}
+            <div class="alert alert-danger mt-2">
+                {{ form.first_name.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% comment %} -------------------------- {% endcomment %}
+        
+        <div class="row">
+            <label 
+            for="{{ form.last_name.id_for_label}}" 
+            class='form-label fw-bolder fs-5 '>
+            {{form.last_name.label}}
+            </label>
+        </div>
+        <div class="row">
+            {{form.last_name}}
+            {% if  form.last_name.errors  %}
+            <div class="alert alert-danger mt-2">
+                {{ form.last_name.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% comment %} -------------------------- {% endcomment %}
+        
+        <div class="row">
+            <label 
+            for="{{ form.email.id_for_label}}" 
+            class='form-label fw-bolder fs-5 '>
+            {{form.email.label}}
+            </label>
+        </div>
+        <div class="row">
+            {{form.email}}
+            {% if  form.email.errors  %}
+            <div class="alert alert-danger mt-2">
+                {{ form.email.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        
+        {% comment %} -------------------------- {% endcomment %}
+        
+        <div class="row">
+            <label 
+            for="{{ form.membership.id_for_label}}" 
+            class='form-label fw-bolder fs-5 '>
+            {{form.membership.label}}
+            </label>
+        </div>
+        <div class="row">
+            {{form.membership}}
+            {% if  form.membership.errors  %}
+            <div class="alert alert-danger mt-2">
+                {{ form.membership.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+
+        {% comment %} -------------------------- {% endcomment %}
+        
+        <div class="d-grid gap-2 mt-3">
+            <input type="submit" value="Submit" class="btn btn-outline-secondary">
+        </div>
+        {% if messages %}
+                <div class="alert alert-success mt-4" role="alert">
+                  {% for m in  messages %}
+                  {{m}}
+                  {% endfor %}
+                </div>            
+                {% endif %}
+              </div>
+    </form>
+</div>
+
 </body>
 </html>

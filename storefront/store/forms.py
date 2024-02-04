@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MaxLengthValidator
-
+from store.models import User
 
 def validate_name(value):
 
@@ -17,7 +17,7 @@ def validate_custom_email(value):
         raise ValidationError(
             'Email must contain "@" and at least one "." in the domain.')
 
-
+#-----------------------Form API------------------------------------
 class CustomerForm(forms.Form):
     first_name = forms.CharField(label='First Name', error_messages={
         'required': 'Please Enter Your First Name'
@@ -66,3 +66,54 @@ class CustomerForm(forms.Form):
             ('D', 'DIAMOND'),
         ]
     )
+    
+#-------------------Model Form--------------------------
+class userform(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "email", "membership")
+
+    username = forms.CharField(
+        label='Username',
+        error_messages={'required': 'Please Enter Your Username'},
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Type Username',
+            'class': 'form-control'
+        }),
+        validators=[validate_name, MinLengthValidator(
+            limit_value=4), MaxLengthValidator(limit_value=20)]
+    )
+    first_name = forms.CharField(
+        label='First Name',
+        error_messages={'required': 'Please Enter Your First Name'},
+        widget=forms.TextInput(attrs={
+            'placeholder': 'First Name',
+            'class': 'form-control'
+        }),
+        validators=[validate_name, MinLengthValidator(
+            limit_value=4), MaxLengthValidator(limit_value=20)]
+    )
+    last_name = forms.CharField(
+        label='Last Name',
+        error_messages={'required': 'Please Enter Your Last Name'},
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Last Name',
+            'class': 'form-control'
+        }),
+        validators=[validate_name, MinLengthValidator(
+            limit_value=4), MaxLengthValidator(limit_value=20)]
+    )
+    email = forms.EmailField(
+        label='Email',
+        error_messages={'required': 'Please Enter Your Email'},
+        widget=forms.TextInput(attrs={
+            'placeholder': 'xyz@gmail.com',
+            'class': 'form-control'
+        }),
+        validators=[validate_custom_email, MinLengthValidator(
+            limit_value=10), MaxLengthValidator(limit_value=30)]
+    )
+    membership = forms.ChoiceField(
+        label='Please Choose Membership',
+        widget=forms.Select(attrs={
+            'class': 'form-select', }), choices=User.MEMBERSHIP_CHOICES)

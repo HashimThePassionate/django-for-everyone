@@ -7,7 +7,7 @@ from django.db.models import Max, Min, Avg, Count, Sum
 from django.contrib.contenttypes.models import ContentType
 from tags.models import Tagitem
 from django.db import IntegrityError
-from store.forms import CustomerForm
+from store.forms import userform
 # Create your views here.
 
 
@@ -120,30 +120,44 @@ from store.forms import CustomerForm
     # return render(request,'index.html')
    
 
+# View for Form API
+#def home(request):
+ #   if request.method == 'POST':
+  ##      customer_form = CustomerForm(request.POST)
+    #    if customer_form.is_valid():
+     #       fname = customer_form.cleaned_data['first_name']
+      #      lname = customer_form.cleaned_data['last_name']
+       #     email = customer_form.cleaned_data['email']
+        #    phoneno = customer_form.cleaned_data['phone_no']
+         #   member = customer_form.cleaned_data['membership']
+          #  print("Form Validated with POST Data")
+           # try:
+            #    customer = Customer.objects.create(
+             #       first_name=fname,
+              #      last_name=lname,
+               #     email=email,
+                #    phone=phoneno,
+                 #   membership=member
+               # )
+               # customer.save()
+               # print(f"Customer {customer} saved successfully.")
+           # except IntegrityError:
+            #    print(f"Error: Customer with email '{email}' already exists.")
+  #  else:
+   #     customer_form = CustomerForm()
+
+    #return render(request, 'index.html', {'customer': customer_form})
+    
+#----- Model FORM VIEW --------------
 
 def home(request):
-    if request.method == 'POST':
-        customer_form = CustomerForm(request.POST)
-        if customer_form.is_valid():
-            fname = customer_form.cleaned_data['first_name']
-            lname = customer_form.cleaned_data['last_name']
-            email = customer_form.cleaned_data['email']
-            phoneno = customer_form.cleaned_data['phone_no']
-            member = customer_form.cleaned_data['membership']
-            print("Form Validated with POST Data")
-            try:
-                customer = Customer.objects.create(
-                    first_name=fname,
-                    last_name=lname,
-                    email=email,
-                    phone=phoneno,
-                    membership=member
-                )
-                customer.save()
-                print(f"Customer {customer} saved successfully.")
-            except IntegrityError:
-                print(f"Error: Customer with email '{email}' already exists.")
+    if request.method == "POST":
+        form = userform(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Thank You, your data has been submitted")
     else:
-        customer_form = CustomerForm()
+        form = userform()
+    return render(request, 'index.html', {'form': form})
 
-    return render(request, 'index.html', {'customer': customer_form})
