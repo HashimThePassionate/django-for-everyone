@@ -349,5 +349,51 @@
     </form>
 </div>
 
+{% if userdetail %}
+<div class="container">
+    <div class="container pt-3">
+      <div class="alert alert-danger mt-4 text-center" role="alert">
+        User Information Detail
+    </div>
+    <table class="table table-bordered border-danger table-hover">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Username</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Membership Status</th> 
+          <th scope="col">Actions</th> 
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in  userdetail %}
+        <tr>
+          <th scope="row">{{s.id}}</th>
+          <td>{{s.username}}</td>
+          <td>{{s.first_name}}</td>
+          <td>{{s.last_name}}</td>
+          <td>{{s.email}}</td>
+          <td>{{s.membership}}</td>
+          <td>
+           <div class="d-inline">
+            <a href="{% url 'edit' s.id %}" class="btn btn-primary d-inline">Edit</a>
+            <form action="{% url "delete" s.id %}" class="d-inline">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+           </div>
+          </td>
+        </tr>
+        
+        {% endfor %}
+        
+        {% endif %}
+      </tbody>
+    </table>
+  
+  </div>
+</div>
+
 </body>
 </html>

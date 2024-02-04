@@ -159,5 +159,29 @@ def home(request):
                                  "Thank You, your data has been submitted")
     else:
         form = userform()
+    u = User.objects.all()
+    return render(request, 'index.html', {'form': form, 'userdetail': u})
+
+
+def edit(request, id):
+    r = User.objects.get(pk=id)
+    if request.method == 'POST':
+        form = userform(request.POST, instance=r)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Your Data has been changed Successfully!")
+            return redirect('index')
+
+    else:
+        form = userform(instance=r)
     return render(request, 'index.html', {'form': form})
 
+
+def delete(request, id):
+    r = User.objects.get(pk=id)
+    try:
+        r.delete()
+    except:
+        print("Did not work")
+    return redirect('index')
