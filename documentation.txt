@@ -96,3 +96,5 @@ You can go check all the functions
 64. Extending Pluggable Apps
 65. installing Django Rest Framework
 66. pip  install djangorestframework
+67. from rest_framework.decorators import api_view
+68. from rest_framework.response import Response

@@ -10,7 +10,8 @@ from tags.models import Tagitem
 from django.db import IntegrityError
 from store.forms import userform
 from django.contrib import messages
-# Create your views here.
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 # def home(request):
@@ -187,5 +188,7 @@ def delete(request, id):
         print("Did not work")
     return redirect('index')
 
+
+@api_view()
 def product_list(request):
-    return HttpResponse('Working!')
+    return Response('Working!')
