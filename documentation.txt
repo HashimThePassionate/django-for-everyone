@@ -94,3 +94,5 @@ You can go check all the functions
 62. Editting children using inline
 63. Using Generic Relationship
 64. Extending Pluggable Apps
+65. installing Django Rest Framework
+66. pip  install djangorestframework
