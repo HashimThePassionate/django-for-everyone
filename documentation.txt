@@ -104,3 +104,5 @@ You can go check all the functions
 72. Handle exception in Serializers objects
 73. Handle exception more smartly
 74. Get all json objects in product list
+75. Creating Custom Serializer fields
+
