@@ -2,7 +2,7 @@ from typing import Any
 from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
-from store.models import Collection, Product, Customer, Order
+from store.models import Collection, Product, Customer, Order, Student
 from tags.models import Tagitem
 from django.db.models import Count
 from django.utils.html import format_html, urlencode
@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.core.validators import RegexValidator
 from django import forms
 from store.models import Orderitem
+
 
 class InventoryFilter(admin.SimpleListFilter):
     title = 'Inventory'
@@ -28,6 +29,7 @@ class InventoryFilter(admin.SimpleListFilter):
             return queryset.filter(inventory__gte=10)
         else:
             return None
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -135,3 +137,8 @@ class CollectionAdmin(admin.ModelAdmin):
         return super().get_queryset(request).annotate(
             products_count=Count('product')
         )
+
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ['student_id', 'first_name', 'last_name', 'date_of_birth']

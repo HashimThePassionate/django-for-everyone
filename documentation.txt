@@ -98,3 +98,4 @@ You can go check all the functions
 66. pip  install djangorestframework
 67. from rest_framework.decorators import api_view
 68. from rest_framework.response import Response
+69.  Creating Serializers to convert model object to python dict to json as object 

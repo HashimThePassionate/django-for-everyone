@@ -131,3 +131,25 @@ class User(models.Model):
     email = models.EmailField(max_length=254)
     membership = models.CharField(
         max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_SILVER, null=True)
+
+
+class Student(models.Model):
+    student_id = models.AutoField(primary_key=True, unique=True)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    date_of_birth = models.DateField()
+    # Add other fields as needed
+    def save(self, *args, **kwargs):
+        # Check if the object is being created for the first time
+        if not self.student_id:
+            # Get the current maximum student_id in the database or set it to 10083 if no records exist
+            last_student = Student.objects.last()
+            if last_student:
+                self.student_id = last_student.student_id + 1
+            else:
+                self.student_id = 10083
+
+        super(Student, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.student_id} - {self.first_name} {self.last_name}"
