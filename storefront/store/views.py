@@ -192,7 +192,9 @@ def delete(request, id):
 
 @api_view()
 def product_list(request):
-    return Response('Working!')
+    querset = Product.objects.all()
+    serializer = ProductSerializer(querset, many=True)
+    return Response(serializer.data)
 
 
 @api_view()
