@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 # from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product, Orderitem, Order, Customer, Promotion, User
 from django.db.models import Q, F, Value, Func, Count, Sum, ExpressionWrapper, DecimalField
@@ -185,3 +186,6 @@ def delete(request, id):
     except:
         print("Did not work")
     return redirect('index')
+
+def product_list(request):
+    return HttpResponse('Working!')
