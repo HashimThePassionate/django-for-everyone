@@ -12,7 +12,7 @@ from store.forms import userform
 from django.contrib import messages
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from store.serializers import ProductSerializer
 
 # def home(request):
 #   query_set = Product.objects.all()
@@ -196,4 +196,6 @@ def product_list(request):
 
 @api_view()
 def product_detail(request, id):
-    return Response(id)
+    product = Product.objects.get(pk=id)
+    serializer = ProductSerializer(product)
+    return Response(serializer.data)
