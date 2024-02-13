@@ -102,3 +102,4 @@ You can go check all the functions
 70. Serializing objects
 71. Convert string price to decimal
 72. Handle exception in Serializers objects
+73. Handle exception more smartly
