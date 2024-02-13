@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 # from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product, Orderitem, Order, Customer, Promotion, User
@@ -12,6 +12,7 @@ from store.forms import userform
 from django.contrib import messages
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from store.serializers import ProductSerializer
 
 # def home(request):
@@ -196,6 +197,9 @@ def product_list(request):
 
 @api_view()
 def product_detail(request, id):
-    product = Product.objects.get(pk=id)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
+    try:
+        product = Product.objects.get(pk=id)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
