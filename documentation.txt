@@ -100,3 +100,4 @@ You can go check all the functions
 68. from rest_framework.response import Response
 69.  Creating Serializers to convert model object to python dict to json as object 
 70. Serializing objects
+71. Convert string price to decimal
