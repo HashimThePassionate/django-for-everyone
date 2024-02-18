@@ -107,4 +107,5 @@ You can go check all the functions
 75. Creating Custom Serializer fields
 76. Serializing Relatioships
 76.1 Using Primary Key
+76.2 Using String
 
