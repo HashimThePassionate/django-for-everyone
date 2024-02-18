@@ -3,6 +3,11 @@ from decimal import Decimal
 from store.models import Product, Collection
 
 
+class CollectionSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField(max_length=255)
+
+
 class ProductSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField(max_length=255)
@@ -12,7 +17,8 @@ class ProductSerializer(serializers.Serializer):
     # collection = serializers.PrimaryKeyRelatedField(
     #     queryset = Collection.objects.all()
     # )
-    collection = serializers.StringRelatedField()
+    # collection = serializers.StringRelatedField()
+    collection = CollectionSerializer()
 
     def calculate_tax(self, p: Product):
         return p.price * Decimal(1.78)

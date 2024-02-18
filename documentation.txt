@@ -108,4 +108,5 @@ You can go check all the functions
 76. Serializing Relatioships
 76.1 Using Primary Key
 76.2 Using String
+76.3 Using Nested Object
 
