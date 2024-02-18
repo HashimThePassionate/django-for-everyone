@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 # from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Orderitem, Order, Customer, Promotion, User
+from store.models import Product, Orderitem, Order, Customer, Promotion, User, Collection
 from django.db.models import Q, F, Value, Func, Count, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
@@ -13,7 +13,7 @@ from django.contrib import messages
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from store.serializers import ProductSerializer
+from store.serializers import ProductSerializer, CollectionSerializer
 
 # def home(request):
 #   query_set = Product.objects.all()
@@ -193,7 +193,9 @@ def delete(request, id):
 @api_view()
 def product_list(request):
     querset = Product.objects.select_related('collection').all()
-    serializer = ProductSerializer(querset, many=True)
+    serializer = ProductSerializer(
+        querset, many=True,
+        context={'request': request})
     return Response(serializer.data)
 
 
@@ -201,4 +203,11 @@ def product_list(request):
 def product_detail(request, id):
     product = get_object_or_404(Product, pk=id)
     serializer = ProductSerializer(product)
+    return Response(serializer.data)
+
+
+@api_view()
+def collection_detail(request, pk):
+    collection = get_object_or_404(Collection, pk=pk)
+    serializer = CollectionSerializer(collection)
     return Response(serializer.data)
