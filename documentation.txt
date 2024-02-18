@@ -112,4 +112,5 @@ You can go check all the functions
 76.3 Using HyperLink
 77. Model Serializers
 78. Deserializing Objects
+78. Data Validation
 
