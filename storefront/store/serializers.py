@@ -3,16 +3,22 @@ from decimal import Decimal
 from store.models import Product, Collection
 
 
-class CollectionSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    title = serializers.CharField(max_length=255)
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ['id', 'title']
+    # id = serializers.IntegerField()
+    # title = serializers.CharField(max_length=255)
 
 
-class ProductSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    title = serializers.CharField(max_length=255)
-    Price = serializers.DecimalField(
-        max_digits=6, decimal_places=2, source='price')
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'price', 'price_tax', 'collection']
+    # id = serializers.IntegerField()
+    # title = serializers.CharField(max_length=255)
+    # Price = serializers.DecimalField(
+    #     max_digits=6, decimal_places=2, source='price')
     price_tax = serializers.SerializerMethodField(method_name='calculate_tax')
     # collection = serializers.PrimaryKeyRelatedField(
     #     queryset = Collection.objects.all()
