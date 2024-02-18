@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from store.models import Product
+from store.models import Product, Collection
 
 
 class ProductSerializer(serializers.Serializer):
@@ -9,6 +9,9 @@ class ProductSerializer(serializers.Serializer):
     Price = serializers.DecimalField(
         max_digits=6, decimal_places=2, source='price')
     price_tax = serializers.SerializerMethodField(method_name='calculate_tax')
+    collection = serializers.PrimaryKeyRelatedField(
+        queryset = Collection.objects.all()
+    )
 
     def calculate_tax(self, p: Product):
         return p.price * Decimal(1.78)

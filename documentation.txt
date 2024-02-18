@@ -105,4 +105,6 @@ You can go check all the functions
 73. Handle exception more smartly
 74. Get all json objects in product list
 75. Creating Custom Serializer fields
+76. Serializing Relatioships
+76.1 Using Primary Key
 
