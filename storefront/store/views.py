@@ -203,16 +203,24 @@ def product_list(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             # serializer.validated_data
-            return Response('ok')
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
         # else:
         #     return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view()
+@api_view(['GET','PUT'])
 def product_detail(request, id):
     product = get_object_or_404(Product, pk=id)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = ProductSerializer(product,data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
 
 
 @api_view()

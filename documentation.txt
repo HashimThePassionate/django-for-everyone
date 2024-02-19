@@ -123,4 +123,5 @@ You can go check all the functions
 "collection":1,
 "inventory":1
 }
+80.2 Updating Objects
 
