@@ -31,7 +31,7 @@ Successfully installed asgiref-3.7.2 django-5.0.1 sqlparse-0.4.4 tzdata-2023.4
 - asgiref, sqlparse, tzdata are installed with django, these are must used to create website.
 
 ## Step-02
-### ckeck pip list, you see output;
+### check pip list, you see output;
 <pre>
 Package  Version
 -------- -------
