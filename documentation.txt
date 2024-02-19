@@ -124,4 +124,5 @@ You can go check all the functions
 "inventory":1
 }
 80.2 Updating Objects
+80.3 Deleting Objects
 

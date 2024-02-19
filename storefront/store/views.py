@@ -203,23 +203,27 @@ def product_list(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             # serializer.validated_data
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         # else:
         #     return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['GET','PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def product_detail(request, id):
     product = get_object_or_404(Product, pk=id)
     if request.method == 'GET':
         serializer = ProductSerializer(product)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = ProductSerializer(product,data=request.data)
+        serializer = ProductSerializer(product, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-
+    elif request.method == 'DELETE':
+        if product.orderitem_set.count()>0:
+            return Response({'error':'Product cannot be deleted because it is associated with order item'},status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
