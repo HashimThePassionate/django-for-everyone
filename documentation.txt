@@ -112,5 +112,15 @@ You can go check all the functions
 76.3 Using HyperLink
 77. Model Serializers
 78. Deserializing Objects
-78. Data Validation
+79. Data Validation
+80. Saving Objects
+80.1 Creating Objects
+{
+"title":"Iphone 12",
+"slug":"Iphone-12",
+"description":"Hello World",
+"price":5000.23,
+"collection":1,
+"inventory":1
+}
 

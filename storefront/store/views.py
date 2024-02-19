@@ -201,7 +201,8 @@ def product_list(request):
     elif request.method == 'POST':
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.validated_data
+            serializer.save()
+            # serializer.validated_data
             return Response('ok')
         # else:
         #     return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
