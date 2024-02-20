@@ -114,7 +114,7 @@ You can go check all the functions
 78. Deserializing Objects
 79. Data Validation
 80. Saving Objects
-80.1 Creating Objects
+80.0.1 Creating Objects
 {
 "title":"Iphone 12",
 "slug":"Iphone-12",
@@ -123,6 +123,7 @@ You can go check all the functions
 "collection":1,
 "inventory":1
 }
-80.2 Updating Objects
-80.3 Deleting Objects
+80.0.2 Updating Objects
+80.0.3 Deleting Objects
+80.1 Building Collections API
 
