@@ -9,7 +9,7 @@ class CollectionSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'products_count']
     # id = serializers.IntegerField()
     # title = serializers.CharField(max_length=255)
-    products_count = serializers.IntegerField()
+    products_count = serializers.IntegerField(read_only=True)
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -17,11 +17,11 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['id', 'title', 'slug', 'description',
                   'price', 'price_tax', 'collection', 'inventory']
+    price_tax = serializers.SerializerMethodField(method_name='calculate_tax')
     # id = serializers.IntegerField()
     # title = serializers.CharField(max_length=255)
     # Price = serializers.DecimalField(
     #     max_digits=6, decimal_places=2, source='price')
-    price_tax = serializers.SerializerMethodField(method_name='calculate_tax')
     # collection = serializers.PrimaryKeyRelatedField(
     #     queryset = Collection.objects.all()
     # )

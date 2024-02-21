@@ -127,4 +127,8 @@ You can go check all the functions
 80.0.3 Deleting Objects
 80.1 Building Collections API
 80.2 Class Based Views
+80.3 Shortcuts Key
+ctrl + t
+ctrl + shift + o 
+80.4 Mixins in Generic Views
 
