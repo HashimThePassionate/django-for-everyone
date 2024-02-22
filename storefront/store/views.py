@@ -254,13 +254,12 @@ class ProductViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {'request': self.request}
-
-    def delete(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance.orderitem_set.count() > 0:
+    
+    def destroy(self, request, *args, **kwargs):
+        if Orderitem.objects.filter(product_id=kwargs['pk']).count()>0:
             return Response({'error': 'Product cannot be deleted because it is associated with order item'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return super().destroy(request, *args, **kwargs)
+    
 
 
 # @api_view(['GET', 'POST'])
@@ -355,8 +354,7 @@ class CollectionViewSet(ModelViewSet):
     serializer_class = CollectionSerializer
     lookup_field = 'pk'
 
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         if self.get_object().products.count() > 0:
             return Response({'error': 'Collection cannot be deleted because it includes one or more products.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.perform_destroy(self.get_object())
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return super().destroy(request, *args, **kwargs)
