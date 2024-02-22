@@ -134,3 +134,6 @@ ctrl + shift + o
 81. ViewSet
 82. Routers
 83. Building Reviews API
+84. Registering Nested Routers 
+https://github.com/alanjds/drf-nested-routers
+84.1 pip install drf-nested-routers
