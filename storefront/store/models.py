@@ -32,7 +32,8 @@ class Product(models.Model):
     )
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
-    collection = models.ForeignKey(Collection, on_delete=models.PROTECT, related_name='products')
+    collection = models.ForeignKey(
+        Collection, on_delete=models.PROTECT, related_name='products')
     promotions = models.ManyToManyField(Promotion)
 
     def __str__(self):
@@ -114,7 +115,8 @@ class CarItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
-    
+
+
 class User(models.Model):
     MEMBERSHIP_SILVER = 'S'
     MEMBERSHIP_GOLD = 'G'
@@ -139,6 +141,7 @@ class Student(models.Model):
     last_name = models.CharField(max_length=255)
     date_of_birth = models.DateField()
     # Add other fields as needed
+
     def save(self, *args, **kwargs):
         # Check if the object is being created for the first time
         if not self.student_id:

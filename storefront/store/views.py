@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.viewsets import ModelViewSet
 from store.serializers import ProductSerializer, CollectionSerializer
 
 # def home(request):
@@ -237,7 +238,22 @@ class ProductList(ListCreateAPIView):
 class ProductDetail(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    lookup_field = 'id'
+    # lookup_field = 'id'
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.orderitem_set.count() > 0:
+            return Response({'error': 'Product cannot be deleted because it is associated with order item'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -318,12 +334,24 @@ class ProductDetail(RetrieveUpdateDestroyAPIView):
 
 class CollectionList(ListCreateAPIView):
     queryset = Collection.objects.annotate(
-        products_count=Count('products'))
+        products_count=Count('products')).all()
     serializer_class = CollectionSerializer
 
 
 class CollectionDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Collection.objects.annotate(products_count=Count('products'))
+    queryset = Collection.objects.annotate(products_count=Count('products')).all()
+    serializer_class = CollectionSerializer
+    lookup_field = 'pk'
+
+    def delete(self, request, *args, **kwargs):
+        if self.get_object().products.count() > 0:
+            return Response({'error': 'Collection cannot be deleted because it includes one or more products.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.perform_destroy(self.get_object())
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CollectionViewSet(ModelViewSet):
+    queryset = Collection.objects.annotate(products_count=Count('products')).all()
     serializer_class = CollectionSerializer
     lookup_field = 'pk'
 
