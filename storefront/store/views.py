@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 # from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Orderitem, Order, Customer, Promotion, User, Collection
+from store.models import Product, Orderitem, Order, Customer, Promotion, User, Collection, Review
 from django.db.models import Q, F, Value, Func, Count, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
@@ -16,7 +16,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
-from store.serializers import ProductSerializer, CollectionSerializer
+from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers
 
 # def home(request):
 #   query_set = Product.objects.all()
@@ -254,12 +254,11 @@ class ProductViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {'request': self.request}
-    
+
     def destroy(self, request, *args, **kwargs):
-        if Orderitem.objects.filter(product_id=kwargs['pk']).count()>0:
+        if Orderitem.objects.filter(product_id=kwargs['pk']).count() > 0:
             return Response({'error': 'Product cannot be deleted because it is associated with order item'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().destroy(request, *args, **kwargs)
-    
 
 
 # @api_view(['GET', 'POST'])
@@ -338,7 +337,8 @@ class CollectionList(ListCreateAPIView):
 
 
 class CollectionDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Collection.objects.annotate(products_count=Count('products')).all()
+    queryset = Collection.objects.annotate(
+        products_count=Count('products')).all()
     serializer_class = CollectionSerializer
     lookup_field = 'pk'
 
@@ -350,7 +350,8 @@ class CollectionDetail(RetrieveUpdateDestroyAPIView):
 
 
 class CollectionViewSet(ModelViewSet):
-    queryset = Collection.objects.annotate(products_count=Count('products')).all()
+    queryset = Collection.objects.annotate(
+        products_count=Count('products')).all()
     serializer_class = CollectionSerializer
     lookup_field = 'pk'
 
@@ -358,3 +359,8 @@ class CollectionViewSet(ModelViewSet):
         if self.get_object().products.count() > 0:
             return Response({'error': 'Collection cannot be deleted because it includes one or more products.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().destroy(request, *args, **kwargs)
+
+
+class ReviewSet(ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializers
