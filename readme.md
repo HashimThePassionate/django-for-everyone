@@ -5,7 +5,26 @@ In this repostry,  we learn to make website without  virtualenv
 ```
 https://github.com/HashimThePassionate/django-for-absolute-beginners.git
 ```
-
+## Installing Virtual Environment with pipenv
+```
+pip install pipenv
+```
+## To create virtual enn, run this command
+```
+pipenv shell 
+```
+To find the path of virtual environment
+```
+pipenv --venv
+```
+## Add this path to python interpreter
+- go to view > command palette
+- select python interpreter
+- create new virtual environment
+- and paste the path there
+```
+C:\Users\DELL\.virtualenvs\python-4lbLKKMx\bin\activate
+```
 ## If you learn and get started follow step by step
 ### install django
 Enter this command
