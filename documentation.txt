@@ -137,3 +137,4 @@ ctrl + shift + o
 84. Registering Nested Routers 
 https://github.com/alanjds/drf-nested-routers
 84.1 pip install drf-nested-routers
+85. Filter using  queryset parameter 
