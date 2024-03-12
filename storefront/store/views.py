@@ -16,6 +16,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import SearchFilter
 from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -253,8 +254,10 @@ class ProductDetail(RetrieveUpdateDestroyAPIView):
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['collection_id']
+    search_fields = ['title','description']
+
 
     def get_serializer_context(self):
         return {'request': self.request}
