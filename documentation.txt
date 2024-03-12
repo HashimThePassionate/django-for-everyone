@@ -141,3 +141,4 @@ https://github.com/alanjds/drf-nested-routers
 86. pip install django-filter
 87. Generic filtering 
 88. Searching
+88. Filters
