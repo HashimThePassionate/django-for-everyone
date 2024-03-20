@@ -18,7 +18,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.mixins import CreateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers, CartSerializers
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -389,6 +389,6 @@ class ReviewViewSet(ModelViewSet):
         return {'product_id': self.kwargs['product_pk']}
 
 
-class CartViewSet(CreateModelMixin, GenericViewSet):
-    queryset = Cart.objects.all()
+class CartViewSet(CreateModelMixin, GenericViewSet, RetrieveModelMixin):
+    queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializers
