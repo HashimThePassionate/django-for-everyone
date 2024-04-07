@@ -125,6 +125,7 @@ You can go check all the functions
 }
 80.0.2 Updating Objects
 80.0.3 Deleting Objects
+https://www.httpstatus.com.br/ 
 80.1 Building Collections API
 80.2 Class Based Views
 80.3 Shortcuts Key
