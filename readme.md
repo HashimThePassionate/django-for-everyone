@@ -305,7 +305,7 @@ Code
 ### Install debug toolbar
 command
 ```bash
-pip install django-debug-toolbar==4.2.0
+pipenv install django-debug-toolbar==4.2.0
 ```
 See the installing process
 <pre>
