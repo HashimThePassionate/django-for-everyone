@@ -29,7 +29,7 @@ C:\Users\DELL\.virtualenvs\python-4lbLKKMx\bin\activate
 ### install django
 Enter this command
 ```
-pip install django
+pipenv install django
 ```
 See the installing process
 <pre>
@@ -66,7 +66,7 @@ tzdata   2023.4
 
 Enter this Command
 ```bash
-pip install mysqlclient
+pipenv install mysqlclient
 ```
 See the installing process
 <pre>
