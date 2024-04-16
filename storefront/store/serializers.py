@@ -77,7 +77,7 @@ class CartSerializers(serializers.ModelSerializer):
         fields = ['id', 'items', 'total_price']
 
 
-class AddCartitemSerializer(serializers.ModelSerializer):
+class AddCartItemSerializer(serializers.ModelSerializer):
     product_id = serializers.IntegerField()
 
     def validate_product_id(self, value):
@@ -105,3 +105,9 @@ class AddCartitemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarItem
         fields = ['id', 'product_id', 'quantity']
+
+
+class UpdateCartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarItem
+        fields = ['quantity']

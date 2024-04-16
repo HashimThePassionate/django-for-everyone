@@ -150,3 +150,4 @@ https://github.com/alanjds/drf-nested-routers
 94. Deleting a cart
 95. Getting Cart items
 96. Adding a Cart item
+97. Updating a Cart item
