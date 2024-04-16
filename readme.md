@@ -1,5 +1,4 @@
-# Wellcome to Django-for-absolute-biginners repositry
-In this repostry,  we learn to make website without  virtualenv
+# Wellcome to Django-for-absolute-biginners
 
 # To use this repo please clone first
 ```
