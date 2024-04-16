@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 # from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Orderitem, Order, Customer, Promotion, User, Collection, Review, Cart
+from store.models import Product, Orderitem, Order, Customer, Promotion, User, Collection, Review, Cart, CarItem
 from django.db.models import Q, F, Value, Func, Count, Sum, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
 from django.db.models import Max, Min, Avg, Count, Sum
@@ -19,7 +19,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
-from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers, CartSerializers
+from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers, CartSerializers, CartItemSerializers
 from django_filters.rest_framework import DjangoFilterBackend
 
 
@@ -392,3 +392,10 @@ class ReviewViewSet(ModelViewSet):
 class CartViewSet(CreateModelMixin, GenericViewSet, RetrieveModelMixin, DestroyModelMixin):
     queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializers
+
+
+class CartItemViewSet(ModelViewSet):
+    serializer_class = CartItemSerializers
+
+    def get_queryset(self):
+        return CarItem.objects.select_related('product').filter(cart_id=self.kwargs['cart_pk'])
