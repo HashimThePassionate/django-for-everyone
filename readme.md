@@ -158,7 +158,7 @@ storefront
  
  ## Step-8
 ### Install apps in project
-- Open project folder (storefront) and settings.py file.
+- Open project folder (storefront) and go to settings.py file.
 - Go to INSTALLED_APPS
 <pre>
 INSTALLED_APPS = [
@@ -184,14 +184,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store',
-    'tags',
+    <span style="color🟢">'store'</span>, 
+    <span style="color🟢">'tags'</span>,
 ]
 </pre>
  - The 'store', and 'tags', are installed.
 
 ## Step-9  
-### Create templatesfolder inside and inside index.html
+### Create templates folder in root of storefront and inside  templates create index.html
 See folder;
 <pre>
 storefront
@@ -211,7 +211,7 @@ storefront
 </pre>
 
 ## Step-10
-### Write code in setting.py
+### Write code in settings.py
 - Go to TEMPLATES.
 <pre>
 TEMPLATES = [
@@ -239,8 +239,8 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 See again 
 <pre>
-import os
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+<span style="color🟢">import os</span>
+<span style="color🟢">TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')</span>
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -322,7 +322,7 @@ Successfully installed django-debug-toolbar-4.2.0
 See the processing
 
 ## Step-15
-#### Processing/Setting 
+#### Processing/Settings.py module
 **1. Install the App**
 Inside this code
 <pre>
@@ -335,7 +335,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'tags',
-    
 ]
 </pre>
 
@@ -354,7 +353,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'tags',
-    'debug_toolbar',
+    <span style="color🟢">'debug_toolbar'</span>,
 ]
 </pre>
 
@@ -379,7 +378,7 @@ from django.urls import path, include
 from store import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-  path("__debug__/", include("debug_toolbar.urls")),
+    <span style="color🟢">path("__debug__/", include("debug_toolbar.urls"))</span>,
 ]
 </pre>
 
@@ -406,7 +405,7 @@ In this code add this
 See this
 <pre>
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    <span style="color🟢">'debug_toolbar.middleware.DebugToolbarMiddleware'</span>,
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
