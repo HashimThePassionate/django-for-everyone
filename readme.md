@@ -184,13 +184,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-</pre>
-  ```
-    <span style="color:green;">'store'</span>, 
-    <span style="color:green;">'tags'</span>,
-  ```
-<pre>
-]
+    'store',
+    'tags',
+  ]
 </pre>
 
  - The 'store', and 'tags', are installed.
@@ -244,8 +240,8 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 See again 
 <pre>
-<span style="color🟢">import os</span>
-<span style="color🟢">TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')</span>
+import os
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -358,7 +354,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'tags',
-    <span style="color🟢">'debug_toolbar'</span>,
+    'debug_toolbar',
 ]
 </pre>
 
@@ -383,7 +379,7 @@ from django.urls import path, include
 from store import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    <span style="color🟢">path("__debug__/", include("debug_toolbar.urls"))</span>,
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 </pre>
 
@@ -410,7 +406,7 @@ In this code add this
 See this
 <pre>
 MIDDLEWARE = [
-    <span style="color🟢">'debug_toolbar.middleware.DebugToolbarMiddleware'</span>,
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
