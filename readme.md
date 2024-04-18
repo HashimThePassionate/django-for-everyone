@@ -184,8 +184,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    ```
     <span style="color:green;">'store'</span>, 
     <span style="color:green;">'tags'</span>,
+  ```
 ]
 </pre>
  - The 'store', and 'tags', are installed.
