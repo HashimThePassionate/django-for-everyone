@@ -154,3 +154,4 @@ https://github.com/alanjds/drf-nested-routers
 98. Extending a user model in authentication
 99. Creating New profiles
 100. Groups and Permissions
+100. Creating Custom and Permissions

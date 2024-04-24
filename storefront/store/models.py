@@ -98,6 +98,9 @@ class Order(models.Model):
 
     class Meta:
         ordering = ['id']
+        permissions = [
+            ('cancel_order','Can cancel order')
+        ]
 
 
 class Address(models.Model):
