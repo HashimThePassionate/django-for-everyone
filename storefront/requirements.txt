@@ -1,6 +1,9 @@
-asgiref==3.7.2
-Django==5.0.1
-django-debug-toolbar==4.2.0
-mysqlclient==2.2.1
-sqlparse==0.4.4
-tzdata==2023.4
+asgiref==3.8.1
+Django==5.0.4
+django-debug-toolbar==4.3.0
+django-filter==24.2
+djangorestframework==3.15.1
+drf-nested-routers==0.93.5
+mysqlclient==2.2.4
+sqlparse==0.5.0
+tzdata==2024.1

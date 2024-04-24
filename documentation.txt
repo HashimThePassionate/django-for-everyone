@@ -152,3 +152,4 @@ https://github.com/alanjds/drf-nested-routers
 96. Adding a Cart item
 97. Updating a Cart item and Deleting a cart item
 98. Extending a user model in authentication
+99. Creating New profiles

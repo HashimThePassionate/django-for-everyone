@@ -66,24 +66,25 @@ class ProductAdmin(admin.ModelAdmin):
         )
 
 
-class CustomerAdminForm(forms.ModelForm):
-    class Meta:
-        model = Customer
-        fields = '__all__'
+# class CustomerAdminForm(forms.ModelForm):
+#     class Meta:
+#         model = Customer
+#         fields = '__all__'
 
-    email = forms.EmailField(
-        validators=[RegexValidator(
-            regex='@', message='please use @ in your field')]
-    )
+#     email = forms.EmailField(
+#         validators=[RegexValidator(
+#             regex='@', message='please use @ in your field')]
+#     )
 
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    form = CustomerAdminForm
+    # form = CustomerAdminForm
     list_display = ['first_name', 'last_name', 'membership', 'orders']
     list_editable = ['membership']
     list_per_page = 10
-    ordering = ['first_name', 'last_name']
+    ordering = ['user__first_name', 'user__last_name']
+    list_select_related = ['user']
     search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
     def orders(self, Order):
