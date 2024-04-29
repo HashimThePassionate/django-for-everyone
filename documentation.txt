@@ -155,3 +155,47 @@ https://github.com/alanjds/drf-nested-routers
 99. Creating New profiles
 100. Groups and Permissions
 100. Creating Custom and Permissions
+------------------------------------------
+Token Base Authentication
+101. Adding the Authentication base endpoints
+Djoser For Restful Authentication
+https://djoser.readthedocs.io/en/latest/getting_started.html
+Steps to install
+1. pipenv install djoser
+2. add djoser on INSTALLED_APPS under djangorestframework like this
+---
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'debug_toolbar',
+    'django_filters',
+    'rest_framework',
+    'djoser',
+    'store',
+    'tags',
+    'core',
+]
+---
+4. Add this to urls.py
+path('auth/', include('djoser.urls')),
+5. pipenv install djangorestframework_simplejwt
+6. recreate requirements.txt
+pip freeze > requirements.txt
+7. Add this to rest_framework Setting in settings module
+---
+'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+---
+8. Also add this to settings module
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+}
+9. Also add this to main urls module
+---
+path('auth/', include('djoser.urls.jwt')),
+---
