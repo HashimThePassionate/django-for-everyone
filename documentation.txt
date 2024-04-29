@@ -199,3 +199,5 @@ SIMPLE_JWT = {
 ---
 path('auth/', include('djoser.urls.jwt')),
 ---
+102. Registering Users
+1. Customizing Djoser Serializer
