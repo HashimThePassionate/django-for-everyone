@@ -18,8 +18,8 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
-from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers, CartSerializers, CartItemSerializers, AddCartItemSerializer, UpdateCartItemSerializer
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
+from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers, CartSerializers, CartItemSerializers, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
 
@@ -395,8 +395,9 @@ class CartViewSet(CreateModelMixin, GenericViewSet, RetrieveModelMixin, DestroyM
 
 
 class CartItemViewSet(ModelViewSet):
-    http_method_names = ['get','post','patch','delete']
+    http_method_names = ['get', 'post', 'patch', 'delete']
     # serializer_class = CartItemSerializers
+
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddCartItemSerializer
@@ -409,3 +410,8 @@ class CartItemViewSet(ModelViewSet):
 
     def get_queryset(self):
         return CarItem.objects.select_related('product').filter(cart_id=self.kwargs['cart_pk'])
+
+
+class CustomerViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
