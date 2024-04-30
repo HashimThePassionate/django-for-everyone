@@ -2,3 +2,5 @@
 .vscode/
 .Pipfile
 .Pipfile.lock
+__pycache__/
+migrations/
