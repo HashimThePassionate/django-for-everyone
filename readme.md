@@ -2,7 +2,7 @@
 
 # To use this repo please clone first
 ```
-https://github.com/HashimThePassionate/django-for-absolute-beginners.git
+https://github.com/HashimThePassionate/ultimate-django-for-everyone.git
 ```
 ## Installing Virtual Environment with pipenv
 ```
