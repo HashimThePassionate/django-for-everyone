@@ -215,3 +215,4 @@ SIMPLE_JWT = {
 }
 105. Inspecting a json web token
 https://jwt.io/
+106. Refresh token to get a new access token
