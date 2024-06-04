@@ -131,6 +131,7 @@ https://www.httpstatus.com.br/
 80.3 Shortcuts Key
 ctrl + t
 ctrl + shift + o 
+ctrl + p
 80.4 Mixins in Generic Views
 81. ViewSet
 82. Routers
@@ -202,3 +203,13 @@ path('auth/', include('djoser.urls.jwt')),
 102. Registering Users
 1. Customizing Djoser Serializer
 103. Building The Profile API
+104. Logging 
+```
+http://127.0.0.1:8000/auth/jwt/create
+```
+for customizing token 
+open settings.py file
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+}
