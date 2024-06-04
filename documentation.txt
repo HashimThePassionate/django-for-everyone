@@ -213,3 +213,5 @@ from datetime import timedelta
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
 }
+105. Inspecting a json web token
+https://jwt.io/
