@@ -18,6 +18,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.decorators import action
 from store.serializers import ProductSerializer, CollectionSerializer, ReviewSerializers, CartSerializers, CartItemSerializers, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer
@@ -416,18 +417,22 @@ class CartItemViewSet(ModelViewSet):
 class CustomerViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    @action(detail=False,methods=['GET','PUT'])
-    def me(self,request):
-        (customer,created) = Customer.objects.get_or_create(user_id=request.user.id)
+    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return [IsAuthenticated()]
+
+    @action(detail=False, methods=['GET', 'PUT'])
+    def me(self, request):
+        (customer, created) = Customer.objects.get_or_create(
+            user_id=request.user.id)
         if request.method == 'GET':
             serialzer = CustomerSerializer(customer)
             return Response(serialzer.data)
         elif request.method == 'PUT':
-            serialzer = CustomerSerializer(customer,data=request.data)
+            serialzer = CustomerSerializer(customer, data=request.data)
             serialzer.is_valid(raise_exception=True)
             serialzer.save()
             return Response(serialzer.data)
-
-
-
-
