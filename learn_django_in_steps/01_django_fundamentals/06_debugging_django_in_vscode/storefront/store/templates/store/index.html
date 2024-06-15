@@ -1,0 +1,23 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Hello, {{ name }}!</h1>
+        <p>Welcome to our Django tutorial.</p>
+        <ul>
+            {% for item in items %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>
