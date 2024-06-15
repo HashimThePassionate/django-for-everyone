@@ -21,7 +21,7 @@ A view is called a request handler because it handles the incoming HTTP request,
 User Request --> URL Mapping --> View --> Response
 ```
 
-![Django View Workflow](https://raw.githubusercontent.com/django/django/main/docs/ref/class-based-views/assets/generic-views.png)
+![Django View Workflow](./storefront/views_urls_maps.webp)
 
 ### Creating a View
 
