@@ -28,20 +28,20 @@ The first step in every Django project is figuring out the pieces of data we wan
 
 Below is a graphical representation of the data model using CLI-style ASCII art:
 
-```text
-+-----------------+         1       *       +----------------+
-|   Collection    |------------------------>|    Product     |
-|-----------------|                         |----------------|
-| - title         |                         | - title        |
-| - featured_product                         | - description  |
-+-----------------+                         | - price        |
-                                            | - inventory    |
-                                            | - collection   |
-                                            +----------------+
+<pre>
++--------------------+         1       *       +-------------------+
+|   Collection       |------------------------>|    Product        |
+|--------------------|                         |-------------------|
+| - title            |                         | - title           |
+| - featured_product |                         | - description     |
++--------------------+                         | - price           |
+                                               | - inventory       |
+                                               | - collection      |
+                                               +-------------------+
 
                                  0..1
 Collection --(featured_product)-----------------> Product
-```
+</pre>
 
 ### Explanation
 

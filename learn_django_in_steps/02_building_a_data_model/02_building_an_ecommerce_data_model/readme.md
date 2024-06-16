@@ -36,7 +36,7 @@ In this lesson, we explore more complex relationships in our Django models. Buil
 
 Below is a graphical representation of the data model using CLI-style ASCII art:
 
-```text
+<pre>
 +-----------------+         *       *       +----------------+
 |   Collection    |------------------------>|    Product     |
 |-----------------|                         |----------------|
@@ -88,6 +88,6 @@ Below is a graphical representation of the data model using CLI-style ASCII art:
                                             | - price        |
                                             | - inventory    |
                                             +----------------+
-```
+</pre>
 
 

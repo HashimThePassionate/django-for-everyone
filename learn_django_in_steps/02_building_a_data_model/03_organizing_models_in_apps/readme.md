@@ -11,8 +11,7 @@ There are a few different ways to organize apps in a Django project:
 One way is to have a single app called `store` and place all models and functionality within it. While this method allows anyone to install the app and get all models and functionality, it has its drawbacks:
 
 - **Monolithic Design**: This approach can lead to a monolithic structure, making the application hard to understand, maintain, and use. It becomes like a remote control with too many buttons.
-
-```text
+<pre>
       +-----------------+
       |      STORE      |
       +-----------------+
@@ -24,7 +23,7 @@ One way is to have a single app called `store` and place all models and function
       |    OrderItem    |
       |    Customer     |
       +-----------------+
-```
+</pre>
 
 ### Unix Philosophy
 
@@ -43,7 +42,7 @@ By organizing apps this way, each app is self-contained, making it easy to drop 
 
 - **Dependency Management**: If a new version of the products app is released, it might cause breaking changes in the shopping cart and orders apps. Users have to upgrade all these apps together.
 
-```text
+<pre>
       +-----------------+         +-----------------+         +-----------------+         +-----------------+
       |    PRODUCTS     |         |    CUSTOMERS    |         |      CARTS      |         |     ORDERS      |
       +-----------------+         +-----------------+         +-----------------+         +-----------------+
@@ -51,7 +50,7 @@ By organizing apps this way, each app is self-contained, making it easy to drop 
       |    Collection   |         |                 |         |    CartItem     |         |   OrderItem     |
       |      Tag        |         |                 |         |                 |         |                 |
       +-----------------+         +-----------------+         +-----------------+         +-----------------+
-```
+</pre>
 
 ### Balanced Approach
 
@@ -64,7 +63,7 @@ The ideal approach balances between monolithic and highly fragmented structures.
 
 A good design has minimal coupling and high cohesion, meaning each app includes everything needed for its functionality.
 
-```text
+<pre>
       +-----------------+                 +-----------------+
       |      STORE      |                 |      TAGS       |
       +-----------------+                 +-----------------+
@@ -76,7 +75,7 @@ A good design has minimal coupling and high cohesion, meaning each app includes 
       |      Order      |
       |   OrderItem     |
       +-----------------+
-```
+</pre>
 
 ## Next Steps
 
