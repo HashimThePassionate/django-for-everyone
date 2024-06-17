@@ -10,17 +10,18 @@ A circular dependency occurs when two classes depend on each other simultaneousl
 +----------------+   				+----------------+  
 |    Product     |   				|   Collection   |
 +----------------+ 		     		+----------------+ 
-| title          | * ---------- 1   |     title      |
-| description    | products			|                |
-| price          |					|                |
-| inventory      |					|                |
-+----------------+-	 0--1 			+----------------+	
-                    -        		                 -
-						-						-
-							-				-	
-								-		-		
-									-
-					featured_product
+| title          | 	* ---------- 1   	|     title      |
+| description    | 	   products		|                |
+| price          |				|                |
+| inventory      |				|                |
++----------------+  0 ------------------- 1 	+----------------+	
+                    -        		                 	-
+			-				      -
+			    -				   -
+			        -			-
+				     -	 	   -
+					-     -
+				   featured_product
 ```
 
 ## Handling Circular Dependency
