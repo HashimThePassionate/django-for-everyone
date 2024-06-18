@@ -42,12 +42,13 @@ Django uses migrations to create or update database tables based on the models d
 
 2. **Running Migrations**: 
    - Run `python manage.py migrate` to apply migrations and update the database schema.
+3. **See Specific migrations** if you want to see specific sql migrations then use this `python manage.py sqlmigrate store 0001`
 
-3. **Understanding Migration Files**:
+4. **Understanding Migration Files**:
    - Migration files are Python modules with a sequence number and a series of operations.
    - Example operation: Creating a model with fields.
 
-4. **Example Migration File**:
+5. **Example Migration File**:
    ```python
    from django.db import migrations, models
 
@@ -69,10 +70,10 @@ Django uses migrations to create or update database tables based on the models d
        ]
    ```
 
-5. **Renaming Fields**:
+6. **Renaming Fields**:
    - To rename a field in a model, create a new migration.
    - Example: Renaming `price` to `unit_price` in the `Product` model.
 
-6. **Adding New Fields**:
+7. **Adding New Fields**:
    - To add a new field, update the model and run `makemigrations`.
    - Example: Adding a `slug` field to the `Product` model.
