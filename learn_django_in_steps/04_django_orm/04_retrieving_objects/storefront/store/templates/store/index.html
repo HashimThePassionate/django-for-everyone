@@ -1,0 +1,79 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+    {% if product %}
+    <h1 class="mb-4">Product Lists List</h1>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th>Last Update</th>
+                <th>Collection</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in product %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.title }}</td>
+                <td>{{ p.description }}</td>
+                <td>{{ p.price }}</td>
+                <td>{{ p.inventory }}</td>
+                <td>{{ p.last_update }}</td>
+                <td>{{ p.collection_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h1 class="mb-4">Product Not Exists</h1>
+    {% endif %}
+    </div>
+<div class="container">
+    <h1 class="mb-4">Single Product</h1>
+    {% if sp %}
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th>Last Update</th>
+                <th>Collection</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ sp.id }}</td>
+                <td>{{ sp.title }}</td>
+                <td>{{ sp.description }}</td>
+                <td>{{ sp.price }}</td>
+                <td>{{ sp.inventory }}</td>
+                <td>{{ sp.last_update }}</td>
+                <td>{{ sp.collection_id }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <h1 class="mb-4">No Single Data</h1>
+    {% endif %}
+</div>
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>
