@@ -1,0 +1,56 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+    {% if products %}
+    <h1 class="mb-4">Product List</h1>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th>Last Update</th>
+                <th>Collection</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in products %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.title }}</td>
+                <td>{{ p.description }}</td>
+                <td>{{ p.price }}</td>
+                <td>{{ p.inventory }}</td>
+                <td>{{ p.last_update }}</td>
+                <td>{{ p.collection_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="mt-3">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">Next</a>
+        {% endif %}
+    </div>
+    {% else %}
+    <h1 class="mb-4">No Products Available</h1>
+    {% endif %}
+    </div>
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>
