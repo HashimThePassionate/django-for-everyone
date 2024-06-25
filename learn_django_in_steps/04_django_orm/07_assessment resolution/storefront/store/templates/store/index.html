@@ -1,0 +1,132 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Filtering Exercises Results</h1>
+        
+        <h2>1. Customers with .com accounts</h2>
+        {% if com_customers %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in com_customers %}
+                <tr>
+                    <td>{{ customer.first_name }}</td>
+                    <td>{{ customer.last_name }}</td>
+                    <td>{{ customer.email }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No customers found.</p>
+        {% endif %}
+
+        <h2>2. Collections that don’t have a featured product</h2>
+        {% if collections_without_featured_product %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for collection in collections_without_featured_product %}
+                <tr>
+                    <td>{{ collection.title }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No collections found.</p>
+        {% endif %}
+
+        <h2>3. Products with low inventory (less than 10)</h2>
+        {% if low_inventory_products %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Inventory</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in low_inventory_products %}
+                <tr>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.inventory }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No products found.</p>
+        {% endif %}
+
+        <h2>4. Orders placed by customer with id = 1</h2>
+        {% if customer_orders %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Placed At</th>
+                    <th>Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in customer_orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.placed_at }}</td>
+                    <td>{{ order.get_payment_status_display }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No orders found.</p>
+        {% endif %}
+
+        <h2>5. Order items for products in collection 3</h2>
+        {% if order_items_for_collection %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_item in order_items_for_collection %}
+                <tr>
+                    <td>{{ order_item.order.id }}</td>
+                    <td>{{ order_item.product.title }}</td>
+                    <td>{{ order_item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No order items found.</p>
+        {% endif %}
+    </div>
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>
