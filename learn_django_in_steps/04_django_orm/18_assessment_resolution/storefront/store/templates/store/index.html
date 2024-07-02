@@ -1,0 +1,44 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <!-- store/templates/store/index.html -->
+    <div class="container mt-5">
+      {% if orders %}
+      <h1 class="mb-4">Order List</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Customer ID</th>
+            <th>First Name</th>
+            <th>Product ID</th>
+            <th>Product Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %} {% for item in order.orderitem_set.all %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.customer.id }}</td>
+            <td>{{ order.customer.first_name }}</td>
+            <td>{{ item.product.id }}</td>
+            <td>{{ item.product.title }}</td>
+          </tr>
+          {% endfor %} {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No Orders Detail</h1>
+      {% endif %}
+    </div>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+  </body>
+</html>
