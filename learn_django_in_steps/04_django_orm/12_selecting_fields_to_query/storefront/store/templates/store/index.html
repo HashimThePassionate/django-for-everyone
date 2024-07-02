@@ -1,0 +1,63 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      {% if products %}
+      <h1 class="mb-4">Product List</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>id</th>
+            <th>Title</th>
+            <th>Collection</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in products %}
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.title }}</td>
+            <td>{{ p.collection__title }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No Products Available</h1>
+      {% endif %}
+    </div>
+
+    {% comment %} Producct as dictionary {% endcomment %}
+    {% if products %}
+    <div class="container">
+    <h1 class="mb-4 mt-5">Products as Dictionaries</h1>
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Product Dictionary</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+        <tr>
+          <td>{{ p }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <h1 class="mb-4">No Products Available</h1>
+    {% endif %}
+  </div>
+</div>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+  </body>
+</html>
