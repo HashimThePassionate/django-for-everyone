@@ -1,0 +1,72 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <!-- store/templates/store/index.html -->
+    {% if result1 %}
+    <div class="container mt-5">
+      <h1 class="mb-4">How many units of Products 1 sold?</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Sold</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ result1.total_units_sold}}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    {% if result2 %}
+    <div class="container mt-5">
+      <h1 class="mb-4">How many orders has Customer 1 placed?</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Total Customer 1 orders</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ result2.total_orders}}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    {% if result3 %}
+    <div class="container mt-5">
+      <h1 class="mb-4">
+        What is the min, max and avg price of products in collectinn 3
+      </h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Min Price</th>
+            <th>Max Price</th>
+            <th>Avg Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ result3.min_price}}</td>
+            <td>{{ result3.max_price}}</td>
+            <td>{{ result3.avg_price}}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+  </body>
+</html>
