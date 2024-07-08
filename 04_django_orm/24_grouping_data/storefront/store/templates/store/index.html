@@ -1,0 +1,48 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <!-- store/templates/store/index.html -->
+    <div class="container mt-5">
+      {% if customer %}
+      <h1 class="mb-4">Order List</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Membership</th>
+            <th>Order Numbers</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in customer %}
+          <tr>
+            <td>{{c.id}}</td>
+            <td>{{c.full_name}}</td>
+            <td>{{c.first_name}}</td>
+            <td>{{c.last_name}}</td>
+            <td>{{c.email}}</td>
+            <td>{{c.membership}}</td>
+            <td>{{c.order_counts}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No Customers Detail</h1>
+      {% endif %}
+    </div>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+  </body>
+</html>
