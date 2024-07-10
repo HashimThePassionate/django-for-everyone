@@ -1,0 +1,42 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <!-- store/templates/store/index.html -->
+    <div class="container mt-5">
+      {% if product %}
+      <h1 class="mb-4">Product List with special discounts</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Discounted Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in product %}
+          <tr>
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>{{p.discounted_price|floatformat:2}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No Products Detail</h1>
+      {% endif %}
+    </div>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+  </body>
+</html>
