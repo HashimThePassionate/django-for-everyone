@@ -1,0 +1,146 @@
+<!-- store/templates/store/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Template Example</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <!-- store/templates/store/index.html -->
+    <div class="container mt-5">
+      {% if customer %}
+      <h1 class="mb-4">Customers with their Last Order ID</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Order Id</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in customer %}
+          <tr>
+            <td>{{c.id}}</td>
+            <td>{{c.first_name}}</td>
+            <td>{{c.last_order_id}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No customers Detail</h1>
+      {% endif %}
+    </div>
+
+    <div class="container mt-5">
+      {% if collection %}
+      <h1 class="mb-4">Collections and Count of their Products</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Product Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in collection %}
+          <tr>
+            <td>{{c.id}}</td>
+            <td>{{c.title}}</td>
+            <td>{{c.product_count}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No Collections of Products found</h1>
+      {% endif %}
+    </div>
+
+    <div class="container mt-5">
+      {% if customer_more%}
+      <h1 class="mb-4">Customers with More than 5 Orders</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Order Id</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in customer_more %}
+          <tr>
+            <td>{{c.id}}</td>
+            <td>{{c.first_name}}</td>
+            <td>{{c.order_count}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No customer_more Detail</h1>
+      {% endif %}
+    </div>
+
+    <div class="container mt-5">
+      {% if customer_spend %}
+      <h1 class="mb-4">Customers and the Total Amount They’ve Spent</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Total Spend</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in customer_spend %}
+          <tr>
+            <td>{{c.id}}</td>
+            <td>{{c.first_name}}</td>
+            <td>{{c.total_spent}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No Customer Spend Detail</h1>
+      {% endif %}
+    </div>
+
+    <div class="container mt-5">
+      {% if product %}
+      <h1 class="mb-4">Top 5 Best-Selling Products and Their Total Sale</h1>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Total Quantity Sold</th>
+            <th>Total Sales</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in product %}
+          <tr>
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.total_quantity}}</td>
+            <td>{{p.total_sale}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h1 class="mb-4">No Best Selling available</h1>
+      {% endif %}
+    </div>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+  </body>
+</html>
