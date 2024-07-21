@@ -1,0 +1,26 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %} {% block content %}
+<h2>Sign Up</h2>
+<form method="post">
+  {% csrf_token %} {{ form.non_field_errors }}
+  <div>
+    <label for="{{ form.username.id_for_label }}">Username</label>
+    {{ form.username }}
+    <div>{{ form.username.help_text }}</div>
+    {{ form.username.errors }}
+  </div>
+  <div>
+    <label for="{{ form.password1.id_for_label }}">Password</label>
+    {{ form.password1 }}
+    <div>{{ form.password1.help_text }}</div>
+    {{ form.password1.errors }}
+  </div>
+  <div>
+    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+    {{ form.password2 }}
+    <div>{{ form.password2.help_text }}</div>
+    {{ form.password2.errors }}
+  </div>
+  <button type="submit">Sign Up</button>
+</form>
+{% endblock content %}
