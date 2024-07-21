@@ -15,7 +15,7 @@ We will use this User object to implement log in, log out, and sign up in our bl
 
 ## Log In
 
-Django provides us with a default view for a log in page via [LoginView](https://docs.djangoproject.com/en/4.0/topics/auth/default/#django.contrib.auth.views.LoginView). All we need to add are a URL pattern for the auth system, a log in template, and a small update to our `django_project/settings.py` file.
+Django provides us with a default view for a log in page via [LoginView](https://docs.djangoproject.com/en/5.0/topics/auth/default/#django.contrib.auth.views.LoginView). All we need to add are a URL pattern for the auth system, a log in template, and a small update to our `django_project/settings.py` file.
 
 First, update the `django_project/urls.py` file. We’ll place our log in and log out pages at the `accounts/` URL. This is a one-line addition on the next-to-last line.
 
