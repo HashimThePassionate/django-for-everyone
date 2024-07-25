@@ -1,1 +1,1 @@
-# Django Projects
+# Learn Django For Beginners
