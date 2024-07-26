@@ -1,0 +1,17 @@
+<!-- templates/about.html -->
+{% extends "base.html" %}
+{% block content %}
+<h1>Company About Page</h1>
+<p>The company address is {{ contact_address }} and the phone number is
+{{ phone_number }}.</p>
+{% endblock %}
+
+<!-- templates/about.html -->
+{% comment %}
+<h1>Company About Page</h1>
+{% endcomment %}
+<!-- templates/about.html -->
+{% comment %} <h1>Company About Page</h1>
+<p>
+  The company address is {{ address }} </br>  and the phone number is {{ phone_number}}.
+</p> {% endcomment %}

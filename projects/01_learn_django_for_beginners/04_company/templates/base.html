@@ -1,0 +1,13 @@
+<!-- templates/base.html -->
+{% comment %}
+<header>
+  <a href="/">Home</a> |
+  <a href="/about">About</a>
+</header>
+{% block content %}{% endblock %} {% endcomment %}
+
+<header>
+  <a href="{% url 'home' %}">Home</a> |
+  <a href="{% url 'about' %}">About</a>
+</header>
+{% block content %}{% endblock %}
