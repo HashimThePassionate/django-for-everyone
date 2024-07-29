@@ -558,7 +558,7 @@ This pattern for accessing a list of information from the database or a single i
 
 With our view created, the next two steps are adding a URL route and a template. In the `blog/urls.py` file, import the new view, `post_detail`, and add a URL route at `post/<int:pk>/`.
 
-This pattern will look a bit strange initially as it is our first use of a Django path converter. Up to this point, we have hardcoded our URL routes, but it is more common to use variables. In this case, we specify that individual posts will start at `post/`, but then we use `int` to specify that the captured value from the URL should be treated as an integer and the variable’s name passed to the view is `pk`. The second argument is the view name, `post_detail`, and we add the optional third argument of a name that is also `post_detail`.
+This pattern will look a bit strange initially as it is our first use of a Django [path converter](https://docs.djangoproject.com/en/5.0/topics/http/urls/#path-converters). Up to this point, we have hardcoded our URL routes, but it is more common to use variables. In this case, we specify that individual posts will start at `post/`, but then we use `int` to specify that the captured value from the URL should be treated as an integer and the variable’s name passed to the view is `pk`. The second argument is the view name, `post_detail`, and we add the optional third argument of a name that is also `post_detail`.
 
 ```python
 # blog/urls.py
@@ -641,7 +641,7 @@ class Post(models.Model):
         return reverse("post_detail", kwargs={"pk": self.pk})
 ```
 
-At the top, we import `reverse()`, a utility function for our URLs. Then, we define `get_absolute_url` using `self` as the first parameter referring to the model instance on which the method is called. This is a standard practice in Python for instance methods. The `reverse()` function accepts the URL name and keyword arguments or “kwargs.” In this case, we are setting the variable `pk` to equal the primary key of our model instance.
+At the top, we import [`reverse()`](https://docs.djangoproject.com/en/5.0/ref/urlresolvers/#django.urls.reverse), a utility function for our URLs. Then, we define `get_absolute_url` using `self` as the first parameter referring to the model instance on which the method is called. This is a standard practice in Python for instance methods. The `reverse()` function accepts the URL name and keyword arguments or “kwargs.” In this case, we are setting the variable `pk` to equal the primary key of our model instance.
 
 We don’t need to update the migrations files because we aren’t changing the database schema here. Migrations are only required when changes to the model affect the database schema, such as adding or removing fields, changing field types, or modifying relationships between models.
 
