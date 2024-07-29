@@ -840,4 +840,4 @@ git commit -m "initial commit"
 
 We’ve now built a basic blog application from scratch! We can create, edit, or delete the content using the Django admin, which will display a list of all posts on the homepage and individual pages for each post. We looked at static files for the first time and added some styling with CSS. We also learned about the best practice of using `get_absolute_url` in our templates and made substantial progress on our test suite.
 
-In the next section, we’ll switch to generic class-based views and add forms to create, update, and delete blog posts so we don’t have to use the Django admin for these changes.
+In the next section, we’ll switch to generic class-based views and add forms to create, update, and delete blog posts so we don’t have to use the Django admin for these changes..
