@@ -1,0 +1,12 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+{% block content %}
+{% for post in posts %}
+<div class="post-entry">
+{% comment %} <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2> {% endcomment %}
+<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2> <!-- new -->
+<p>Author: {{ post.author }}</a>
+<p>{{ post.body }}</p>
+</div>
+{% endfor %}
+{% endblock content %}
