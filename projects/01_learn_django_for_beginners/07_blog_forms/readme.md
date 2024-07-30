@@ -1,6 +1,6 @@
 # Blog Application with Forms
 
-In this section, we’ll continue working on our Blog application by switching to class-based views and adding forms so a user can create, edit, or delete any of their blog entries. HTML forms are one of the more complicated and error-prone aspects of web development. Any time you accept user input, there are significant security concerns since users are uploading information to your database. All forms must be properly rendered, validated, and saved to the database. Writing this code by hand would be time-consuming and complex, so Django comes with powerful built-in forms and generic editing views for common tasks like displaying, creating, updating, or deleting a form.
+In this section, we’ll continue working on our Blog application by switching to class-based views and adding forms so a user can create, edit, or delete any of their blog entries. HTML forms are one of the more complicated and error-prone aspects of web development. Any time you accept user input, there are significant security concerns since users are uploading information to your database. All forms must be properly rendered, validated, and saved to the database. Writing this code by hand would be time-consuming and complex, so Django comes with powerful built-in [forms](https://docs.djangoproject.com/en/5.0/topics/forms/) and [generic editing views](https://docs.djangoproject.com/en/5.0/ref/class-based-views/generic-editing/) for common tasks like displaying, creating, updating, or deleting a form.
 
 ## ListView and DetailView
 
