@@ -1,21 +1,14 @@
 # blog/views.py
-from django.shortcuts import render, get_object_or_404  # new,
-from django.http import Http404
+from django.views.generic import ListView, DetailView
 from .models import Post
 
 
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'home.html', {'posts': posts})
+class BlogListView(ListView):
+    model = Post
+    template_name = "home.html"
+    # context_object_name = 'posts'
 
 
-def post_detail(request, pk):  # new
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, "post_detail.html", {"post": post})
-# def post_detail(request, pk):
-#     try:
-#         post = get_object_or_404(Post, pk=pk)
-#     except Http404:
-#         return render(request, "post_not_found.html", {"message": f"No post available with the primary key {pk}"})
-
-#     return render(request, "post_detail.html", {"post": post})
+class BlogDetailView(DetailView):
+    model = Post
+    template_name = "post_detail.html"
