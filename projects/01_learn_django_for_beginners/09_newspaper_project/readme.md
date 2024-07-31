@@ -23,7 +23,6 @@ $ mkdir news
 $ cd news
 $ python3 -m venv .venv
 $ source .venv/bin/activate
-$
 ```
 
 Next, install Django and Black, create a new Django project called `django_project`, and make a new app called `accounts`.
