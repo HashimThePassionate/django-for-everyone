@@ -112,7 +112,7 @@ If you were paying close attention, you noticed that the `context_object_name` a
 
 A mixin is a type of multiple inheritance where you can add specific functionality to a class by including additional classes. Mixins are used in class-based views (CBVs) and generic class-based views (GCBVs) to add reusable behaviors or functionality without duplicating code. But you need to know what you’re doing to use them effectively.
 
-Covering Django mixins fully is beyond the scope of a beginner section, but it is worth briefly explaining how the inheritance structure works. To do this, we will rely on Classy Class-Based Views, a website dedicated to describing the full methods and attributes for each Django GCBV. It is an invaluable resource if you decide to work with GCBVs. Looking at the entry for `ListView`, you can see its Ancestors listed at the top of the page. The hierarchy of classes used by `ListView` starts from the bottom.
+Covering Django mixins fully is beyond the scope of a beginner section, but it is worth briefly explaining how the inheritance structure works. To do this, we will rely on Classy [Class-Based Views](https://ccbv.co.uk/), a website dedicated to describing the full methods and attributes for each Django GCBV. It is an invaluable resource if you decide to work with GCBVs. Looking at the entry for `ListView`, you can see its Ancestors listed at the top of the page. The hierarchy of classes used by `ListView` starts from the bottom.
 
 1. `ListView`
 2. `MultipleObjectTemplateResponseMixin`
@@ -187,11 +187,50 @@ The only thing left is our template. Make a new template, `templates/post_new.ht
 Let’s break down what we’ve done:
 - On the top line, we extended our base template.
 - Use HTML `<form>` tags with the POST method since we’re sending data. If we were receiving data from a form, for example, in a search box, we would use GET.
-- Add a `{% csrf_token %}` which Django provides to protect our form from cross-site request forgery. You should use it for all your Django forms.
+- Add a [`{% csrf_token %}`](https://docs.djangoproject.com/en/5.0/ref/csrf/) which Django provides to protect our form from cross-site request forgery. You should use it for all your Django forms.
 - Then, to output our form data use `{{ form }}` to render the specified fields.
 - Finally, specify an input type of submit and assign the value “Save”.
 
 To view our work, start the server with `python manage.py runserver` and go to the create a new page at `http://127.0.0.1:8000/post/new`.
+
+### What is CSRF?
+
+**CSRF** stands for **Cross-Site Request Forgery**. It's a type of cyber attack. Let's break it down in simple words:
+
+#### Imagine This Scenario:
+
+1. **You are logged into your bank website**.
+2. **In another tab**, you open a different website (not related to your bank).
+3. The second website secretly sends a request to your bank website, making it look like the request is coming from you.
+4. **Since you are logged in**, the bank website trusts the request and processes it.
+
+### What Happens?
+
+- The attacker tricks your browser into sending unauthorized requests.
+- These requests can do things like transfer money without you knowing.
+
+### Why is it Dangerous?
+
+- The attacker can perform actions on your behalf without your permission.
+- It exploits the trust that a website has in your browser.
+
+### How Do Websites Protect Against CSRF?
+
+1. **CSRF Tokens**: Websites use special tokens (like secret codes) that are unique to your session. When you perform actions, the website checks for this token to make sure the request is legitimate.
+2. **SameSite Cookies**: Cookies are set to be used only on the site they are created on, preventing other sites from using them.
+
+### Simple Example
+
+- **Without Protection**: 
+  - You log in to your email.
+  - Visit a malicious website.
+  - The malicious site sends an email from your account without you knowing.
+
+- **With Protection**:
+  - You log in to your email.
+  - Visit a malicious website.
+  - The malicious site tries to send an email, but the request is rejected because it doesn't have the correct CSRF token.
+
 
 Try to create a new blog post and submit it by clicking the “Save” button.
 
