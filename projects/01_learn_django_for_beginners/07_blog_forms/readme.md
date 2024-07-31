@@ -523,12 +523,3 @@ With a small amount of code, we’ve built a blog application that allows for cr
 Note, however, a potential security concern: currently any user can update or delete blog entries, not just the creator! Fortunately, Django has built-in features to restrict access based on permissions, which we’ll cover later in the section.
 
 But for now, our blog application is working, and in the next section, we’ll add user accounts so users can sign up, log in, and log out of the web app.
-
-## .gitignore
-
-```text
-Pipfile
-Pipfile.lock
-db.sqlite3
-__pycache__
-```
