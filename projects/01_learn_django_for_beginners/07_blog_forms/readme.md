@@ -396,11 +396,11 @@ class BlogDeleteView(DeleteView):
     success_url = reverse_lazy("home")
 ```
 
-`DeleteView` requires a
-
- model, template name, and success URL. We have supplied all three here. Remember, after a blog post is deleted, we have to redirect the user somewhere. In this case, that is our homepage at the URL name of “home”.
+`DeleteView` requires a model, template name, and success URL. We have supplied all three here. Remember, after a blog post is deleted, we have to redirect the user somewhere. In this case, that is our homepage at the URL name of “home”.
 
 An astute reader might notice that both `CreateView` and `UpdateView` also have redirects yet we did not have to specify a `success_url`. Why is this? If available, Django, by default, will use the `get_absolute_url()` on the model object, a handy feature, but you would only know about it from reading a section like this or deeply reading the docs. More likely, with experience, you have used these GCBVs before and vaguely recall something about the redirect, consult the docs on model forms and then implement. There is no way to memorize everything you need to know as a Django developer; instead, with time, you’ll start to see the broad patterns and be able to look up the documentation for implementation details.
+
+The `reverse_lazy` function in Django's `DeleteView` is used to define the URL to redirect to after a successful deletion. Unlike `reverse`, which resolves URLs immediately, `reverse_lazy` delays this process until the URL is actually needed, ensuring the URL configuration is fully loaded. This makes it ideal for use in class-based views, where attributes like `success_url` are set at the time the module is imported. In your `BlogDeleteView`, `reverse_lazy("home")` ensures that after deleting a post, the user is redirected to the home page without any URL resolution issues.
 
 With our view complete, we can turn to the URL. It’s a similar pattern where we import the view, `BlogDeleteView`, set a URL path, specify the view, and include a URL name. A convention is to add `/delete/` to your URL path as we’ve done here.
 
