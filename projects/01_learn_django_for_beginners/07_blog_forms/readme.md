@@ -470,6 +470,7 @@ Update your existing `tests.py` file with new tests below `test_post_detailview`
 
 ```python
 # blog/tests.py
+# ... all previous tests as it is 
 def test_post_createview(self):
     response = self.client.post(
         reverse("post_new"),
