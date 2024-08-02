@@ -2,7 +2,11 @@
 {% block title %}Home{% endblock title %}
 {% block content %}
 {% if user.is_authenticated %}
-<p>Hi {{ user.username }}!</p>
+<p>
+    <!-- new code here! -->
+Hi {{ user.username }}! You are {{ user.age }} years old.
+<!-- end of new code -->
+</p>
 <form action="{% url 'logout' %}" method="post">
 {% csrf_token %}
 <button type="submit">Log Out</button>
