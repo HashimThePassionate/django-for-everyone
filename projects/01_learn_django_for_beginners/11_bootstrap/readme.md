@@ -185,7 +185,7 @@ Let’s add a navigation bar at the top of the page containing our links for the
 
  user is logged in.
 
-Again, it’s okay to copy/paste here since this section focuses on learning Django, not HTML, CSS, and Bootstrap. If there are any formatting issues, you can view the code  [GitHub repository](https://github.com/HashimThePassionate/) for reference.
+Again, it’s okay to copy/paste here since this section focuses on learning Django, not HTML, CSS, and Bootstrap. If there are any formatting issues, you can view the code  [GitHub repository](https://github.com/HashimThePassionate/ultimate-django-for-everyone/tree/main/projects/01_learn_django_for_beginners/11_bootstrap) for reference.
 
 ### Code
 
@@ -259,19 +259,13 @@ If you refresh the homepage at `http://127.0.0.1:8000/`, our new navbar has magi
 
 ### Logged-In Homepage with Bootstrap Nav
 
-![Homepage with Bootstrap Nav Logged In](https://via.placeholder.com/800x300?text=Homepage+with+Bootstrap+Nav+Logged+In)
-
 If you click “Log Out” in the dropdown, the navbar changes to button links for either “Log In” or “Sign Up,” and the “+ New” link disappears. There is no sense in letting logged-out users create articles.
 
 ### Logged-Out Homepage with Bootstrap Nav
 
-![Homepage with Bootstrap Nav Logged Out](https://via.placeholder.com/800x300?text=Homepage+with+Bootstrap+Nav+Logged+Out)
-
 If you click on the “Log In” button in the top nav, you can also see that our login page at `http://127.0.0.1:8000/accounts/login` looks better.
 
 ### Bootstrap Login Page
-
-![Bootstrap Login Page](https://via.placeholder.com/800x300?text=Bootstrap+Login+Page)
 
 The only thing that looks off is our gray “Log In” button. We can use Bootstrap to add some nice styling, such as making it green and inviting. Change the “button” line in the `templates/registration/login.html` file.
 
@@ -295,8 +289,6 @@ The only thing that looks off is our gray “Log In” button. We can use Bootst
 Now refresh the page to see our new button in action.
 
 ### Bootstrap Login with New Button
-
-![Bootstrap Login with New Button](https://via.placeholder.com/800x300?text=Bootstrap+Login+with+New+Button)
 
 ## Signup Form
 
@@ -349,8 +341,8 @@ Working with forms is challenging, and `django-crispy-forms` makes writing DRY (
 ### Shell Command
 
 ```sh
-$ python -m pip install django-crispy-forms==2.2
-$ python -m pip install crispy-bootstrap5==2024.2
+$ pipenv install django-crispy-forms==2.2
+$ pipenv install crispy-bootstrap5==2024.2
 ```
 
 Add the new apps to our `INSTALLED_APPS` list in the `django_project/settings.py` file. As the number of apps starts to grow, it can be helpful to distinguish between “3rd party” apps and “local” apps. Here’s what the code looks like now.
