@@ -312,8 +312,6 @@ $ cd ~/desktop/code
 
 On the GitHub website, you’ll see a green “<> Code” button. Click it and select “GitHub CLI” to view the command line instructions to download the repo.
 
-![GitHub Django Repo](https://via.placeholder.com/800x300?text=GitHub+Django+Repo)
-
 On the command line, type `gh repo clone django/django` to copy the Django source code onto your computer in a new directory called `django`.
 
 ### Shell Command
@@ -403,8 +401,6 @@ We can see the new changes if you start the server again with `python manage.py 
 
 ### Crispy Signup Page
 
-![Crispy Signup Page](https://via.placeholder.com/800x300?text=Crispy+Signup+Page)
-
 We can also add crispy forms to our login page. The process is the same. Here is that updated code:
 
 ### Code
@@ -426,8 +422,6 @@ We can also add crispy forms to our login page. The process is the same. Here is
 Refresh the login page, and the update will be visible.
 
 ### Crispy Login Page
-
-![Crispy Login Page](https://via.placeholder.com/800x300?text=Crispy+Login+Page)
 
 ## Git and requirements.txt
 
