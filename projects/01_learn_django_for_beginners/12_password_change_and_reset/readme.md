@@ -207,8 +207,8 @@ Another chunk of work has been completed. Use Git to save our work before contin
 ### Shell Commands
 
 ```sh
-(.venv) $ git status
-(.venv) $ git add -A
+(.venv) $ git status -
+(.venv) $ git add .
 (.venv) $ git commit -m "password change and reset"
 (.venv) $ git push origin main
 ```
