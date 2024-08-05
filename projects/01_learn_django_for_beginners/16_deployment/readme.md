@@ -2,7 +2,7 @@
 
 ## Introduction
 
-There is a fundamental tension between the ease of use desired in a local Django development environment and the security and performance necessary in production. Django is designed to make web developers’ lives easier, and therefore, it defaults to a local configuration when the `startproject` command is first run. We’ve seen this in the use of SQLite as the local file-based database, the built-in `runserver` command that launches a local web server in your web browser, and various default configurations in the `settings.py` file, including `DEBUG` set to `True` and an auto-generated `SECRET_KEY`.
+There is a fundamental tension between the ease of use desired in a local Django development environment and the security and performance necessary in production. Django is designed to make web developers lives easier, and therefore, it defaults to a local configuration when the `startproject` command is first run. We’ve seen this in the use of SQLite as the local file-based database, the built-in `runserver` command that launches a local web server in your web browser, and various default configurations in the `settings.py` file, including `DEBUG` set to `True` and an auto-generated `SECRET_KEY`.
 
 In production, things are different. All the configurations optimized for ease of use in the development environment need to focus instead on security, performance, and scalability. Deploying a Django website to production requires several steps—so many, in fact, that the Django docs even have a [deployment checklist](https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/). It is a very helpful tool, but unfortunately, it is not sufficient. Additional factors include various hosting options, environment variables, database configurations, handling static files, and more.
 
@@ -36,7 +36,7 @@ Django has been gradually adding [asynchronous support](https://docs.djangoproje
 
 ASGI and WSGI are both included in new Django projects now. When you run the `startproject` command, Django generates a `wsgi.py` file and an `asgi.py` file in the project-level directory, `django_project`.
 
-Full async support for the entire Django stack is still in the works but comes ever closer with each new major release. Given that this book is for beginners, it is important to recognize asynchronous developments rather than dwell on them. While they are exciting from a technical perspective, they are also challenging to reason about and are most relevant for websites that need “real-time” functionality, such as live notifications, chat applications, real-time data updates, and interactive dashboards.
+Full async support for the entire Django stack is still in the works but comes ever closer with each new major release. Given that this section is for beginners, it is important to recognize asynchronous developments rather than dwell on them. While they are exciting from a technical perspective, they are also challenging to reason about and are most relevant for websites that need “real-time” functionality, such as live notifications, chat applications, real-time data updates, and interactive dashboards.
 
 ## Deployment Checklist
 
@@ -63,10 +63,10 @@ Static files are the images, JavaScript, and CSS used by a website. We worked wi
 Django automatically looks for static files within each app in a folder called `static`, but a common technique is to place all static files in a project-level folder called `static` instead. We’ll do that here. Quit the local server with `Control+c` and create a new `static` directory in the same folder as the `manage.py` file. Add new folders within it for `css`, `js`, and `img` on the command line.
 
 ```bash
-$ mkdir static
-$ mkdir static/css
-$ mkdir static/js
-$ mkdir static/img
+mkdir static
+mkdir static/css
+mkdir static/js
+mkdir static/img
 ```
 
 A quirk of Git is that it will not track empty folders. If no files are within a folder, Git ignores it by default. One solution–which we will adopt here–is to add a `.keep` file to the three subfolders with your text editor:
@@ -99,7 +99,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles" # new
 Now run the command `python manage.py collectstatic` to compile all static files into the `staticfiles` folder.
 
 ```bash
-$ python manage.py collectstatic
+python manage.py collectstatic
 ```
 
 The only static files right now are contained within the built-in admin app, so a new `staticfiles` directory should appear with sections for the admin. When additional static files are added in the future, they will also be compiled in this directory.
@@ -126,7 +126,7 @@ If we were deploying with a dedicated server or VPS, it would be up to us to wri
 Install the latest version of WhiteNoise using pip.
 
 ```bash
-$ python -m pip install whitenoise==6.7.0
+pipenv  install whitenoise==6.7.0
 ```
 
 Then, in the `django_project/settings.py` file, make three changes:
@@ -183,7 +183,7 @@ STORAGES = {
 Run the `collectstatic` command again. The prompt will warn about overwriting existing files, but that is intentional: we want to compile them using WhiteNoise now. Type `yes` and press Return to continue:
 
 ```bash
-$ python manage.py collectstatic
+python manage.py collectstatic
 ```
 
 That’s it! We have configured our static files to be compiled in one place for production, added the static template tag to our `base.html` template, and installed WhiteNoise to efficiently serve them.
@@ -208,7 +208,7 @@ MIDDLEWARE = [
 
 During the HTTP response phase, after the view is called, middleware are applied in reverse order, from the bottom up, starting with `XFrameOptionsMiddleware`, then `MessageMiddleware`, and so on. The traditional way of describing middleware is like an onion, where each middleware class is a “layer” that wraps the view.
 
-Truly diving into middleware is an advanced topic beyond the scope of this book. It is important, however, to be conceptually aware of how all the pieces in the Django architecture fit together.
+Truly diving into middleware is an advanced topic beyond the scope of this section. It is important, however, to be conceptually aware of how all the pieces in the Django architecture fit together.
 
 ## Environment Variables
 
@@ -217,7 +217,7 @@ Real-world Django projects require at least two environments (local and producti
 There are multiple ways to work with environment variables, but for this project, we will use [environs](https://github.com/sloria/environs), a popular third-party package that comes with additional Django-specific features. Use pip to add `environs` and include the double quotes, `""`, to install the helpful Django extension.
 
 ```bash
-$ python -m pip install "environs[django]"==11.0.0
+python -m pip install "environs[django]"==11.0.0
 ```
 
 Then, add three new lines to the top of the `django_project/settings.py` file.
@@ -255,7 +255,7 @@ DEBUG = False
 Refresh the web page `http://127.0.0.1:8000/debug`, and you’ll see an error: the site doesn’t load at all. On the command line, Django has provided us with the explanation via [CommandError](https://docs.djangoproject.com/en/5.0/howto/custom-management-commands/#django.core.management.CommandError), which is raised for serious problems.
 
 ```bash
-$ python manage.py runserver
+python manage.py runserver
 ...
 CommandError: You must set settings.ALLOWED_HOSTS if DEBUG is False.
 ```
@@ -384,10 +384,10 @@ We also need to install [Psycopg](https://www.psycopg.org/docs/), a database ada
 
 ```bash
 # Windows
-$ python -m pip install "psycopg[binary]"==3.2.1
+python -m pip install "psycopg[binary]"==3.2.1
 # macOS
-$ brew install postgresql
-$ python3 -m pip install "psycopg[binary]"==3.2.1
+brew install postgresql
+python3 -m pip install "psycopg[binary]"==3.2.1
 ```
 
 We are using the [binary version](https://www.psycopg.org/psycopg3/docs/basic/install.html#binary-installation) because it is the quickest way to start working with Psycopg.
@@ -399,7 +399,7 @@ Since Django’s default development server, `runserver`, is explicitly not desi
 Install Gunicorn with pip. Since we are using a PaaS, no additional configuration steps are required.
 
 ```bash
-$ python -m pip install gunicorn==22.0.0
+python -m pip install gunicorn==22.0.0
 ```
 
 Heroku relies on a proprietary `Procfile` file that provides instructions on running applications in their stack. In your text editor, create a new file called `Procfile` in the base directory. We only need a single line of configuration for our project, telling Heroku to use Gunicorn as the WSGI server,
@@ -417,10 +417,10 @@ We’re almost at the end of implementing the deployment checklist. The last ste
 Use the command `pip freeze` and the `>` operator to output our virtual environment information into a `requirements.txt` file.
 
 ```bash
-$ pip freeze > requirements.txt
+pip freeze > requirements.txt
 ```
 
-The `requirements.txt` file will appear in the root directory containing all our installed packages and their dependencies. My list as of the writing of this book looks as follows:
+The `requirements.txt` file will appear in the root directory containing all our installed packages and their dependencies. My list as of the writing of this section looks as follows:
 
 ```text
 # requirements.txt
@@ -451,10 +451,10 @@ whitenoise==6.7.0
 We can use `git status` to check our changes, add the new files, and commit them. We can also push to GitHub for an online backup of our code changes.
 
 ```bash
-$ git status
-$ git add -A
-$ git commit -m "New updates for Heroku deployment"
-$ git push -u origin main
+git status
+git add -A
+git commit -m "New updates for Heroku deployment"
+git push -u origin main
 ```
 
 ## Heroku Setup
@@ -476,13 +476,13 @@ Once you are signed up, it is time to install Heroku’s Command Line Interface 
 On Windows, see the [Heroku CLI page](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) to install the 32-bit or 64-bit version correctly. On a Mac, the package manager [Homebrew](https://brew.sh/) is used for installation. If not already on your machine, install Homebrew by copying and pasting the long command on the Homebrew website into your command line and hitting Return. It will look something like this:
 
 ```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 Next, install the Heroku CLI by copying and pasting the following into your command line and hitting Return.
 
 ```bash
-$ brew tap heroku/brew && brew install heroku
+brew tap heroku/brew && brew install heroku
 ```
 
 Once installation is complete, you can close the new command line tab and return to the initial tab with the newspaper virtual environment active.
@@ -508,7 +508,7 @@ There are two ways to interact with Heroku: via its CLI (Command Line Interface)
 Create a new Heroku app from the command line with `heroku create`. Heroku will create a random name for our app, in my case, `fathomless-hamlet-26076`. Your name will be different.
 
 ```bash
-$ heroku create
+heroku create
 Creating app... done,  afternoon-wave-82807
 https://afternoon-wave-82807-b672795cd97e.herokuapp.com/
 https://git.heroku.com/afternoon-wave-82807.git
@@ -517,7 +517,7 @@ https://git.heroku.com/afternoon-wave-82807.git
 The `heroku create` command also creates a dedicated Git remote named `heroku` for our app. To see this, type `git remote -v`.
 
 ```bash
-$ git remote -v
+git remote -v
 heroku https://git.heroku.com/afternoon-wave-82807.git (fetch)
 heroku https://git.heroku.com/afternoon-wave-82807.git (push)
 ```
@@ -527,7 +527,7 @@ heroku https://git.heroku.com/afternoon-wave-82807.git (push)
 The next step is creating a PostgreSQL database on Heroku. There are various Postgres tiers available for different use cases. The five plan tiers are Essential, Standard, Premium, Private, and Shield. The more you pay, the less downtime is tolerated. For our use case, the lowest tier, Essential, is more than adequate. Run the following command to create a new Essential Postgres database for our project.
 
 ```bash
-$ heroku addons:create heroku-postgresql:essential-0
+heroku addons:create heroku-postgresql:essential-0
 Creating heroku-postgresql:essential-0 on  afternoon-wave-82807...
 ~$0.007/hour (max $5/month)
 Database should be available soon
@@ -539,7 +539,7 @@ Use heroku addons:docs heroku-postgresql to view documentation
 The database might require a moment to provision, in which case you can wait a few minutes and then run the command to “check creation progress.” Make sure the database name matches your project.
 
 ```bash
-$ heroku addons:info postgresql-sinuous-77120
+heroku addons:info postgresql-sinuous-77120
 === postgresql-sinuous-77120
 Attachments: afternoon-wave-82807::DATABASE
 Installed at: Tue Jul 02 2024 10:57:17 GMT-0400 (Eastern Daylight Time)
@@ -553,7 +553,7 @@ State: created
 If you run `heroku config`, it will show all configuration variables set on Heroku. At the moment, that is just a `DATABASE_URL` with the information to connect to the production Postgres database.
 
 ```bash
-$ heroku config
+heroku config
 === afternoon-wave-82807 Config Vars
 DATABASE_URL: postgres://u1k...us-east-1.rds.amazonaws.com:5432/d11ac0v0inabta
 ```
@@ -567,7 +567,7 @@ Select your project on the Heroku website dashboard and click “Settings” in 
 There are two other items in our local `.env` file, `DEBUG` and `SECRET_KEY`. We need to manually set both on Heroku, either in the web interface or the command line. First up is `DEBUG`, which should be `False`.
 
 ```bash
-$ heroku config:set DEBUG=False
+heroku config:set DEBUG=False
 Setting DEBUG and restarting  afternoon-wave-82807... done, v6
 
 
@@ -577,7 +577,7 @@ DEBUG: False
 Next is the `SECRET_KEY`. Make sure to wrap it in quotations, `""`, if you do so via the command line.
 
 ```bash
-$ heroku config:set SECRET_KEY="SECRET_KEY=imDnfLXy-8Y-YozfJmP2Rw_81YA_qx1XKl5FeY0mXyY"
+heroku config:set SECRET_KEY="SECRET_KEY=imDnfLXy-8Y-YozfJmP2Rw_81YA_qx1XKl5FeY0mXyY"
 Setting SECRET_KEY and restarting  afternoon-wave-82807... done, v7
 SECRET_KEY: SECRET_KEY=imDnfLXy-8Y-YozfJmP2Rw_81YA_qx1XKl5FeY0mXyY
 ```
@@ -585,7 +585,7 @@ SECRET_KEY: SECRET_KEY=imDnfLXy-8Y-YozfJmP2Rw_81YA_qx1XKl5FeY0mXyY
 It’s a good idea to double-check that the production environment variables are properly set. From the command line, that means using the `heroku config` command.
 
 ```bash
-$ heroku config
+heroku config
 === afternoon-wave-82807 Config Vars
 DATABASE_URL: postgres://u1k...us-east-1.rds.amazonaws.com:5432/d11ac0v0inabta
 DEBUG: False
@@ -601,7 +601,7 @@ You can also look at the web dashboard:
 Now it is time to push our code up to Heroku with the command, `git push heroku main`. If we had just typed `git push origin main`, the code would have been pushed to GitHub, not Heroku. Adding `heroku` to the command sends the code to Heroku.
 
 ```bash
-$ git push heroku main
+git push heroku main
 Enumerating objects: 339, done.
 Counting objects: 100% (339/339), done.
 Delta compression using up to 10 threads
@@ -632,7 +632,7 @@ The last step is starting a Dyno, Heroku’s term for our app’s lightweight co
 We will spin up one dyno using the Heroku CLI, but dynos can also be managed via the web interface. The general syntax for the CLI is to start with `heroku`, `ps` is a command that prefixes many commands affecting dynos, `ps:scale` is used to increase the number of dynos running a process. Therefore, the command below tells Heroku to run one dyno for our website.
 
 ```bash
-$ heroku ps:scale web=1
+heroku ps:scale web=1
 Scaling dynos... done, now running web at 1:Basic
 ```
 
@@ -643,7 +643,7 @@ The total cost for our project–if we let it run all the time–is $12 per mont
 We’re done! The last step is to confirm our app is live and online. If you use the command `heroku open`, your web browser will open a new tab with the URL of your app:
 
 ```bash
-$ heroku open
+heroku open
 ```
 
 ![Production Homepage](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/prod-home.png)
@@ -655,7 +655,7 @@ The Newspaper website is live, but you’ll quickly see some problems if you try
 To run Django commands on Heroku instead of locally, we use the prefix `heroku run`. So to migrate our database with initial settings, we run the following command:
 
 ```bash
-$ heroku run python manage.py migrate
+heroku run python manage.py migrate
 Running python manage.py migrate on  afternoon-wave-82807... up, run.2790 (Basic)
 Operations to perform:
 Apply all migrations: accounts, admin, articles, auth, contenttypes, sessions
@@ -688,7 +688,7 @@ Applying sessions.0001_initial... OK
 Now, create a superuser account to access the admin.
 
 ```bash
-$ heroku run python manage.py createsuperuser
+heroku run python manage.py createsuperuser
 Running python manage.py createsuperuser on  afternoon-wave-82807... up, run.7422 (Basic)
 Username: wsv
 Email address: will@learndjango.com
