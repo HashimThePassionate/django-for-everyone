@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from environs import Env # new
-env = Env() # new
-env.read_env() # new
+from environs import Env  # new
+env = Env()  # new
+env.read_env()  # new
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pyh1r%si*h3p0hylcx7f*cil0m2qpzzlnqro+h3-)m4uo*)k5m'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
-
-ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"] # new
+DEBUG = env.bool("DEBUG", default=False)
+SECRET_KEY = env.str("SECRET_KEY")
+DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]  # new
 
 
 # Application definition
@@ -57,7 +58,7 @@ AUTH_USER_MODEL = "accounts.CustomUser"  # new
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware", # new
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # new
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -144,7 +145,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage", # new
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",  # new
     },
 }
 

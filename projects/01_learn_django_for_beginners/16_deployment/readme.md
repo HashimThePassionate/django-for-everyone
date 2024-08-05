@@ -277,6 +277,23 @@ The first setting we will configure with environment variables is `DEBUG`. By de
 
 This page lists all the URLs tried and apps loaded, a treasure map for any hacker attempting to break into your site. You’ll even see that at the bottom of the error page, it says that Django will display a standard 404 page if `DEBUG=False`. That’s what we want! The first step is to change `DEBUG` to `False` in the `settings.py` file.
 
+### DEBUG
+
+#### **What is `DEBUG`?**
+- **`DEBUG`** is a setting in Django that controls whether detailed error messages are shown when something goes wrong on your website.
+- When `DEBUG` is set to **`True`**, Django will show detailed error pages with lots of information whenever an error happens. This is very helpful when you're developing your website because it shows you exactly what went wrong.
+
+#### **Why is `DEBUG=True` a Problem in Production?**
+- While having `DEBUG=True` is great for local development, it's a **security risk** if you use it in a live, production website.
+- If someone visits a page that doesn't exist (like `http://127.0.0.1:8000/debug`), Django will show them a detailed error page. This page reveals a lot of information about your website, including the URLs it's trying, the apps that are loaded, and other details that could help a hacker figure out how to break into your site.
+- Because of this, when you move your website to production (i.e., when it's live and accessible to the public), you should set **`DEBUG=False`**.
+
+#### **What Happens When `DEBUG=False`?**
+- When you set **`DEBUG=False`**, Django will not show detailed error messages to users. Instead, it will show a standard 404 (Page Not Found) error or a generic error page, which is much safer because it doesn't give away any information about your website's inner workings.
+
+#### **How to Change `DEBUG` to `False`?**
+- To protect your site, the first step is to go to your `settings.py` file and change `DEBUG = True` to **`DEBUG = False`**. This way, when your site is live, it won't display those detailed error messages to anyone who tries to access it.
+
 ```python
 # django_project/settings.py
 DEBUG = False
@@ -293,6 +310,8 @@ CommandError: You must set settings.ALLOWED_HOSTS if DEBUG is False.
 In this case, Django is telling us that we can’t set `DEBUG` to `False` if we have not set `ALLOWED_HOSTS`. So what is `ALLOWED_HOSTS`? It is a list of strings representing host/domain names that our Django site can serve. By default, `ALLOWED_HOSTS` is set to accept all hosts, which is
 
  not secure! We must update it to accept local ports (`localhost` and `127.0.0.1`) and `.herokuapp.com` for our Heroku deployment. We can add all three routes to our config.
+
+`ALLOWED_HOSTS` is a security setting in Django that specifies which host/domain names your Django site can serve. When `DEBUG` is set to `False`, Django requires you to define `ALLOWED_HOSTS` to prevent your site from being vulnerable to certain attacks. This setting is a list of strings where you include the domain names or IP addresses that your site is allowed to respond to. For example, in a local development environment, you might include `localhost` and `127.0.0.1`, and if you're deploying to Heroku, you would also include your site's Heroku domain like `.herokuapp.com`. By setting `ALLOWED_HOSTS`, you ensure that your site only responds to requests from trusted sources, adding an extra layer of security.
 
 ```python
 # django_project/settings.py
@@ -361,6 +380,19 @@ Now restart the local server with `python manage.py runserver` and refresh your 
 
 Our Newspaper project requires that we log into the admin on the production website to create, read, update, or delete posts. That means [CSRF_TRUSTED_ORIGINS](https://docs.djangoproject.com/en/5.0/ref/settings/#csrf-trusted-origins) must be correctly configured since it is a list of trusted origins for unsafe HTTP requests like POST. Add it to the bottom of the `settings.py` file and set it to match a production URL on Heroku, `https://*.herokuapp.com`. We will update both `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` to match our production URL at the end of the section.
 
+### What is `CSRF_TRUSTED_ORIGINS`?
+
+`CSRF_TRUSTED_ORIGINS` is a security setting in Django that specifies which domains are trusted to make unsafe HTTP requests, such as POST requests, to your application. These "unsafe" requests are the ones that change data on your site, like creating, updating, or deleting content.
+
+### Why is it Important?
+
+When you log into the admin panel or perform actions that modify data on your site, Django needs to be sure that these requests are coming from a trusted source and not from a malicious website trying to trick your users. `CSRF_TRUSTED_ORIGINS` helps by listing the domains that are allowed to make these requests.
+
+### Configuring for Production on Heroku
+
+In a production environment, such as when your website is live on Heroku, you need to make sure that the domain where your site is hosted is included in `CSRF_TRUSTED_ORIGINS`. For your Newspaper project, you're setting this to `"https://*.herokuapp.com"` which tells Django to trust any subdomain of `herokuapp.com`. This means that when you're managing your site from the admin panel on Heroku, Django will accept the requests as safe and allow you to create, read, update, or delete posts.
+
+
 ```python
 # django_project/settings.py
 CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com"] # new
@@ -368,10 +400,11 @@ CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com"] # new
 
 ## DATABASES
 
-We want to use SQLite locally but PostgreSQL in production. Currently, our settings file for `DATABASES` lists only SQLite. The `ENGINE` specifies what type of database to use, and the `NAME` points to its location.
+### Current Setup with SQLite
+
+Right now, your Django project is set up to use SQLite as its database when you are working locally. This is defined in the `DATABASES` setting in your `settings.py` file. SQLite is a simple database that stores everything in a single file, making it easy to use during development. The settings look like this:
 
 ```python
-# django_project/settings.py
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -379,21 +412,32 @@ DATABASES = {
     }
 }
 ```
+- **ENGINE:** Specifies the type of database (in this case, SQLite).
+- **NAME:** Points to the location of the SQLite database file (`db.sqlite3`).
 
-Most PaaS will automatically set a `DATABASE_URL` environment variable inspired by the [Twelve-Factor App](https://12factor.net/) approach that contains all the parameters needed to connect to a database in the format. In raw form, for PostgreSQL, it looks something like this:
+### Switching to PostgreSQL in Production
 
-```text
+When your project goes live (in production), you want to use a more robust database like PostgreSQL instead of SQLite. Most cloud platforms (like Heroku) automatically provide a `DATABASE_URL` environment variable that contains all the details needed to connect to a PostgreSQL database. This `DATABASE_URL` looks something like this:
+
+```
 postgres://USER:PASSWORD@HOST:PORT/NAME
 ```
+It includes the username, password, host, port, and database name, all in one URL.
 
-In other words, use `postgres` and here are custom values for `USER`, `PASSWORD`, `HOST`, `PORT/NAME`. While we could manage this manually ourselves, this pattern is so well established in the Django community that a dedicated third-party package, [dj-database-url](https://github.com/jazzband/dj-database-url), exists to manage this for us. Conveniently, `dj-database-url` is already installed since it is one of the helper packages added by `environs[django]`.
+### Using `dj-database-url` for Easy Configuration
 
-This means we can solve all these problems with a single line of code. Here is the brief update to make to `django_project/settings.py` so that our project will try to access a `DATABASE_URL` environment variable.
+Instead of manually configuring your database connection details, you can use a Django community package called `dj-database-url` to automatically set up the database based on the `DATABASE_URL` environment variable. The `dj-database-url` package is already installed if you're using the `environs[django]` package, so you can easily switch your database setup with just one line of code:
 
 ```python
 # django_project/settings.py
 DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
 ```
+
+### What This Line Does
+
+- This single line tells Django to look for a `DATABASE_URL` environment variable.
+- If Django finds this variable, it will automatically configure the database connection using the details provided in that URL.
+- This makes your project flexible because it can automatically switch between using SQLite locally and PostgreSQL in production without you needing to manually change any settings.
 
 We will also set a `DATABASE_URL` environment variable in the `.env` file for local development.
 
@@ -412,7 +456,7 @@ We also need to install [Psycopg](https://www.psycopg.org/docs/), a database ada
 
 ```bash
 # Windows
-python -m pip install "psycopg[binary]"==3.2.1
+pipenv install "psycopg[binary]"==3.2.1
 # macOS
 brew install postgresql
 python3 -m pip install "psycopg[binary]"==3.2.1
@@ -427,7 +471,7 @@ Since Django’s default development server, `runserver`, is explicitly not desi
 Install Gunicorn with pip. Since we are using a PaaS, no additional configuration steps are required.
 
 ```bash
-python -m pip install gunicorn==22.0.0
+pipenv install gunicorn==22.0.0
 ```
 
 Heroku relies on a proprietary `Procfile` file that provides instructions on running applications in their stack. In your text editor, create a new file called `Procfile` in the base directory. We only need a single line of configuration for our project, telling Heroku to use Gunicorn as the WSGI server,
@@ -453,34 +497,30 @@ The `requirements.txt` file will appear in the root directory containing all our
 ```text
 # requirements.txt
 asgiref==3.8.1
-black==24.4.2
-click==8.1.7
 crispy-bootstrap5==2024.2
 dj-database-url==2.2.0
 dj-email-url==1.0.6
-Django==5.0.6
+Django==5.0.7
 django-cache-url==3.4.5
 django-crispy-forms==2.2
 environs==11.0.0
 gunicorn==22.0.0
 marshmallow==3.21.3
-mypy-extensions==1.0.0
 packaging==24.1
-pathspec==0.12.1
-platformdirs==4.2.2
 psycopg==3.2.1
 psycopg-binary==3.2.1
 python-dotenv==1.0.1
-sqlparse==0.5.0
+sqlparse==0.5.1
 typing_extensions==4.12.2
+tzdata==2024.1
 whitenoise==6.7.0
 ```
 
 We can use `git status` to check our changes, add the new files, and commit them. We can also push to GitHub for an online backup of our code changes.
 
 ```bash
-git status
-git add -A
+git status -s
+git add .
 git commit -m "New updates for Heroku deployment"
 git push -u origin main
 ```
