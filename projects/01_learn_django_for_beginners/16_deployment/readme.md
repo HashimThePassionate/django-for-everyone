@@ -216,6 +216,27 @@ Real-world Django projects require at least two environments (local and producti
 
 There are multiple ways to work with environment variables, but for this project, we will use [environs](https://github.com/sloria/environs), a popular third-party package that comes with additional Django-specific features. Use pip to add `environs` and include the double quotes, `""`, to install the helpful Django extension.
 
+**What are Environment Variables?**
+- **Environment Variables** are special variables that store important information about your computer system or application. They are like small containers where you can keep specific values, such as passwords, database settings, or API keys, that your program needs to run.
+- These variables are **set outside of your program** and can be accessed by your program when it is running.
+
+**Purpose of Environment Variables**
+- **Security:** Environment variables help keep sensitive information like passwords and API keys safe. Instead of hard-coding these values directly into your code (which can be risky), you can store them in environment variables.
+- **Flexibility:** They make your application more flexible because you can easily switch between different settings (like development, testing, or production) without changing your code. You simply change the environment variables.
+- **Configuration:** By using environment variables, you can configure how your application behaves in different environments (like on your local computer or on a live server).
+
+### Real-World Usage in Django Projects
+
+In real-world Django projects, you often need to manage different settings depending on where your project is running. For example:
+- **Local Environment:** When you are developing on your own computer.
+- **Production Environment:** When your website is live and accessible to users.
+- **Testing Environments:** If you have separate servers for testing new features before making them public.
+
+Instead of hard-coding different settings for each environment directly into your code, which can be messy and insecure, you can use environment variables. This way, you can easily toggle between environments by changing the values of these variables.
+
+**Example with `environs` Package:**
+- In this project, you'll use a Python package called `environs` to manage environment variables. This package allows you to load and manage environment variables easily in Django, and it even includes some extra features specific to Django projects.
+- 
 ```bash
 pipenv install "environs[django]"==11.0.0
 ```
@@ -224,11 +245,21 @@ Then, add three new lines to the top of the `django_project/settings.py` file.
 
 ```python
 # django_project/settings.py
-from pathlib import Path
 from environs import Env # new
 env = Env() # new
 env.read_env() # new
 ```
+#### 2. **`from environs import Env`**
+   - This line imports the `Env` class from the `environs` package.
+   - `environs` is a third-party package that helps you manage environment variables easily. It provides a simple way to load and access these variables in your Django project.
+
+#### 3. **`env = Env()`**
+   - Here, you create an instance of the `Env` class called `env`.
+   - This instance will be used to interact with environment variables throughout your Django project.
+
+#### 4. **`env.read_env()`**
+   - This line tells the `env` instance to read environment variables from a file (usually a `.env` file) and load them into the project's environment.
+   - A `.env` file typically contains key-value pairs like `DEBUG=True` or `DATABASE_URL=postgres://...`, which are then made available to your project through the `env` instance.
 
 Next, create a new file, `.env`, in the root project directory, containing our environment variables. We already know that any file or directory starting with a period will be treated as a hidden file and not displayed by default during a directory listing. The file still exists, though, and needs to be added to the `.gitignore` file to avoid being added to our Git source control.
 
