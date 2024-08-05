@@ -757,8 +757,8 @@ Now, create a superuser account to access the admin.
 ```bash
 heroku run python manage.py createsuperuser
 Running python manage.py createsuperuser on  afternoon-wave-82807... up, run.7422 (Basic)
-Username: wsv
-Email address: will@learndjango.com
+Username: hashim
+Email address: hashimisonline@gmail.com
 Password:
 Password (again):
 Superuser created successfully.
