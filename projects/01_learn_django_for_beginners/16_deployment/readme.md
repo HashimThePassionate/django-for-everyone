@@ -527,11 +527,16 @@ git push -u origin main
 
 ## Heroku Setup
 
-### Heroku Pricing
+### Heroku Pricing 
+Heroku used to offer a free option for hosting websites, but that changed in 2022. Running servers costs money, and because of this, very few companies still offer free hosting options.
 
-Before 2022, Heroku had a generous free tier, but unfortunately, that is not the case anymore. It costs a company real money to spin up virtual servers on your behalf, and as a result, few hosting companies offer a free tier anymore.
+### How Heroku Charges
 
-[Heroku pricing](https://www.heroku.com/pricing) involves multiple tiers of features and bills per hour with a maximum monthly limit. The deployment setup we will implement here costs $12/month if left on all the time, but if you are cost-conscious and deploying for purely educational purposes, there is no reason to leave your website “live” all the time. You can deploy the site, share it, and then take it down after a few days and the total cost should only be $1-$2.
+Heroku charges based on the features you use and the amount of time your website is running. The costs are calculated per hour, but there is a maximum limit for how much you will be charged in a month. For the type of setup we are discussing, if you keep your website running all the time, it will cost around $12 per month.
+
+### Saving Money
+
+If you're using Heroku for learning or educational purposes, you don’t need to keep your website running all the time. You can deploy your site, share it with others, and then take it down after a few days. By doing this, your total cost will be much lower, possibly just $1-$2, instead of paying the full $12 for the entire month. This way, you can save money while still learning and experimenting with deploying websites.
 
 ### Account Setup
 
@@ -576,18 +581,18 @@ There are two ways to interact with Heroku: via its CLI (Command Line Interface)
 Create a new Heroku app from the command line with `heroku create`. Heroku will create a random name for our app, in my case, `fathomless-hamlet-26076`. Your name will be different.
 
 ```bash
-heroku create
-Creating app... done,  afternoon-wave-82807
-https://afternoon-wave-82807-b672795cd97e.herokuapp.com/
-https://git.heroku.com/afternoon-wave-82807.git
+# heroku create
+Creating app... done, ⬢ lit-citadel-88673
+https://lit-citadel-88673-34df4974ff39.herokuapp.com/
+https://git.heroku.com/lit-citadel-88673.git
 ```
 
 The `heroku create` command also creates a dedicated Git remote named `heroku` for our app. To see this, type `git remote -v`.
 
 ```bash
-git remote -v
-heroku https://git.heroku.com/afternoon-wave-82807.git (fetch)
-heroku https://git.heroku.com/afternoon-wave-82807.git (push)
+# git remote -v
+heroku  https://git.heroku.com/lit-citadel-88673.git (fetch)
+heroku  https://git.heroku.com/lit-citadel-88673.git (push)
 ```
 
 ### Step 2: Create a PostgreSQL Database
@@ -628,8 +633,6 @@ DATABASE_URL: postgres://u1k...us-east-1.rds.amazonaws.com:5432/d11ac0v0inabta
 
 Select your project on the Heroku website dashboard and click “Settings” in the navigation bar. Under “Config Vars,” you can see that the `DATABASE_URL` has been set.
 
-![Heroku Dashboard Configs](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/heroku-config.png)
-
 ### Step 3: Set Environment Variables
 
 There are two other items in our local `.env` file, `DEBUG` and `SECRET_KEY`. We need to manually set both on Heroku, either in the web interface or the command line. First up is `DEBUG`, which should be `False`.
@@ -661,8 +664,6 @@ SECRET_KEY: SECRET_KEY=imDnfLXy-8Y-YozfJmP2Rw_81YA_qx1XKl5FeY0mXyY
 ```
 
 You can also look at the web dashboard:
-
-![Heroku Dashboard Updated Configs](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/heroku-config-updated.png)
 
 ### Step 4: Push Code to Heroku
 
@@ -713,8 +714,6 @@ We’re done! The last step is to confirm our app is live and online. If you use
 ```bash
 heroku open
 ```
-
-![Production Homepage](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/prod-home.png)
 
 The Newspaper website is live, but you’ll quickly see some problems if you try it out. For one thing, there are no articles or comments! That’s because we still need to configure the production PostgreSQL database running on Heroku. Let’s do that now.
 
@@ -767,8 +766,6 @@ Superuser created successfully.
 
 Navigate to the admin section of your deployed website, log in with your superuser credentials, and add some articles and comments.
 
-![Production Admin Dashboard](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/prod-admin.png)
-
 They will then be displayed on the live website. You can also create user accounts and confirm that the user authentication flow works correctly by resetting your password.
 
 ### Updating the Production Website
@@ -782,8 +779,6 @@ For future updates to the production website, the pattern is as follows:
 ### Removing the Hosted Website
 
 If you want to remove a hosted website, log into your [Heroku dashboard](https://dashboard.heroku.com/apps) and click on the app name. Click on the Settings link in the navigation bar at the top, then scroll down to the bottom of the page under Delete App and click the “Delete App…” button. You will be asked to type in your full app name one more time to confirm that you want to permanently delete it.
-
-![Heroku Delete App](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/heroku-delete.png)
 
 Another tip is that you can type `Ctrl + d` to exit the Heroku CLI at any time.
 
