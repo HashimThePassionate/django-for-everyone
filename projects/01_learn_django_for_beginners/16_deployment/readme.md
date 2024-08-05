@@ -80,9 +80,7 @@ For local usage, only two settings are required for static files: `STATIC_URL`, 
 ```python
 # django_project/settings.py
 STATIC_URL = "static/"
-STATICFILES_DIRS =
-
- [BASE_DIR / "static"] # new
+STATICFILES_DIRS = [BASE_DIR / "static"] # new
 ```
 
 ### Production Usage
@@ -92,7 +90,7 @@ Our local Django server is not designed to host static files in production. A be
 ```python
 # django_project/settings.py
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles" # new
 ```
 
