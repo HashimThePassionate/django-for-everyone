@@ -217,7 +217,7 @@ Real-world Django projects require at least two environments (local and producti
 There are multiple ways to work with environment variables, but for this project, we will use [environs](https://github.com/sloria/environs), a popular third-party package that comes with additional Django-specific features. Use pip to add `environs` and include the double quotes, `""`, to install the helpful Django extension.
 
 ```bash
-python -m pip install "environs[django]"==11.0.0
+pipenv install "environs[django]"==11.0.0
 ```
 
 Then, add three new lines to the top of the `django_project/settings.py` file.
@@ -233,7 +233,8 @@ env.read_env() # new
 Next, create a new file, `.env`, in the root project directory, containing our environment variables. We already know that any file or directory starting with a period will be treated as a hidden file and not displayed by default during a directory listing. The file still exists, though, and needs to be added to the `.gitignore` file to avoid being added to our Git source control.
 
 ```text
-.venv/
+Pipfile
+Pipfile.lock
 __pycache__/
 db.sqlite3
 .env # new!
@@ -242,8 +243,6 @@ db.sqlite3
 ### DEBUG and ALLOWED_HOSTS
 
 The first setting we will configure with environment variables is `DEBUG`. By default, `DEBUG` is set to `True`, which is helpful for local development but a major security issue if deployed into production. For example, if you start up the local server with `python manage.py runserver` and navigate to a page that does not exist, like `http://127.0.0.1:8000/debug`, you will see the following:
-
-![Debug Page](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/debug.png)
 
 This page lists all the URLs tried and apps loaded, a treasure map for any hacker attempting to break into your site. You’ll even see that at the bottom of the error page, it says that Django will display a standard 404 page if `DEBUG=False`. That’s what we want! The first step is to change `DEBUG` to `False` in the `settings.py` file.
 
@@ -270,8 +269,6 @@ ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"] # new
 ```
 
 Now that we’ve set `ALLOWED_HOSTS`, try the `runserver` command again.
-
-![Not Found Page](https://raw.githubusercontent.com/HashimThePassionate/ultimate-mysql-bootcamp/main/images/not-found.png)
 
 This is the generic Django 404 page that we want displayed in production. It does not give away any information to a potential hacker.
 
