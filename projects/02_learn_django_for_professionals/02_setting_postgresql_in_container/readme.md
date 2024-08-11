@@ -1,7 +1,3 @@
-Here's the updated section with `apt` instead of `apt-get`:
-
----
-
 # PostgreSQL within Container
 
 🎉 **Welcome to the PostgreSQL Section!** 🎉
