@@ -481,11 +481,26 @@ git commit -m 'PostgreSQl Within Containers'
 - `git add .` stages all changes for the commit.
 - `git commit -m ''PostgreSQl Within Containers'` commits the staged changes with a message describing the commit.
 
-### **Official Source Code:**
-
-You can compare your work with the official source code available on GitHub.
 
 ##
+
+To interact with the shell within a running Docker container, you can use the `docker-compose exec` command. This allows you to access the shell of the container where your Django application is running.
+
+Here’s how you can do it:
+
+### Step 1: Access the Shell of the Running Container
+
+To get a bash shell inside your `web` service container, run:
+
+```shell
+docker-compose exec web bash
+```
+
+**Explanation:**
+- **`docker-compose exec`**: This command is used to execute commands in a running container.
+- **`web`**: This is the name of the service defined in your `docker-compose.yml` file. It refers to the Django application container.
+- **`bash`**: This opens a bash shell inside the container.
+
 
  🎯 **Conclusion**
 
