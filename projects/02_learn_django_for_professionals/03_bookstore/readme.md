@@ -140,7 +140,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:16
+    image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
@@ -189,7 +189,7 @@ web:
 
 ```yaml
 db:
-  image: postgres:16
+  image: postgres:13
   volumes:
     - postgres_data:/var/lib/postgresql/data/
   environment:
@@ -197,7 +197,7 @@ db:
 ```
 
 - **db:** This is the name of the database service.
-- **image: postgres:16**: Specifies the Docker image to use for the service. Here, it's pulling the PostgreSQL version 16 image from Docker Hub.
+- **image: postgres:13**: Specifies the Docker image to use for the service. Here, it's pulling the PostgreSQL version 13 image from Docker Hub.
 - **volumes:** 
   - `- postgres_data:/var/lib/postgresql/data/`: This mounts a named volume `postgres_data` to store the database data in the `/var/lib/postgresql/data/` directory inside the container. It ensures your data persists even if the container stops or is removed.
 - **environment:** 
@@ -314,10 +314,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Local
-    "accounts.apps.AccountsConfig", # new
+    "accounts, # new
 ]
 
-AUTH_USER_MODEL = "accounts.CustomUser" # new
+AUTH_USER_MODEL = 'accounts.CustomUser' # new
 ```
 
 ### 3. **Creating and Applying Migrations**
