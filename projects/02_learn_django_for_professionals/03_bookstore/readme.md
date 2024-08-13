@@ -541,6 +541,57 @@ class CustomUserTests(TestCase):
         self.assertTrue(admin_user.is_superuser)
 ```
 
+### 🌟 **Code Explanation**
+#### 🧪 **Custom User Testing in Django**
+
+1. **Importing the Essentials:**
+   - **`get_user_model()`**: Dynamically fetches the active user model to ensure the tests use the correct user setup.
+   - **`TestCase`**: A Django class that provides a framework for creating and running unit tests.
+
+---
+
+#### 📝 **Testing Regular User Creation:**
+
+```python
+def test_create_user(self):
+    User = get_user_model()
+    user = User.objects.create_user(
+        username="will", email="will@email.com", password="testpass123"
+    )
+    self.assertEqual(user.username, "will")
+    self.assertEqual(user.email, "will@email.com")
+    self.assertTrue(user.is_active)
+    self.assertFalse(user.is_staff)
+    self.assertFalse(user.is_superuser)
+```
+- **Goal:** To ensure that a regular user can be created correctly.
+- **What It Does:**
+  - Creates a user with the provided `username`, `email`, and `password`.
+  - Asserts that the `username` and `email` match what was provided.
+  - Verifies that the user is active but not a staff member or superuser.
+
+---
+#### 📝 **Testing Superuser Creation:**
+```python
+def test_create_superuser(self):
+    User = get_user_model()
+    admin_user = User.objects.create_superuser(
+        username="superadmin", email="superadmin@email.com", password="testpass123"
+    )
+    self.assertEqual(admin_user.username, "superadmin")
+    self.assertEqual(admin_user.email, "superadmin@email.com")
+    self.assertTrue(admin_user.is_active)
+    self.assertTrue(admin_user.is_staff)
+    self.assertTrue(admin_user.is_superuser)
+```
+- **Goal:** To confirm that a superuser can be created with the appropriate privileges.
+- **What It Does:**
+  - Creates a superuser with the given `username`, `email`, and `password`.
+  - Asserts that the `username` and `email` are as expected.
+  - Checks that the user is active, a staff member, and a superuser, ensuring all elevated permissions are correctly set.
+---
+
+
 ### 2. **Running the Tests**
 
 To run the tests within Docker, use the following command:
