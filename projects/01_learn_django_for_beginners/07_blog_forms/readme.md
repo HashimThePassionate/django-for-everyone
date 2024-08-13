@@ -247,7 +247,7 @@ Your updated `templates/base.html` file should look as follows:
 <head>
     <title>Django blog</title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400" rel="stylesheet">
-    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
     <div>
