@@ -445,7 +445,6 @@ Update the `accounts/admin.py` file to manage the custom user model in the admin
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 CustomUser = get_user_model()
@@ -458,6 +457,24 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 ```
+### 🌟 **Beautiful Explanation: Custom User Admin in Django**
+
+---
+
+#### 🛠️ **Setting Up Custom User Admin Interface**
+
+1. **Import Essentials:**
+   - **`get_user_model()`**: Retrieves your project's active user model, ensuring it aligns with the `AUTH_USER_MODEL` setting.
+   - **`UserAdmin`**: A ready-to-use admin interface provided by Django for managing user models.
+
+2. **🎨 Customizing the Admin Panel with `CustomUserAdmin`:**
+   - **`add_form`**: Uses the `CustomUserCreationForm` for adding new users via the admin panel, providing a smooth user creation process.
+   - **`form`**: Utilizes the `CustomUserChangeForm` for updating user details, ensuring consistency with your custom user model.
+   - **`model`**: Links the admin interface to the dynamically retrieved `CustomUser` model.
+   - **`list_display`**: Specifies the key fields—`email`, `username`, and `is_superuser`—to be shown in the user list, offering a clear overview.
+
+3. **🔗 Registering the Custom User Model:**
+   - **`admin.site.register`**: Integrates the `CustomUser` model into the Django admin, powered by the custom interface (`CustomUserAdmin`), making user management intuitive and aligned with your project’s needs.
 
 ---
 
@@ -467,6 +484,17 @@ To verify that the custom user model is working correctly, create a superuser ac
 
 ```bash
 docker-compose exec web python manage.py createsuperuser
+```
+
+`Output`
+```python
+docker-compose exec web python manage.py createsuperuser
+Username: hashim
+Email address: *****@gmail.com
+Password: 
+Password (again): 
+Bypass password validation and create user anyway? [y/N]: y
+Superuser created successfully.
 ```
 
 You can use any username, email, and password you prefer. After creating the superuser, log in to the Django admin at `http://127.0.0.1:8000/admin` using your new superuser credentials. You should see your superuser’s details displayed.
