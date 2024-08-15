@@ -470,7 +470,7 @@ Time to add our new changes to source control with Git. 🎯
 ```bash
 git status
 git add .
-git commit -m 'section5'
+git commit -m 'Bookstore Pages App'
 ```
 
 You can compare with the official source code on GitHub for this section.
