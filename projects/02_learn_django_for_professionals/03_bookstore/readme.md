@@ -128,7 +128,6 @@ COPY . .
 #### **docker-compose.yml**
 
 ```yaml
-version: "3.9"
 services:
   web:
     build: .
@@ -151,13 +150,7 @@ volumes:
 ```
 
 ### 🐳 **Breaking Down the Docker Compose File Step by Step**
-
-#### 1. **Setting the Version 📅**
-```yaml
-version: "3.9"
-```
-- **version:** This specifies the version of Docker Compose being used. Version 3.9 is a modern, stable version that supports a wide range of features.
-
+#### 1. docker-compose.yml  read my [docker-compose](https://github.com/HashimThePassionate/Docker/tree/main/05_running_multicontainers_applications/04_json_and_yml_format)
 #### 2. **Defining the Services 🛠️**
 - **services:** This section is where you define the different parts (services) of your application. Each service runs in its own container.
 
