@@ -4,33 +4,25 @@ This section and the remaining portion of the project will focus on building a p
 
 ## Initial Set Up
 
-The first step is to create a new Django project from the command line. We need to do our familiar steps of creating and navigating to a new directory called `news` and installing and activating a new virtual environment called `.venv`.
+The first step is to create a new Django project from the command line. We need to do our familiar steps of creating and navigating to a new directory called `news` and installing and activating a new virtual environment with `pipenv`.
 
 ### Shell Commands
 
 ```sh
 # Windows
-$ cd onedrive\desktop\code
-$ mkdir news
-$ cd news
-$ python -m venv .venv
-$ .venv\Scripts\Activate.ps1
+cd onedrive\desktop\code
+mkdir news
+cd news
+pipenv shell
 
-# macOS
-$ cd ~/desktop/code
-$ mkdir news
-$ cd news
-$ python3 -m venv .venv
-$ source .venv/bin/activate
 ```
 
 Next, install Django and Black, create a new Django project called `django_project`, and make a new app called `accounts`.
 
 ```sh
-$ python -m pip install django~=5.0.0
-$ python -m pip install black
-$ django-admin startproject django_project .
-$ python manage.py startapp accounts
+pipenv install django==5.0.7
+django-admin startproject django_project .
+python manage.py startapp accounts
 ```
 
 Note that we did not run `migrate` to configure our database. Given how tightly connected the user model is to the rest of Django, it’s important to wait until after we’ve created our new custom user model before doing so.
@@ -42,8 +34,8 @@ In your web browser, navigate to `http://127.0.0.1:8000`, and the familiar Djang
 The start of a new project is an excellent time to initialize Git and create a repo on GitHub. We’ve done this several times before, so we can use the same commands to initialize a new local Git repo and check its status.
 
 ```sh
-$ git init
-$ git status
+git init
+git status
 ```
 
 The `Pipfile` , `Pipfile.lock` directory, the `__pycache__` directory, and the `SQLite` database should not be included in Git, so create a project-level `.gitignore` file in your text editor.
@@ -60,17 +52,17 @@ __pycache__
 Run `git status` again to confirm the `Pipfile` or `Pipfile.lock`directory and `SQLite` database are not included. Then, add the rest of our work along with a commit message.
 
 ```sh
-$ git status
-$ git add .
-$ git commit -m "initial commit"
+git status
+git add .
+git commit -m "initial commit"
 ```
 
 Create a [`new repo`](https://github.com/new) on GitHub and provide a name. I’ve chosen `news`; my username is `hashimthepassionate`. Make sure to use your repo name and username using the command below.
 
 ```sh
-$ git remote add origin https://github.com/hashimthepassionate/news.git
-$ git branch -M main
-$ git push -u origin main
+git remote add origin https://github.com/hashimthepassionate/news.git
+git branch -M main
+git push -u origin main
 ```
 
 All done!
@@ -203,13 +195,13 @@ There are many ways to customize the user admin, and some developers like to add
 But for this project, we are now done. Type `Control+c` to stop the local server and go ahead and run `makemigrations` and `migrate` for the first time to create a new database that uses the custom user model.
 
 ```sh
-$ python manage.py makemigrations accounts
+python manage.py makemigrations accounts
 
 Migrations for 'accounts':
   accounts/migrations/0001_initial.py
     - Create model CustomUser
 
-$ python manage.py migrate
+python manage.py migrate
 
 Operations to perform:
   Apply all migrations: accounts, admin, auth, contenttypes, sessions
@@ -240,13 +232,13 @@ Running migrations:
 Let’s create a superuser account to confirm everything is working as expected. On the command line, type the following command and go through the prompts.
 
 ```sh
-$ python manage.py createsuperuser
+python manage.py createsuperuser
 ```
 
 Make sure your superuser email account is one that actually works. We will use it later on to verify email integration. But the fact that this flow here works is the first proof our custom user model is set up correctly. Let’s view things in the admin, too, to be extra sure. Start up the web server.
 
 ```sh
-$ python manage.py runserver
+python manage.py runserver
 ```
 
 Then navigate to the admin at `http://127.0.0.1:8000/admin` and log in. If you click on the link for “Users” you should see your superuser account and the default fields: Email Address, Username, Age, and Staff Status. These were set in `list_display` in our `admin.py` file.
@@ -305,7 +297,7 @@ Our class of tests is called `UsersManagersTests` and extends `TestCase`. The fi
 Now run the tests; they should pass without any issues.
 
 ```sh
-$ python manage.py test
+python manage.py test
 
 Found 2 test(s).
 Creating test database for alias 'default'...
@@ -323,9 +315,9 @@ Destroying test database for alias 'default'...
 We’ve completed a bunch of new work, so it’s time to add a Git commit.
 
 ```sh
-$ git status
-$ git add -A
-$ git commit -m "custom user model"
+git status
+git add -A
+git commit -m "custom user model"
 ```
 ## .gitignore
 
