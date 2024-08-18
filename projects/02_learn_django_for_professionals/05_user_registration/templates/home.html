@@ -1,0 +1,16 @@
+<!-- templates/home.html -->
+{% extends "_base.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+<h1>This is our home page.</h1>
+{% if user.is_authenticated %}
+    <p>Hi {{ user.email }}!</p>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock content %}
