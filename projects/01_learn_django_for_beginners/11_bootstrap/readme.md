@@ -15,7 +15,7 @@ On the command line, use the `startapp` command to create our new `pages` app. I
 #### Shell Command
 
 ```sh
-$ python manage.py startapp pages
+python manage.py startapp pages
 ```
 
 Then, immediately update our `django_project/settings.py` file. I often forget to do this, so it is a good practice to think of creating a new app as a two-step process: run the `startapp` command, then update `INSTALLED_APPS`.
@@ -339,8 +339,8 @@ Working with forms is challenging, and `django-crispy-forms` makes writing DRY (
 ### Shell Command
 
 ```sh
-$ pipenv install django-crispy-forms==2.2
-$ pipenv install crispy-bootstrap5==2024.2
+pipenv install django-crispy-forms==2.2
+pipenv install crispy-bootstrap5==2024.2
 ```
 
 Add the new apps to our `INSTALLED_APPS` list in the `django_project/settings.py` file. As the number of apps starts to grow, it can be helpful to distinguish between “3rd party” apps and “local” apps. Here’s what the code looks like now.
@@ -430,7 +430,7 @@ We have now added several packages to our Django project, so it is a good time t
 ### Shell Command
 
 ```sh
-$ pip freeze > requirements.txt
+pip freeze > requirements.txt
 ```
 
 At the moment, this is how mine looks:
@@ -440,15 +440,9 @@ At the moment, this is how mine looks:
 ```plaintext
 # requirements.txt
 asgiref==3.8.1
-black==24.4.2
-click==8.1.7
 crispy-bootstrap5==2024.2
 Django==5.0.6
 django-crispy-forms==2.2
-mypy-extensions==1.0.0
-packaging==24.1
-pathspec==0.12.1
-platformdirs==4.2.2
 sqlparse==0.5.0
 ```
 
@@ -457,10 +451,10 @@ Then we can add a quick Git commit to save our work in this section and store it
 ### Shell Commands
 
 ```sh
-$ git status
-$ git add -A
-$ git commit -m "add Bootstrap styling"
-$ git push origin main
+git status -s
+git add .
+git commit -m "add Bootstrap styling"
+git push origin main
 ```
 
 ## Conclusion
