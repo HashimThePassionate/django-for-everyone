@@ -20,5 +20,9 @@
         <img src="{% static 'images/github-logo.png' %}" alt="GitHub Logo" class="github-logo">
         Login with GitHub
     </a>
+    <a href="{% provider_login_url 'google' %}" class="btn btn-google">
+        <img src="{% static 'images/google-logo.png' %}" alt="Google Logo" class="google-logo">
+        Login with Google
+    </a>
 </div>
 {% endblock content %}

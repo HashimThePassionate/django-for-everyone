@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",  # new (for social authentication)
     "allauth.socialaccount.providers.github",
+    'allauth.socialaccount.providers.google',
     # Local apps
     "accounts",
     "pages",
@@ -59,10 +60,19 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': ''
         }
     },
+    'google': {
+        'APP': {
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_SECRET'),
+            'key': ''
+        }
+    },
 }
 
 print(config('GITHUB_CLIENT_ID'))
 print(config('GITHUB_SECRET'))
+print(config('GOOGLE_CLIENT_ID'))
+print(config('GOOGLE_SECRET'))
 
 
 SITE_ID = 1  # new
