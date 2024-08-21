@@ -198,6 +198,12 @@ ACCOUNT_SESSION_REMEMBER = True  # new
 
 Refresh the page to see the changes.
 
+```python
+# django_project/settings.py
+# Redirects directly to the provider’s authorization page
+SOCIALACCOUNT_LOGIN_ON_GET = True
+```
+use this setting if you want to redirect github login page directly.
 ---
 
 ## 🚪 Customizing the Logout Page
@@ -441,13 +447,11 @@ Modify the login template to include social login buttons. Create a file `templa
 
 ```html
 <!-- templates/account/login.html -->
-
 {% extends "_base.html" %}
 {% load crispy_forms_tags %}
 {% load socialaccount %} <!-- Load socialaccount template tags -->
-
+{% load static %} <!-- Load static tag for static files -->
 {% block title %}Log In{% endblock %}
-
 {% block content %}
 <h2>Log In</h2>
 <form method="post">
@@ -458,12 +462,40 @@ Modify the login template to include social login buttons. Create a file `templa
 
 <div class="social-login">
     <h3>Or log in with:</h3>
-    <a href="{% provider_login_url 'github' %}" class="btn btn-info">Login with GitHub</a>
+    <a href="{% provider_login_url 'github' %}" class="btn btn-github">
+        <img src="{% static 'github-logo.png' %}" alt="GitHub Logo" class="github-logo">
+        Login with GitHub
+    </a>
 </div>
 {% endblock content %}
-```
 
-### 7. **Test Social Authentication** 🧪
+```
+### BASE CSS file:
+```css
+.btn-github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #24292e;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-github:hover {
+    background-color: #444d56;
+}
+
+.github-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+```
+### 8. **Test Social Authentication** 🧪
 
 1. **Run the Django development server**:
 

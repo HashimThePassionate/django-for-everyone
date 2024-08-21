@@ -61,6 +61,8 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
+print(config('GITHUB_CLIENT_ID'))
+print(config('GITHUB_SECRET'))
 
 
 SITE_ID = 1  # new
@@ -77,7 +79,9 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5" 
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # new
-
+# django_project/settings.py
+# Redirects directly to the provider’s authorization page
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

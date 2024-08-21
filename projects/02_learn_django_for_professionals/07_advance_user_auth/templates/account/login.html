@@ -1,8 +1,8 @@
 <!-- templates/account/login.html -->
-
 {% extends "_base.html" %}
 {% load crispy_forms_tags %}
 {% load socialaccount %} <!-- Load socialaccount template tags -->
+{% load static %} <!-- Load static tag for static files -->
 
 {% block title %}Log In{% endblock %}
 
@@ -16,6 +16,9 @@
 
 <div class="social-login">
     <h3>Or log in with:</h3>
-    <a href="{% provider_login_url 'github' %}" class="btn btn-info">Login with GitHub</a>
+    <a href="{% provider_login_url 'github' %}" class="btn btn-github">
+        <img src="{% static 'images/github-logo.png' %}" alt="GitHub Logo" class="github-logo">
+        Login with GitHub
+    </a>
 </div>
 {% endblock content %}

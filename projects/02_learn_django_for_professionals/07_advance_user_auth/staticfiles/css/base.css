@@ -1,8 +1,34 @@
-/* static/css/base.css */
+body {
+    min-height: 75rem;
+    padding-top: 4.5rem;
+}
 h1 {
     color: red;
 }
-.bookcover {
+img.bookcover {
     height: 300px;
     width: auto;
+}
+
+.btn-github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #24292e;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-github:hover {
+    background-color: #444d56;
+}
+
+.github-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }
