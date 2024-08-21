@@ -20,7 +20,7 @@ Start by creating our new articles app.
 ### Shell Command
 
 ```bash
-$ python manage.py startapp articles
+python manage.py startapp articles
 ```
 
 Then, add it to our `INSTALLED_APPS` and update the time zone, `TIME_ZONE`, lower down in the settings since we’ll be timestamping our articles. You can find your time zone in this [Wikipedia list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For example, if you live in Boston, MA, in the Eastern time zone of the United States, your entry would be `America/New_York`.
@@ -88,8 +88,8 @@ Since we have a new app and model, it’s time to make a new migration file and 
 ### Shell Commands
 
 ```bash
-$ python manage.py makemigrations articles
-$ python manage.py migrate
+python manage.py makemigrations articles
+python manage.py migrate
 ```
 
 Output:
@@ -103,7 +103,7 @@ Migrations for 'articles':
 Next, apply the migration:
 
 ```bash
-$ python manage.py migrate
+python manage.py migrate
 ```
 
 Output:
@@ -135,7 +135,7 @@ Now, start the server.
 ### Shell Command
 
 ```bash
-$ python manage.py runserver
+python manage.py runserver
 ```
 
 Navigate to the admin at `http://127.0.0.1:8000/admin/` and log in.
@@ -558,10 +558,10 @@ We added quite a lot of new code in this section, so let’s save it with Git.
 ### Shell Commands
 
 ```bash
-$ git status
-$ git add .
-$ git commit -m "newspaper app"
-$ git push origin main
+git status
+git add .
+git commit -m "newspaper app"
+git push origin main
 ```
 
 ## Conclusion
