@@ -19,7 +19,6 @@ django-allauth==64.1.0
 psycopg2-binary==2.9.9
 sqlparse==0.5.1
 tzdata==2024.1
-python-decouple==3.8
 ```
 
 After updating the `requirements.txt`, spin down the currently running Docker container, rebuild the Docker image, and start up a new container:
@@ -394,6 +393,9 @@ sqlparse==0.5.1
 tzdata==2024.1
 requests==2.31.0
 python-decouple==3.8
+requests==2.31.0
+python-decouple==3.8
+PyJWT==2.7.0  # Updated package
 ```
 
 ### 4. **Rebuild Your Docker Environment** 🐳
@@ -505,7 +507,39 @@ Modify the login template to include social login buttons. Create a file `templa
 
 2. **Access the login page** at `http://127.0.0.1:8000/accounts/login/` and try logging in with GitHub.
 
-<!--  -->
+> ## For Google Console (OAuth Onsent Screen)
+## **Use a Fake Domain for Development:**
+   - **Edit the Hosts File**: You can trick your local machine into thinking a non-existent domain points to your localhost by editing your system's hosts file.
+   
+   #### On Windows:
+   - Open `C:\Windows\System32\drivers\etc\hosts` in a text editor with administrative privileges.
+   - Add a line like this at the end of the file:
+     ```
+     127.0.0.1   mycustomdomain.dev
+     ```
+   - Save the file.
+   
+   #### On macOS/Linux:
+   - Open `/etc/hosts` in a text editor with `sudo` permissions:
+     ```bash
+     sudo nano /etc/hosts
+     ```
+   - Add a line like this at the end of the file:
+     ```
+     127.0.0.1   mycustomdomain.dev
+     ```
+   - Save the file.
+   
+   - **Use this Fake Domain**: Now, you can use `mycustomdomain.dev` as your "Authorized domain" in the Google Cloud Console. It will resolve to your localhost when accessed from your local machine.
+
+   - **Update Redirect URIs**: In the OAuth settings, use `http://mycustomdomain.dev:8000/...` for redirect URIs.
+
+###  **Use Localhost with 127.0.0.1**:
+   - Instead of using "localhost", try using `127.0.0.1` in your "Authorized domains" and in your OAuth 2.0 Redirect URIs. 
+   - **Example**: `127.0.0.1` is recognized by Google and might work for this purpose.
+
+For a production environment, the best solution is to use a real domain name with HTTPS. For development purposes, editing your hosts file to create a fake domain or using `127.0.0.1` may allow you to proceed without needing a publicly accessible URL.
+
 
 ## 📝 Committing Changes with Git
 
