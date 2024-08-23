@@ -20,18 +20,11 @@ Within a new command line shell, navigate to the code folder on the desktop, cre
 
 ```shell
 # Windows
-$ cd onedrive\desktop\code
-$ mkdir company
-$ cd company
-$ pipenv install django~=5.0.0 black
-$ pipenv shell
-
-# macOS
-$ cd ~/desktop/code
-$ mkdir company
-$ cd company
-$ pipenv install django~=5.0.0 black
-$ pipenv shell
+cd onedrive\desktop\code
+mkdir company
+cd company
+pipenv install django~=5.0.0 black
+pipenv shell
 ```
 
 Next, create a new project called `django_project`, and create a new app called `pages`. We’ve called all our apps “pages” because they have been used for relatively static pages. In future projects, we will populate our pages from the database, and the app names will reflect that new dynamic.
@@ -39,8 +32,8 @@ Next, create a new project called `django_project`, and create a new app called 
 ### Shell Commands
 
 ```shell
-(company) $ django-admin startproject django_project .
-(company) $ python manage.py startapp pages
+django-admin startproject django_project .
+python manage.py startapp pages
 ```
 
 Remember that even though we added a new app, Django will not recognize it until explicitly added to the `INSTALLED_APPS` setting within `django_project/settings.py`. Open your text editor and add it to the bottom now:
@@ -65,8 +58,8 @@ Initialize the database with `migrate` and start the local web server with `runs
 ### Shell Commands
 
 ```shell
-(company) $ python manage.py migrate
-(company) $ python manage.py runserver
+python manage.py migrate
+python manage.py runserver
 ```
 
 Then navigate to `http://127.0.0.1:8000/` to see the Django welcome page.
@@ -82,7 +75,7 @@ First, quit the running server with the `Control+c` command. Then, create a dire
 ### Shell Commands
 
 ```shell
-(company) $ mkdir templates
+mkdir templates
 ```
 
 Next, we need to update `django_project/settings.py` to tell Django where our new `templates` directory is. This requires a one-line change to the "DIRS" configuration under TEMPLATES.
@@ -660,7 +653,7 @@ Run the tests one last time to check our new work. Everything should pass.
 ### Shell Commands
 
 ```shell
-(company) $ python manage.py test
+python manage.py test
 
 Found 8 test(s).
 System check identified no issues (0 silenced).
@@ -682,8 +675,8 @@ It’s time to track our changes with Git and push them to GitHub. We’ll start
 ### Shell Commands
 
 ```shell
-(company) $ git init
-(company) $ git status
+git init
+git status
 ```
 
 Then, create a `.gitignore` file instructing Git on what not to track. We will focus on three areas: the `Pipfile` and `Pipfile.lock` files with virtual environments, the `__pycache__` directory with compiled bytecode, and the database file, `db.sqlite3`.
@@ -702,8 +695,8 @@ The next step is to create a `requirements.txt` file listing the contents of our
 ### Shell Commands
 
 ```shell
-(company) $ pip freeze > requirements.txt
-(company) $ git status
+pip freeze > requirements.txt
+git status
 ```
 
 The final step is to run `git status` again to confirm that `requirements.txt` is included, but the three items in the `.gitignore` file are ignored. Then, add all intended files and directories accompanied by an initial commit message.
@@ -711,9 +704,9 @@ The final step is to run `git status` again to confirm that `requirements.txt` i
 ### Shell Commands
 
 ```shell
-(company) $ git status
-(company) $ git add .
-(company) $ git commit -m "initial commit"
+git status
+git add .
+git commit -m "initial commit"
 ```
 
 Over on GitHub, create a new repo called `company-website` and make sure to select the “Private” radio button. Then click on the “Create repository” button.
@@ -724,9 +717,9 @@ It should look like the below, albeit instead of `wsvincent` as the username, it
 
 ### Shell Commands
 ```shell
-(company) $ git remote add origin https://github.com/yourusername/company-website.git
-(company) $ git branch -M main
-(company) $ git push -u origin main
+git remote add origin https://github.com/yourusername/company-website.git
+git branch -M main
+git push -u origin main
 ```
 
 ## Conclusion
