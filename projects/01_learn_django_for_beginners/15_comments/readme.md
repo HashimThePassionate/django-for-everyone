@@ -353,7 +353,7 @@ class CommentPost(SingleObjectMixin, FormView): # new
      - This method determines where to redirect the user after a successful comment submission.
      - It returns the URL of the current article's detail page using the article's primary key (`pk`).
 
-## Adding a New omment Link
+## Adding a New comment Link
 We’ll add a "New Comment" link on the articles list page to allow users to quickly navigate to the article detail page and add a comment.
 
 ```html
