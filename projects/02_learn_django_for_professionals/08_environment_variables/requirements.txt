@@ -1,0 +1,13 @@
+asgiref==3.8.1
+crispy-bootstrap5==0.6
+django-crispy-forms==1.14.0
+Django==5.1
+django-allauth==64.1.0
+psycopg2-binary==2.9.9
+sqlparse==0.5.1
+tzdata==2024.1
+requests==2.31.0
+environs[django]==9.5.0
+PyJWT==2.7.0
+cryptography==41.0.3
+
