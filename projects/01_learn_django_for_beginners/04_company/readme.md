@@ -160,7 +160,7 @@ Start up the development web server using the `runserver` command.
 ### Shell Commands
 
 ```shell
-(company) $ python manage.py runserver
+python manage.py runserver
 ```
 
 If you navigate `http://127.0.0.1:8000/`, the home page is now visible.
