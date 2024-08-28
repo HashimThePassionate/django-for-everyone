@@ -15,18 +15,11 @@ In a new command line console, enter the following commands:
 
 ```shell
 # Windows
-$ cd onedrive\desktop\code
-$ mkdir message-board
-$ cd message-board
-$ pipenv install django~=5.0.0 black
-$ pipenv shell
-
-# macOS
-$ cd ~/desktop/code
-$ mkdir message-board
-$ cd message-board
-$ pipenv install django~=5.0.0 black
-$ pipenv shell
+cd onedrive\desktop\code
+mkdir message-board
+cd message-board
+pipenv install django~=5.0.0 black
+pipenv shell
 ```
 
 Then, finish the setup by performing the following actions:
@@ -37,8 +30,8 @@ Then, finish the setup by performing the following actions:
 ### Shell Commands
 
 ```shell
-(message-board) $ django-admin startproject django_project .
-(message-board) $ python manage.py startapp posts
+django-admin startproject django_project .
+python manage.py startapp posts
 ```
 
 As a final step, update `django_project/settings.py` to alert Django to the new app, `posts`, by adding it to the bottom of the `INSTALLED_APPS` section.
@@ -71,7 +64,7 @@ A `db.sqlite3` file is now present with our local database and Django default ta
 ### Shell Commands
 
 ```shell
-(message-board) $ python manage.py runserver
+python manage.py runserver
 ```
 
 In your web browser, navigate to `http://127.0.0.1:8000/` to see the familiar Django welcome page.
@@ -81,7 +74,7 @@ A major design philosophy of Django, which you will see repeatedly in this secti
 ### Shell Commands
 
 ```shell
-(message-board) $ python manage.py runserver 8080
+python manage.py runserver 8080
 ```
 
 If you refresh `http://127.0.0.1:8000/`, you will see an error message, but switching to `http://127.0.0.1:8080/` displays our Hello, World! greeting.
@@ -161,13 +154,13 @@ Ensure the local server is stopped by typing `Control+c` on the command line and
 ### Shell Commands
 
 ```shell
-(message-board) $ python manage.py makemigrations posts
+python manage.py makemigrations posts
 
 Migrations for 'posts':
   posts/migrations/0001_initial.py
     - Create model Post
 
-(message-board) $ python manage.py migrate
+python manage.py migrate
 
 Operations to perform:
   Apply all migrations: admin, auth, contenttypes, posts, sessions
@@ -186,7 +179,7 @@ To use the Django admin, we must first create a superuser who can log in. In you
 ### Shell Commands
 
 ```shell
-$ python manage.py createsuperuser
+python manage.py createsuperuser
 Username (leave blank to use 'dell'): hashim
 Email address: hashiimtahir@gmail.com
 Password: 
@@ -284,7 +277,7 @@ We already have a model and view, which means only a template and URL are left t
 ### Shell Commands
 
 ```shell
-(message-board) $ mkdir templates
+mkdir templates
 ```
 
 Then, update the `DIRS` field in our `django_project/settings.py` file so Django can look in this new `templates` directory.
@@ -414,7 +407,7 @@ Everything works, so it is a good time to initialize our directory and create a 
 ### Shell Commands
 
 ```shell
-(message-board) $ git init
+git init
 ```
 
 Then, in your text editor, create a new `.gitignore` file in the root directory and add three lines so that the `Pipfile` and `Pipfile.lock` files, Python bytecode, and the `db.sqlite` file are not tracked.
@@ -433,9 +426,9 @@ If you now run `git status`, the `Pipfile` and `Pipfile.lock` files, `__pycache_
 ### Shell Commands
 
 ```shell
-(message-board) $ git status
-(message-board) $ git add -A
-(message-board) $ git commit -m "initial commit"
+git status -s
+git add .
+git commit -m "initial commit"
 ```
 
 ## Tests
@@ -471,7 +464,7 @@ Run the test on the command line with the command `python manage.py test`.
 ### Shell Commands
 
 ```shell
-(message-board) $ python manage.py test
+python manage.py test
 
 Found 1 test(s).
 Creating test database for alias 'default'...
@@ -533,7 +526,7 @@ If you rerun our tests, you should see that they all pass.
 ### Shell Commands
 
 ```shell
-(message-board) $ python manage.py test
+python manage.py test
 
 Found 5 test(s).
 Creating test database for alias 'default'...
@@ -580,7 +573,7 @@ Run the tests one last time to confirm that they all pass.
 ### Shell Commands
 
 ```shell
-(message-board) $ python manage.py test
+python manage.py test
 
 Found 3 test(s).
 Creating test database for alias 'default'...
@@ -602,8 +595,8 @@ That’s enough tests for now; it’s time to commit the changes to Git.
 ### Shell Commands
 
 ```shell
-(message-board) $ git add -A
-(message-board) $ git commit -m "added tests"
+git add .
+git commit -m "added tests"
 ```
 
 ## GitHub
@@ -615,9 +608,9 @@ On the next page, scroll down to where it says, “…or push an existing reposi
 ### Shell Commands
 
 ```shell
-(message-board) $ git remote add origin https://github.com/yourusername/message-board.git
-(message-board) $ git branch -M main
-(message-board) $ git push -u origin main
+git remote add origin https://github.com/yourusername/message-board.git
+git branch -M main
+git push -u origin main
 ```
 
 ## Conclusion
