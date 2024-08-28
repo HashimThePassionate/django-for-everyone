@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     # Other apps...
     "crispy_forms",  # 🆕 Add this line
     "crispy_bootstrap5",  # 🆕 Add this line if using Bootstrap 5
-    'anymail',  # new
 ]
 
 LOGIN_REDIRECT_URL = "home"  # new
@@ -63,19 +62,13 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",  # new
 )
 
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # new
-# DEFAULT_FROM_EMAIL = "warriorecosystem346@gmail.com" # new
-
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "sandbox.smtp.mailtrap.io"
-EMAIL_PORT = 2525
-EMAIL_HOST_USER = env("MAILTRAP_USERNAME")  # Store these in your .env file
-EMAIL_HOST_PASSWORD = env("MAILTRAP_PASSWORD")
-EMAIL_USE_TLS = True
-# Replace with your email or desired default
-DEFAULT_FROM_EMAIL = 'warriorecosystem346@gmail.com'
-
-
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # Use the SMTP backend to send emails
+EMAIL_HOST = "smtp.gmail.com"  # Gmail's SMTP server
+EMAIL_PORT = 587  # Port for sending emails over TLS
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Your Gmail email address
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # The app password generated in the previous step
+EMAIL_USE_TLS = True  # Enable TLS encryption
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL") 
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -110,6 +103,8 @@ ACCOUNT_USERNAME_REQUIRED = False  # new
 ACCOUNT_AUTHENTICATION_METHOD = "email"  # new
 ACCOUNT_EMAIL_REQUIRED = True  # new
 ACCOUNT_UNIQUE_EMAIL = True  # new
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Enforces email verification
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False  # Prevent login without email confirmation
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

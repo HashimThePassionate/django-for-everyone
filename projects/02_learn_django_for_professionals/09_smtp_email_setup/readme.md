@@ -1,5 +1,37 @@
 # 🌟 Email Configuration for Django Bookstore 🌟
 
+> Before we start, first copy these requirements.txt to your project folder.
+
+```shell
+asgiref==3.8.1
+certifi==2024.7.4
+charset-normalizer==3.3.2
+crispy-bootstrap5==0.6
+Django==5.1
+django-allauth==64.1.0
+django-crispy-forms==1.14.0
+idna==3.8
+psycopg2-binary==2.9.9
+requests==2.32.3
+sqlparse==0.5.1
+starkbank-ecdsa==2.2.0
+tzdata==2024.1
+urllib3==2.2.2
+environs[django]==9.5.0
+PyJWT==2.7.0
+cryptography==41.0.3
+```
+
+Now lets build new application in docker container
+
+```shell
+docker-compose down -v
+docker-compose up -d --build
+docker-compose exec web python manage.py makemigrations accounts
+docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py createsuperuser
+```
+
 In this section, we will fully configure email functionality and add password change and password reset capabilities to our Django project. Currently, emails are not actually sent to users; they are simply outputted to our command line console. We’ll change that by signing up for a third-party email service, obtaining API keys, and updating our `django_project/settings.py` file. Django takes care of the rest! 😎
 
 So far, all of our work—custom user model, pages app, static assets, authentication with allauth, and environment variables—could apply to almost any new project. After this section, we will start building out the Bookstore site itself as opposed to just foundational steps.
@@ -174,61 +206,6 @@ web_1 | Hello from Django Bookstore!
 web_1 | You are receiving this e-mail because user testuser4 has given your \
 e-mail address to register an account on djangobookstore.com.
 ```
-``Run`` 
-```python
-docker-compose exec web pip freeze > requirements.txt
-```
-``output``
-```
-asgiref==3.8.1
-certifi==2024.7.4
-charset-normalizer==3.3.2
-crispy-bootstrap5==0.6
-Django==5.1
-django-allauth==64.1.0
-django-anymail==11.1
-django-crispy-forms==1.14.0
-idna==3.8
-psycopg2-binary==2.9.9
-python-http-client==3.3.7
-requests==2.32.3
-sendgrid==6.11.0
-sqlparse==0.5.1
-starkbank-ecdsa==2.2.0
-tzdata==2024.1
-urllib3==2.2.2
-environs[django]==9.5.0
-PyJWT==2.7.0
-cryptography==41.0.3
-```
-
-### 🌟 Example SMTP Configuration
-
-### 💡 Detailed SMTP Configuration with Explanation
-
-Now, let's look at a specific example of configuring an SMTP server using Mailtrap, which is commonly used for testing email functionality:
-
-```python
-# django_project/settings.py
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # This setting tells Django to use the SMTP backend for sending emails.
-EMAIL_HOST = "sandbox.smtp.mailtrap.io"  # The SMTP server address provided by Mailtrap.
-EMAIL_PORT = 2525  # The port used to connect to the SMTP server. 2525 is often used by Mailtrap for unencrypted connections.
-EMAIL_HOST_USER = env("MAILTRAP_USERNAME")  # The username for authenticating with the SMTP server, stored securely in an environment variable.
-EMAIL_HOST_PASSWORD = env("MAILTRAP_PASSWORD")  # The password for authenticating with the SMTP server, also stored securely.
-EMAIL_USE_TLS = True  # This setting enables TLS (Transport Layer Security) for encrypting the email transmission, enhancing security.
-DEFAULT_FROM_EMAIL = 'warriorecosystem346@gmail.com'  # This is the email address that will appear in the "From" field when sending emails.
-```
-
-**Explanation:**
-
-- **`EMAIL_BACKEND`**: This is set to `django.core.mail.backends.smtp.EmailBackend`, which tells Django to send emails using an SMTP server.
-- **`EMAIL_HOST`**: The address of the SMTP server provided by your email service. Here, we use Mailtrap's sandbox server for testing purposes.
-- **`EMAIL_PORT`**: The port number to use for the SMTP connection. Mailtrap typically uses port 2525 for unencrypted connections.
-- **`EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD`**: These are the credentials for logging in to the SMTP server. They should be stored securely in environment variables.
-- **`EMAIL_USE_TLS`**: This ensures that the connection to the SMTP server is encrypted, which is essential for protecting the transmission of sensitive information.
-- **`DEFAULT_FROM_EMAIL`**: This is the default "From" address that will be used when sending emails from your Django application.
-
-
 ## 🌐 Email Confirmation Page Update
 
 Click on the unique URL link in the email, which redirects to the email confirm page. The default page is not very attractive, so let’s update it to match the look of the rest of our site.
@@ -298,40 +275,38 @@ Certainly! Let's replace the example SMTP configuration with a detailed explanat
 
 ---
 
-## 🌍 Configuring the Email Service with Mailtrap
+### 📝 Step 1: User Registration
 
-The emails we have configured so far are generally referred to as “Transactional Emails” because they occur based on user actions. To configure Mailtrap as your SMTP server for sending these emails, follow these steps:
+After signing up, you will be redirected to the homepage with a custom greeting, and an email will be sent to you. This email will confirm your registration. Initially, this email will be printed on the command line, but after setting up Gmail SMTP, it will be sent to your actual email.
 
-1. **Sign Up for Mailtrap:**  
-   First, create an account on [Mailtrap](https://mailtrap.io/). Mailtrap provides a safe testing environment for sending and receiving emails, ensuring that your emails don’t actually reach real users while you are still developing.
+### 🚀 Step 2: Configuring Gmail SMTP
 
-2. **Update `settings.py`:**  
-   Set the `EMAIL_BACKEND` to use SMTP.
+To send emails using Gmail, follow these steps:
 
-```python
-# django_project/settings.py
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # new
-```
+#### 🔐 Step 2.1: Enable Two-Step Verification
 
-3. **Set Environment Variables:**  
-   Mailtrap provides you with SMTP credentials that you'll need to configure in your Django project. After logging in to Mailtrap, follow these steps to get the credentials and set up your environment variables:
+Before you can send emails using Gmail’s SMTP server, you must enable two-step verification on your Gmail account.
 
-   - Go to your Mailtrap inbox.
-   - Click on "SMTP Settings."
-   - Copy the provided credentials, which typically include the SMTP server, port, username, and password.
+1. **Sign in to your Gmail account.**
+2. **Navigate to your Google Account settings** by clicking on your profile picture and selecting "Manage your Google Account."
+3. **Click on "Security"** in the left-hand menu.
+4. **Scroll down to "Signing in to Google"** and click on "2-Step Verification."
+5. **Follow the prompts to enable two-step verification** on your account.
 
-Here’s how your environment variables might look:
+#### 🗝️ Step 2.2: Generate an App Password
 
-```bash
-export EMAIL_HOST=sandbox.smtp.mailtrap.io
-export EMAIL_PORT=2525
-export EMAIL_HOST_USER=your_mailtrap_username
-export EMAIL_HOST_PASSWORD=your_mailtrap_password
-export EMAIL_USE_TLS=True
-```
+Once two-step verification is enabled, you need to generate an app password for your Django project:
 
-4. **Configure Django with Mailtrap:**  
-   Now, add these environment variables to your `.env` file to keep them secure. Then, update your `settings.py` to use these values:
+1. **Go back to the "Security" section** of your Google Account settings.
+2. **Under "Signing in to Google," click on "App Passwords."** 
+> if app password not found, then search app password on search bar
+3. **Select "Other (Custom name)"** from the dropdown and enter a name, such as "Django Email."
+4. **Click "Generate."**
+5. **Copy the generated app password** (it will be a 16-character code) and store it securely.
+
+#### 🛠️ Step 2.3: Update `settings.py` with SMTP Configuration
+
+Now, update your Django project’s `settings.py` file to use Gmail’s SMTP server:
 
 ```python
 # django_project/settings.py
@@ -342,30 +317,26 @@ env = Env()
 env.read_env()
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # Use the SMTP backend to send emails
-EMAIL_HOST = env("EMAIL_HOST")  # Mailtrap SMTP server address
-EMAIL_PORT = env.int("EMAIL_PORT")  # Mailtrap port number
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Mailtrap username
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # Mailtrap password
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)  # Enable TLS encryption
-DEFAULT_FROM_EMAIL = 'your_email@example.com'  # Default sender email address
+EMAIL_HOST = "smtp.gmail.com"  # Gmail's SMTP server
+EMAIL_PORT = 587  # Port for sending emails over TLS
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Your Gmail email address
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # The app password generated in the previous step
+EMAIL_USE_TLS = True  # Enable TLS encryption
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")  # Default sender email address
 ```
 
-### 💡 Detailed Explanation of the Configuration
+#### 💾 Step 2.4: Set Environment Variables
 
-- **`EMAIL_BACKEND`**: This tells Django to use the SMTP backend for sending emails.
-- **`EMAIL_HOST`**: The SMTP server address provided by Mailtrap, which is typically `sandbox.smtp.mailtrap.io`.
-- **`EMAIL_PORT`**: The port used to connect to Mailtrap’s SMTP server. Port `2525` is commonly used for unencrypted connections, though Mailtrap also supports port `587` for TLS.
-- **`EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD`**: These are your Mailtrap credentials (username and password), which you should keep secure by storing them in environment variables.
-- **`EMAIL_USE_TLS`**: This ensures that the connection to the SMTP server is encrypted using TLS (Transport Layer Security), which is essential for protecting sensitive information during transmission.
-- **`DEFAULT_FROM_EMAIL`**: The default "From" address that will appear when your Django application sends emails. You can set this to any email address you'd like to use as the sender.
+To keep your credentials secure, store them in environment variables. Update your `.env` file with the following values:
 
-### 🌟 Why Use Mailtrap?
+```bash
+# .env file
+EMAIL_HOST_USER=your_email@gmail.com
+EMAIL_HOST_PASSWORD=your_generated_app_password
+DEFAULT_FROM_EMAIL=your_email@gmail.com
+```
 
-Mailtrap is an excellent choice for testing email functionality during development. It allows you to send emails from your application without actually sending them to real users. Instead, the emails are captured in a virtual inbox within Mailtrap, where you can inspect them and ensure that your email logic is working correctly.
-
-- **Safe Testing Environment:** Mailtrap ensures that no test emails reach actual users, preventing potential confusion or spam.
-- **Easy to Use:** With simple setup steps and an intuitive interface, Mailtrap makes it easy to configure and monitor your email-sending logic.
-- **Detailed Inspection:** You can view the content, headers, and delivery status of each email, making it easier to debug and refine your email features.
+This ensures that sensitive information like your Gmail email address and app password is not hardcoded in your project files.
 
 ## 🔑 Password Reset and Password Change
 
@@ -374,16 +345,151 @@ Django and `django-allauth` also provide support for resetting a forgotten passw
 - **Password Reset URL:** `http://127.0.0.1:8000/accounts/password/reset/`
 - **Password Change URL:** `http://127.0.0.1:8000/accounts/password/change/`
 
+### 📧 Step 3.0: Password Reset and Change Pages
+
+Let's also customize the password reset and change pages to match your site's design.
+
+#### 🚀 Step 3.1: Password Reset Page
+
+Create a custom `password_reset.html`:
+
+```html
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Password Reset{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Password Reset</h2>
+                </div>
+                <div class="card-body">
+                    {% if form %}
+                        <p class="text-muted">
+                            Forgot your password? Enter your email address below, and we'll send you an email allowing you to reset it.
+                        </p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form.email|as_crispy_field }}
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Reset My Password</button>
+                        </form>
+                    {% else %}
+                        <p class="text-success">
+                            An email has been sent to your inbox with instructions to reset your password.
+                        </p>
+                    {% endif %}
+                    <p class="mt-3">
+                        <a href="{% url 'account_login' %}" class="btn btn-link">Back to login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
+
+#### 🚀 Step 3.2: Password Change Page
+
+And finally, create a custom `password_change.html`:
+
+```html
+{% extends "_base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">
+          <h2>Change Password</h2>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %} {{ form|crispy }}
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">
+                Change Password
+              </button>
+            </div>
+          </form>
+          <div class="text-center mt-3">
+            <a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+```
+
+Here's a step-by-step guide with beautiful emojis to ensure users cannot log in or be redirected to the home page before confirming their email using Django Allauth. We'll use settings, adapters, and custom messages to guide users properly. Let's make this process clear and visually appealing!
+
+### 🌟 Step 4.1: Update Django Allauth Settings
+
+First, update your Django settings file (`settings.py`) to enforce email confirmation before login. Add or update these settings:
+
+```python
+# settings.py
+# 🔒 Require email confirmation before allowing login
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # 🚫 Users must verify their email before logging in.
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # 🕒 Email confirmation link expires in 3 days.
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False  # 🔄 Prevent automatic login after email confirmation.
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_login'  # ↩️ Redirect to login after confirmation.
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = False  # 🚫 Prevent automatic login after password reset.
+```
+
+### 🌟 Step 4.2: Modify Signup Flow to Prevent Redirect Without Confirmation
+
+Ensure the signup view does not redirect users to the home page without confirming their email. The setting `ACCOUNT_EMAIL_VERIFICATION = "mandatory"` ensures unverified email addresses cannot be used to log in. 
+
+### 🌟 Step 4.3: Customize Redirects in Allauth Views
+
+By default, Django Allauth might redirect users to the home page after signup. To prevent this, update the Allauth adapter to redirect users to an informative page that instructs them to confirm their email.
+
+1. 📁 **Create a new file**, e.g., `adapters.py` in your accounts app (or wherever you handle Allauth settings).
+
+2. ✏️ **Add the following code** to create a custom adapter:
+
+   ```python
+   # adapters.py
+   from allauth.account.adapter import DefaultAccountAdapter
+   from django.urls import reverse
+
+   class NoRedirectLoginAdapter(DefaultAccountAdapter):
+       def get_login_redirect_url(self, request):
+           # 🚦 Redirect to login page or a custom "please confirm your email" page
+           return reverse('account_login')  # ➡️ Redirect to login page
+   ```
+
+3. ⚙️ **Register this adapter** in your settings:
+
+   ```python
+   # settings.py
+   ACCOUNT_ADAPTER = 'yourapp.adapters.NoRedirectLoginAdapter'  # 📂 Replace 'yourapp' with your app name
+   ```
+
+### 🌟 Step 4.5: Add Confirmation Message to Login Page
+
+To inform users that they need to confirm their email, you can add a message on the login page that checks if the email is confirmed. This step provides a better user experience and ensures they know why their login attempt failed.
+
+### 🌟 Step 5: Test the Flow
+
+1. 📝 **Sign up** with a new email address.
+2. 📧 **Do not confirm** the email immediately.
+3. 🚫 Attempt to log in—Django should prevent the login and inform the user to confirm the email first.
 
 
 ## 💾 Git Commit and Push
-
 To save these changes, commit the updates to your Git repository:
 
 ```shell
 git status
 git add .
-git commit -m 'email configuration'
+git commit -m 'Proper Email Configurations'
 git push origin main
 ```
 

@@ -1,9 +1,19 @@
 {% extends "account/email/base_message.txt" %}
 {% load account %}
 {% load i18n %}
-{% block content %}{% autoescape off %}{% user_display user as user_display %}\
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}\
-You are receiving this e-mail because user {{ user_display }} has given your\
-e-mail address to register an account on {{ site_domain }}.
-To confirm this is correct, go to {{ activate_url }}\
-{% endblocktrans %}{% endautoescape %}{% endblock %}
+{% block content %}{% autoescape off %}{% user_display user as user_display %}
+
+👋 Hi {{ user_display }},
+
+✨ You are receiving this email because you signed up on {{ current_site.domain }} using this email address. To confirm your email, please click the link below:
+
+🔗 [Confirm Your Email]({{ activate_url }})
+
+If you did not create an account, you can safely ignore this email.
+
+Thank you for joining us at {{ current_site.name }}! 😊
+
+🚀 Best regards,  
+{{ current_site.name }} Team
+
+{% endautoescape %}{% endblock %}
