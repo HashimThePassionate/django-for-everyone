@@ -1,0 +1,32 @@
+<!-- templates/books/book_detail.html -->
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}  <!-- Load Crispy Forms tags for styling -->
+
+{% block title %}{{ book.title }}{% endblock title %}
+{% block content %}
+<div class="book-detail">
+  <h2><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h2>
+  <p>Author: {{ book.author }}</p>
+  <p>Price: {{ book.price }}</p>
+  <div>
+    <h3>Reviews</h3>
+    <ul>
+      {% for review in book.reviews.all %}
+      <li>{{ review.review }} ({{ review.author }})</li>
+      {% empty %}
+      <li>No reviews yet. Be the first to review this book!</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- 📝 Review Form -->
+  <div>
+    <h3>Leave a Review</h3>
+    <form method="post" action="{% url 'review_create' book.pk %}">
+      {% csrf_token %}
+      {{ form|crispy }}  <!-- Render the form with Crispy Forms for styling -->
+      <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
+  </div>
+</div>
+{% endblock content %}

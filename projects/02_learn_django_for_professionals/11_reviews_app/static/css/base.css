@@ -1,0 +1,47 @@
+body {
+    min-height: 75rem;
+    padding-top: 4.5rem;
+}
+h1 {
+    color: red;
+}
+img.bookcover {
+    height: 300px;
+    width: auto;
+}
+
+.btn-github, .btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-github {
+    background-color: #24292e;
+}
+
+.btn-google {
+    background-color: #db4437;
+}
+
+.btn-github:hover {
+    background-color: #444d56;
+}
+
+.btn-google:hover {
+    background-color: #c2301c;
+}
+
+.github-logo, .google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+

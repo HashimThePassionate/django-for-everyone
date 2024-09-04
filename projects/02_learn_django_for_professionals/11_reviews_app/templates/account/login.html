@@ -1,0 +1,28 @@
+<!-- templates/account/login.html -->
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% load socialaccount %} <!-- Load socialaccount template tags -->
+{% load static %} <!-- Load static tag for static files -->
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+<h2>Log In</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-success" type="submit">Log In</button>
+</form>
+
+<div class="social-login">
+    <h3>Or log in with:</h3>
+    <a href="{% provider_login_url 'github' %}" class="btn btn-github">
+        <img src="{% static 'images/github-logo.png' %}" alt="GitHub Logo" class="github-logo">
+        Login with GitHub
+    </a>
+    <a href="{% provider_login_url 'google' %}" class="btn btn-google">
+        <img src="{% static 'images/google-logo.png' %}" alt="Google Logo" class="google-logo">
+        Login with Google
+    </a>
+</div>
+{% endblock content %}
