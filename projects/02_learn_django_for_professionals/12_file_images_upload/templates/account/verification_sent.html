@@ -1,0 +1,22 @@
+<!-- templates/account/email_confirm.html -->
+{% extends "_base.html" %}
+{% load i18n %}
+{% load account %}
+{% block head_title %}{% trans "Verify Your Email Address" %}{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">{% trans "Verify Your Email Address" %}</h1>
+            <p class="lead">
+                {% trans "We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes." %}
+            </p>
+            <div class="alert alert-info mt-4">
+                <strong>{% trans "Email Sent To:" %}</strong> {{ confirmation.email_address.email }}
+            </div>
+            <a href="{% url 'account_login' %}" class="btn btn-primary mt-3">{% trans "Sign In" %}</a>
+            <a href="{% url 'account_signup' %}" class="btn btn-secondary mt-3">{% trans "Sign Up" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
