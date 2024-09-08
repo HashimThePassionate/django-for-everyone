@@ -1,0 +1,24 @@
+<!-- fileuploadapp/templates/document_confirm_delete.html -->
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container custom-container mt-5">
+        <h3 class="mb-4">Are you sure you want to delete this document?</h3>
+        <p><strong>{{ object.title }}</strong> (Uploaded on: {{ object.uploaded_at|date:"F d, Y" }})</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="{% url 'document_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

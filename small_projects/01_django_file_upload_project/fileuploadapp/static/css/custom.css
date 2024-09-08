@@ -1,0 +1,33 @@
+/* fileuploadapp/static/css/custom.css */
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Arial', sans-serif;
+}
+
+.custom-container {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.custom-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: #0056b3;
+}
+
+.list-group-item {
+    background-color: #e9ecef;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}

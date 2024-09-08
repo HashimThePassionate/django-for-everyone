@@ -1,0 +1,51 @@
+<!-- fileuploadapp/templates/upload_form.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container custom-container">
+        <h2 class="mb-4">Upload a File 📁</h2>
+        
+        <!-- Display form errors using Bootstrap alerts -->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            <ul class="mb-0">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">  <!-- Bootstrap form-group for spacing -->
+                <label for="id_title">Title:</label>
+                <input type="text" name="title" id="id_title" class="form-control" required>
+            </div>
+            <div class="form-group">  <!-- Bootstrap form-group for spacing -->
+                <label for="id_uploaded_file">Uploaded file:</label>
+                <input type="file" name="uploaded_file" id="id_uploaded_file" class="form-control-file" required>
+            </div>
+            <button type="submit" class="btn btn-primary custom-button">Upload</button>
+        </form>
+    </div>
+
+    <!-- Optionally, add Bootstrap JS and jQuery for advanced components -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
