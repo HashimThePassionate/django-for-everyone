@@ -1,0 +1,1 @@
+# This Repository is a collection of small projects django projects 
