@@ -211,9 +211,7 @@
    from .models import Document
 
    class DocumentCreateView(CreateView):
-       model = Document  # Specifies the model this view is associated
-
- with
+       model = Document  # Specifies the model this view is associated with
        fields = ['title', 'uploaded_file']  # Fields to include in the form
        template_name = 'upload_form.html'  # Template that will render this view
        success_url = reverse_lazy('document_list')  # URL to redirect to after a successful form submission
@@ -381,9 +379,7 @@
        <!-- Bootstrap CSS CDN -->
        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
        <!-- Custom CSS -->
-       <link href="{% static 'css/custom.css' %}" rel="
-
-stylesheet">
+       <link href="{% static 'css/custom.css' %}" rel="stylesheet">
    </head>
    <body>
        <div class="container custom-container">
