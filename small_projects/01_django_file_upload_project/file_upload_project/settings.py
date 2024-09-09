@@ -18,7 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # file_upload_project/settings.py
 
 MEDIA_URL = '/media/'  # Base URL for serving media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory to save uploaded media files
+# Directory to save uploaded media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fileuploadapp', # Add the app to the installed apps
+    'fileuploadapp',  # Add the app to the installed apps
 ]
 
 MIDDLEWARE = [
