@@ -1,0 +1,22 @@
+<!-- /code/templates/429.html -->
+{% extends "_base.html" %}
+
+{% block head_title %}
+    Too Many Requests
+{% endblock head_title %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 text-danger">Too Many Requests</h1>
+            <p class="lead">
+                You have made too many requests in a short period. Please wait a moment and try again later.
+            </p>
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">
+                Go Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

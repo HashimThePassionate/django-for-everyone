@@ -1,0 +1,11 @@
+<!-- templates/books/book_confirm_delete.html -->
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>Delete Book: {{ book.title }}</h2>
+<form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete this book?</p>
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+</form>
+{% endblock %}
