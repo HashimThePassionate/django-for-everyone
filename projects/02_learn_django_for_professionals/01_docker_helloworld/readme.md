@@ -340,7 +340,6 @@ This command will create a Docker image based on the instructions in the `Docker
 The `docker-compose.yml` file defines how the Docker container should run. Here's an example `docker-compose.yml` file for your Django project:
 
 ```yaml
-version: "3.9"
 services:
   web:
     build: .
