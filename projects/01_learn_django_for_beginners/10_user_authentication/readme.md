@@ -11,8 +11,8 @@ By default, the Django template loader looks for templates in a nested structure
 Create a new project-level templates directory and a registration directory within where Django will look for templates related to logging in and signing up.
 
 ```sh
-$ mkdir templates
-$ mkdir templates/registration
+mkdir templates
+mkdir templates/registration
 ```
 
 We need to tell Django about this new directory by updating the configuration for "DIRS" in `django_project/settings.py`.
@@ -309,7 +309,7 @@ Run the tests with `python manage.py test` to check that everything passes as ex
 ### Shell Command
 
 ```sh
-$ python manage.py test
+python manage.py test
 Found 5 test(s).
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
@@ -327,10 +327,10 @@ Before moving on to the next section, let’s record our work with Git and store
 ### Shell Commands
 
 ```sh
-$ git status
-$ git add .
-$ git commit -m "user authentication"
-$ git push origin main
+git status
+git add .
+git commit -m "user authentication"
+git push origin main
 ```
 
 ## Conclusion
