@@ -9,3 +9,4 @@ Pipfile
 Pipfile.lock 
 CUsersaaa.gitignore_global
 .env
+docker-compose-prod.yml
