@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      - .env
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "DJANGO_SECRET_KEY=django-insecure-tlpzxte#0la5q^2h(3dc(u0s2&k7my_!8pt_v-g#3e^^a(^x&k"
+      - "DJANGO_SECURE_SSL_REDIRECT=False" 
+      - "DJANGO_SECURE_HSTS_SECONDS=0"  # No HSTS in local development
+      - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False"  # No subdomain HTTPS enforcement
+      - "DJANGO_SECURE_HSTS_PRELOAD=False"  # Preload disabled for local developm
+      - "DJANGO_SESSION_COOKIE_SECURE=False"  # In local development, no need for HTTPS
+      - "DJANGO_CSRF_COOKIE_SECURE=False"  
+volumes:
+  postgres_data:
