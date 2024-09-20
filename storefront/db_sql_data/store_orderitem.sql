@@ -1,9 +1,0 @@
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (1, 53, 18.89, '6', '3');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (2, 58, 67.18, '2', '7');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (3, 44, 45.31, '7', '2');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (4, 20, 13.18, '2', '4');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (5, 20, 97.04, '6', '9');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (6, 67, 49.63, '7', '8');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (7, 97, 87.73, '6', '5');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (8, 50, 1.86, '8', '4');
-insert into store_orderitem (id, quantity, unit_price, order_id, product_id) values (9, 46, 47.95, '9', '7');
