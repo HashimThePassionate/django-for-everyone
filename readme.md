@@ -71,6 +71,8 @@ If you prefer learning one step at a time, mastering one concept at a time, foll
 ## 🎯 How to Use This Repository
 
 1. **Project-Based Learning**: If you want to learn Django by building real-world applications, head over to the **[Projects Directory](projects/)**. Start with **Beginners** if you're new to Django, or dive into **Professionals** if you're ready for more advanced challenges.
+
+>**If you find this repository helpful, please give it a star ⭐! Your support helps keep this project going and encourages more content to be added. 🌟**
    
 2. **Feature-by-Feature Learning**: If you prefer mastering one concept at a time, begin with **[Django Fundamentals](01_django_fundamentals/)** and progress through to **[Django ORM](04_django_orm/)**.
 
