@@ -64,3 +64,4 @@ While the **API-first approach** offers a lot of flexibility, it does have some 
 
 But don’t worry! 🎉 **Django REST Framework (DRF)** makes all of this much easier by providing ready-made tools to simplify these tasks. DRF handles much of the complexity of setting up APIs, letting you focus on building the features you need.
 
+`Next Page` 👉 [Django_rest_framework](../02_drf/) 
