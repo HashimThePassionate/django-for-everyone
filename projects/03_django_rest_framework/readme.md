@@ -71,3 +71,5 @@ By the end of this section, you'll have the knowledge and skills to:
 - **Quickly Develop Secure and Scalable APIs** 🚀: You’ll learn how to use Django and DRF’s built-in tools to create APIs efficiently while maintaining high levels of security.
 
 With just a **small amount of code**, you’ll be able to build APIs that can be used across platforms like mobile apps, websites, or other services. And thanks to Django's "batteries-included" approach, you’ll accomplish this in **minimal time**! ⏱️
+
+`Next Page` 👉 [why_api](./01_why_api/)
