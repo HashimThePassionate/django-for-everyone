@@ -29,7 +29,19 @@ If you love learning by doing, this is the path for you! In the **Projects Direc
   - Advanced user registration and authentication.
   - Adding **search** and **permissions** functionalities.
   - Deploying a production-ready app on **Heroku**.
+  - 
+#### 👉 [03_django_rest_framework](./projects/03_django_rest_framework/)
+- **Best for**: Developers looking to build RESTful APIs with Django.
+- **What you'll build**: A full-featured REST API using Django and Django REST Framework (DRF).
+- **Why it's awesome**: You'll learn how to create, read, update, and delete resources via APIs, work with viewsets, serializers, and handle complex queries through Django's ORM.
 
+- **Covered Topics**:
+- Setting up **Django REST Framework**.
+- Building API endpoints for your Django models.
+- Using **viewsets** and **routers** for efficient URL routing.
+- Creating **serializers** to handle the conversion between Django models and JSON.
+- Implementing **permissions** and **authentication** using DRF's built-in features.
+- Deploying your Django REST API on platforms like `Heroku`.
 ---
 
 ### Path 2: Feature-by-Feature Learning ⚙️
