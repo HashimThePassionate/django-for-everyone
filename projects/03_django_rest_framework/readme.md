@@ -72,4 +72,4 @@ By the end of this section, you'll have the knowledge and skills to:
 
 With just a **small amount of code**, you’ll be able to build APIs that can be used across platforms like mobile apps, websites, or other services. And thanks to Django's "batteries-included" approach, you’ll accomplish this in **minimal time**! ⏱️
 
-`Next Page` 👉 [why_api](./01_why_api/)
+`Next Page` 👉 [why_api](./01_why_api/) 
