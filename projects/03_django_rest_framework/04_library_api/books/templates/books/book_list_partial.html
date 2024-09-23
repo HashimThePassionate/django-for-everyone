@@ -1,0 +1,13 @@
+<!-- books/templates/books/book_list_partial.html -->
+{% for book in books %}
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ book.author }}</h6>
+                <p class="card-text">{{ book.subtitle }}</p>
+                <p class="card-text"><small class="text-muted">{{ book.isbn }}</small></p>
+            </div>
+        </div>
+    </div>
+{% endfor %}
