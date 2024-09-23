@@ -92,3 +92,5 @@ Let’s summarize the reasons why learning DRF is essential for any Django devel
 4. **Join a Thriving Community** 🌍: DRF is widely used by developers around the world, which means you can find support, tutorials, and answers to common questions easily.
 
 By mastering **Django REST Framework**, you’ll have the tools to build **scalable**, **secure**, and **high-performance APIs** that are ready to power modern web and mobile applications! 📱🌍
+
+`Next Page` 👉 [Web apis](../03_web_apis/) 
