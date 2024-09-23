@@ -8,7 +8,7 @@ We’ve split the content into two main learning paths. Choose the one that best
 
 ### Path 1: Project-Based Learning 📚
 
-If you love learning by doing, this is the path for you! In the **Projects Directory**, you'll find two project-based tracks:
+If you love learning by doing, this is the path for you! In the **Projects Directory**, you'll find different project-based tracks:
 
 #### 👉 [01_learn_django_for_beginners](https://github.com/HashimThePassionate/django-for-everyone/tree/main/projects/01_learn_django_for_beginners)
 - **Best for**: Those just starting with Django.
