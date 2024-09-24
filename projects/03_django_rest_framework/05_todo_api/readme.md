@@ -294,11 +294,6 @@ This allows you to see the **details** for each todo, such as the **title** and 
 
 - **Interactive**: You can add, update, or delete data right from the browser! ✨
 - **Developer-Friendly**: It’s a great way to test and see your API in action without needing to use tools like Postman or curl. 🛠️
-
----
-
-Here’s a detailed and engaging README section explaining **API Tests** for the **Todo API** in Django REST Framework, complete with emojis and simple instructions:
-
 ---
 
 ## 🧪 API Tests for Todo API
@@ -398,10 +393,6 @@ Since our back-end will communicate with a front-end on a different port, we nee
 
 ---
 
-Here’s a detailed explanation of **CORS (Cross-Origin Resource Sharing)**, why it’s important, and how to set it up in Django using `django-cors-headers`, in simple terms:
-
----
-
 ## 🔒 CORS (Cross-Origin Resource Sharing) in Django
 
 When building web applications, security is always a key concern. One such security measure is **CORS (Cross-Origin Resource Sharing)**, which becomes important when your **back-end** and **front-end** are hosted on different domains or even different ports. Let’s break this down and explain how to handle CORS in a Django project. 🚀
@@ -415,8 +406,6 @@ For example:
 - Your **back-end API** is hosted on `localhost:8000` (Django).
 
 Without **CORS**, browsers would block requests from the front-end to the back-end because they’re on different ports/domains. This is a security feature meant to prevent malicious websites from accessing sensitive data hosted on another site.
-
----
 
 ## 🔧 How Does CORS Work?
 
@@ -550,9 +539,6 @@ CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]  # Allow cross-origin requests 
 ### 2. **How It Works**
 
 Now that you’ve added `localhost:3000` as a trusted origin, Django will accept **cross-domain** requests from this port, even if they include form submissions or sensitive data that requires CSRF validation. 🎉
-
----
-Here's a detailed explanation and breakdown of how to deploy your **Django REST Framework API** using **Heroku**, with step-by-step instructions and helpful insights:
 
 ---
 
@@ -733,5 +719,4 @@ To open your app in the browser, run:
 ```bash
 heroku open
 ```
-
 ---
