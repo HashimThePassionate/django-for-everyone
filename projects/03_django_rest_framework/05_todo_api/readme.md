@@ -551,7 +551,7 @@ Deploying your **Django API** to production is a crucial step to make your appli
 Here’s what we need to do to successfully deploy our Django app to Heroku:
 1. **Configure static files** and install **WhiteNoise**.
 2. Install **Gunicorn** as the production web server.
-3. Create necessary deployment files: `requirements.txt`, `runtime.txt`, and `Procfile`.
+3. Create necessary deployment files: `requirements.txt and `Procfile`.
 4. Update the **ALLOWED_HOSTS** configuration to include Heroku.
 
 ### 🔧 Step 1: Setting Up Static Files with WhiteNoise
