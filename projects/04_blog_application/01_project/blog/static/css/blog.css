@@ -1,0 +1,113 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+#content {
+    width: 70%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+#sidebar {
+    background: #0b57d0;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#sidebar h2 {
+    margin: 0;
+    font-size: 1.4em;
+}
+
+#sidebar p {
+    margin: 10px 0 0;
+    font-size: 0.9em;
+}
+/* Post List Styling */
+h1 {
+    color: #0b57d0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin: 15px 0;
+    font-size: 1.8em;
+}
+
+h2 a {
+    text-decoration: none;
+    color: #333;
+}
+
+h2 a:hover {
+    color: #0b57d0;
+}
+
+.date {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.post-body {
+    font-size: 1em;
+    margin: 10px 0 20px;
+    line-height: 1.5;
+}
+
+/* Post Detail Styling */
+.post-detail h1 {
+    font-size: 2.4em;
+    color: #0b57d0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.post-detail .date {
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.post-detail p {
+    font-size: 1.2em;
+    line-height: 1.8;
+    margin: 15px 0;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #content {
+        width: 90%;
+        margin: 10px auto;
+        padding: 15px;
+    }
+
+    #sidebar {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    h1, h2 {
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    .post-body, .post-detail p {
+        font-size: 1em;
+        line-height: 1.6;
+    }
+}
