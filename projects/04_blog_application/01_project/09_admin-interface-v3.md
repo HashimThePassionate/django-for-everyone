@@ -1,4 +1,4 @@
-# 🛠 Adding Facet Counts to Filters in Django Admin
+# 📝 **Adding Facet Counts to Filter** ✨
 
 Django 5.0 introduces **facet filters** to the administration site, making it easier to visualize and interact with filtered data. Facet counts display the number of objects corresponding to each filter, improving usability when managing your models.
 
