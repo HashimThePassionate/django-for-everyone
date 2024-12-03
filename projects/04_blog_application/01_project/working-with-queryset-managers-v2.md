@@ -1,4 +1,4 @@
-# 🛠 Complex Lookups with Q Objects in Django
+# 🕵️‍♂️ **Complex Lookups with Q Objects** ✨
 
 When working with Django's ORM, simple lookups using `filter()` combine conditions with an SQL **AND** operator. However, for more complex queries, such as **OR**, **XOR**, or custom combinations of conditions, Django provides **Q objects**. This guide explains how to use Q objects for advanced query building and when QuerySets are evaluated.
 
