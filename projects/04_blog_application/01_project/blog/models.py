@@ -1,11 +1,14 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 from django.conf import settings
+
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
         # Return only posts with PUBLISHED status
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
 
 class Post(models.Model):
     class Status(models.TextChoices):
@@ -15,9 +18,9 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
     author = models.ForeignKey(
-    settings.AUTH_USER_MODEL,
-    on_delete=models.CASCADE,
-    related_name='blog_posts'
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='blog_posts'
     )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -26,7 +29,7 @@ class Post(models.Model):
     status = models.CharField(
         max_length=2,
         choices=Status.choices,
-        default=Status.DRAFT                         
+        default=Status.DRAFT
     )
 
     # Managers
@@ -37,5 +40,11 @@ class Post(models.Model):
         ordering = ['-publish']
         indexes = [models.Index(fields=['-publish']),]
 
+    def get_absolute_url(self):  # New method
+        return reverse(
+            'blog:post_detail',
+            args=[self.id]
+        )
+    
     def __str__(self):
         return self.title
