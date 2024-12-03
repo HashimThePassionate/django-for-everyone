@@ -1,4 +1,4 @@
-# 🐍 **Interacting with `status` Choices in Django**
+# 🐍 **Interacting with `status` Choices** 🌟
 
 Once you've defined a **`status` field** with enumeration choices in your Django model, you can interact with these choices directly in the Django shell. This guide provides a detailed walkthrough of how to use and retrieve information from the `status` field in the Python shell.
 
