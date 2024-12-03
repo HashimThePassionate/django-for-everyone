@@ -1,4 +1,4 @@
-# 🌐 Creating List and Detail Views in Django
+# 📝 **Creating List and Detail Views** ✨
 
 This guide explains how to create **list** and **detail views** for a blog application, including URL patterns, templates, the request/response cycle, and styling with `blog.css`.
 
