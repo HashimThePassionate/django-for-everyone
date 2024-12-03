@@ -1,4 +1,4 @@
-# 🚀 Django Migration Process
+# 🚀 **Django Migration Process** ✨
 This section explains how to create and apply migrations to synchronize your Django models with the database. Migrations track model changes and propagate them into the database, ensuring everything stays up-to-date.
 
 ---
