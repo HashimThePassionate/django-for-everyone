@@ -1,6 +1,6 @@
-# 📖 Understanding Many-to-One Relationships in Django
+# 📖 **Many-to-One Relationships  in Django** ✨
 
-This README explains how to implement and understand a **many-to-one relationship** in Django by connecting posts to their authors. Authors are users, and each post is written by one author, but an author can write multiple posts.
+This section explains how to implement and understand a **many-to-one relationship** in Django by connecting posts to their authors. Authors are users, and each post is written by one author, but an author can write multiple posts.
 
 ---
 
