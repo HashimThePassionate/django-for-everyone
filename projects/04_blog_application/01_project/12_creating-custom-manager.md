@@ -1,4 +1,4 @@
-# 🛠 Creating Custom Model Managers in Django
+#  📘 **Creating Custom Model Managers** ✨
 
 Django allows you to define custom managers to extend or modify how queries are made for a model. A manager provides an interface through which database operations can be performed. This guide will explain how to create and use a **custom manager** for filtering posts with a `PUBLISHED` status.
 
