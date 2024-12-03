@@ -1,4 +1,4 @@
-# 🎨 Customizing Django Admin Display for Models
+# 🎨 **Customizing Django Admin Display** ✨
 
 Django's admin interface provides options to customize how models are displayed and interacted with. This guide demonstrates how to tailor the admin site for the **Post** model to enhance usability and functionality.
 
