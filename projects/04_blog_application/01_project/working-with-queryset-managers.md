@@ -1,4 +1,4 @@
-# 🛠 Working with QuerySets and Managers in Django
+# 🗂 **Working with QuerySets and Managers** ✨
 
 Django's Object-Relational Mapper (ORM) provides a powerful and Pythonic way to interact with your database. By using **QuerySets** and **managers**, you can perform CRUD operations (Create, Read, Update, Delete) on your database without writing raw SQL. This guide covers everything about QuerySets, managers, and their operations in detail.
 
