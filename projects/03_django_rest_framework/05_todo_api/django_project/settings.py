@@ -24,8 +24,7 @@ SECRET_KEY = 'django-insecure-pdr75_dw7+@c9t%=(&7sv9pag@7!=1pw4puz(m=l#o8&k^q0!h
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -61,7 +60,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",  # For your Django API
 ]
 
-ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
@@ -70,7 +68,7 @@ ROOT_URLCONF = 'django_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],  # new
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
