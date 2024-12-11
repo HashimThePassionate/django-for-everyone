@@ -33,6 +33,7 @@ body {
     margin: 10px 0 0;
     font-size: 0.9em;
 }
+
 /* Post List Styling */
 h1 {
     color: #0b57d0;
@@ -88,6 +89,79 @@ h2 a:hover {
     color: #333;
 }
 
+/* Form Styling */
+.form-heading {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.comment-form {
+    width: 100%;
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.comment-form .form-group.left {
+    display: inline-block;
+    width: 48%;
+    margin-right: 2%;
+}
+
+.comment-form .form-group.left:last-child {
+    margin-right: 0;
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.comment-form textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+    border-color: #0b57d0;
+    outline: none;
+    box-shadow: 0 0 5px rgba(11, 87, 208, 0.5);
+}
+
+.comment-form .btn-submit {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #0b57d0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-form .btn-submit:hover {
+    background-color: #0845a5;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     #content {
@@ -109,5 +183,11 @@ h2 a:hover {
     .post-body, .post-detail p {
         font-size: 1em;
         line-height: 1.6;
+    }
+
+    .comment-form .form-group.left {
+        display: block;
+        width: 100%;
+        margin-right: 0;
     }
 }
