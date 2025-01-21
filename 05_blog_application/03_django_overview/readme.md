@@ -31,7 +31,7 @@ Django processes requests using the following flow:
 5. The view renders a template (usually HTML) and returns it as an HTTP response.
 
 <div align="center">
-    <img src="./images/django_architecture.png.jpg" alt="Django Architecture" width="300px">
+    <img src="./images/django_architecture.png.jpg" alt="Django Architecture" width="500px">
 </div>
 
 Middleware can hook into the request/response cycle for additional processing. Custom middleware will be covered in **upcoming folders**.
