@@ -11,17 +11,18 @@ Instead of using `pip`, we recommend using `pipenv` for dependency management an
 
 ### Installation Steps:
 1. Navigate to your project directory and install Django with Pipenv:
+2. learn more about '~=' in [compatible release operator](./compatible_release_operator.md)
    ```bash
    pipenv install Django~=5.0.4
    ```
    This command installs the latest Django 5.0 version and automatically manages it within a Pipenv virtual environment.
 
-2. Activate the Pipenv shell:
+3. Activate the Pipenv shell:
    ```bash
    pipenv shell
    ```
 
-3. Verify the installation by running:
+4. Verify the installation by running:
    ```bash
    python -m django --version
    ```
