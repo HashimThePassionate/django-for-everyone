@@ -6,7 +6,7 @@ Welcome to the Blog Application! This project is designed to help you learn and 
 
 ### 1. **Initial Setup**
 - Installing Python and setting up a virtual environment.
-- Installing Django via pip.
+- Installing Django via pipenv.
 - Understanding Django's framework components and architecture.
 - Creating and configuring the first Django project.
 - Applying initial database migrations and running the development server.
