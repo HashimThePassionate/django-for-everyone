@@ -9,6 +9,9 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)  # Field added
     updated = models.DateTimeField(auto_now=True)      # Another field added
 
+    class Meta:  # new class meta
+        ordering = ['-publish']  # add default ordering
+
 
     def __str__(self):
         return self.title

@@ -384,6 +384,7 @@ class Post(models.Model):
 Both approaches are valid, and the choice depends on your specific project requirements! 🚀
 
 > New Section Starts here
+
 # Auto_now_add and Auto_now Fields ⏰
 
 To enhance the `Post` model, we can use `auto_now_add` and `auto_now` fields to automatically track the creation and modification times of posts.
@@ -423,4 +424,43 @@ class Post(models.Model):
 - ✅ Reduces manual handling of datetime fields during object creation and updates.
 
 Utilizing these fields is a best practice for monitoring changes and ensuring accurate timestamps for your objects! 🚀
+
+> New Section Starts here
+
+# Defining a Default Sort Order 🔄
+
+Blog posts are typically presented in reverse chronological order, displaying the newest posts first. To achieve this, we define a default ordering for our `Post` model. This default ordering is applied when retrieving objects from the database unless a specific order is indicated in the query.
+
+
+## Updated Post Model:
+Edit the `models.py` file of the blog application as follows:
+
+```python
+from django.db import models
+from django.utils import timezone
+
+class Post(models.Model):
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:  # new class meta
+        ordering = ['-publish']  # add default ordering
+
+    def __str__(self):
+        return self.title
+```
+
+
+## Explanation:
+- **Meta Class**:
+  - Provides metadata for the model.
+  - **`ordering`** attribute specifies the default sorting order.
+
+- **Default Ordering**:
+  - `['-publish']`: Sorts posts by the `publish` field in descending order (newest posts first).
+  - This ordering applies by default for database queries unless overridden.
 
