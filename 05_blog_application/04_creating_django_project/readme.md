@@ -342,7 +342,6 @@ class Post(models.Model):
 This addition enables you to manage publication dates for blog posts. In the next steps, we’ll add fields for creation and modification timestamps to further track post history! 🚀
 
 > New Section Starts here
-
 # **Another Method for Timezone Defaults** 🕐
 
 Django 5 introduces a new way to define default values for model fields using **database-computed default values**. This allows you to utilize underlying database functions to generate default values.
@@ -383,4 +382,45 @@ class Post(models.Model):
 ```
 
 Both approaches are valid, and the choice depends on your specific project requirements! 🚀
+
+> New Section Starts here
+# Auto_now_add and Auto_now Fields ⏰
+
+To enhance the `Post` model, we can use `auto_now_add` and `auto_now` fields to automatically track the creation and modification times of posts.
+
+## Updated Post Model:
+Edit the `models.py` file of the blog application to include the following:
+
+```python
+from django.db import models
+from django.utils import timezone
+
+class Post(models.Model):
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)  # Field added
+    updated = models.DateTimeField(auto_now=True)      # Another field added
+
+    def __str__(self):
+        return self.title
+```
+
+## New Field Details:
+- **`created`**: 📅
+  - **Type**: `DateTimeField`
+  - **Purpose**: Stores the date and time when the post was created.
+  - **Attribute**: `auto_now_add=True` automatically sets the field value at the time of object creation.
+
+- **`updated`**: 🔄
+  - **Type**: `DateTimeField`
+  - **Purpose**: Stores the last date and time when the post was updated.
+  - **Attribute**: `auto_now=True` automatically updates the field value every time the object is saved.
+
+## Benefits of Using `auto_now_add` and `auto_now`:
+- ✅ Simplifies tracking of creation and modification timestamps.
+- ✅ Reduces manual handling of datetime fields during object creation and updates.
+
+Utilizing these fields is a best practice for monitoring changes and ensuring accurate timestamps for your objects! 🚀
 
