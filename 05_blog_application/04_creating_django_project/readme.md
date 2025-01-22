@@ -341,3 +341,46 @@ class Post(models.Model):
 
 This addition enables you to manage publication dates for blog posts. In the next steps, we’ll add fields for creation and modification timestamps to further track post history! 🚀
 
+> New Section Starts here
+
+# **Another Method for Timezone Defaults** 🕐
+
+Django 5 introduces a new way to define default values for model fields using **database-computed default values**. This allows you to utilize underlying database functions to generate default values.
+
+
+## Using Database-Computed Default Values:
+
+Here is an example of using the database server’s current date and time as the default for the `publish` field:
+
+```python
+from django.db import models
+from django.db.models.functions import Now
+
+class Post(models.Model):
+    # ...
+    publish = models.DateTimeField(db_default=Now())  # change
+```
+
+### Key Differences:
+- **`db_default`**:
+  - Utilizes the database’s native functions to generate default values.
+  - In this case, `Now()` calls the database’s `NOW()` function for the current datetime.
+- **Comparison to `default`**:
+  - `default=timezone.now`: Uses Python’s `timezone.now` to generate the datetime.
+  - `db_default=Now()`: Relies on the database’s `NOW()` function.
+
+### Advantages of `db_default`:
+- Offloads computation to the database server.
+- Ensures consistent defaults across multiple application instances.
+
+### Returning to Python Defaults:
+Here’s the previous version of the field, which uses `default=timezone.now`:
+
+```python
+class Post(models.Model):
+    # ...
+    publish = models.DateTimeField(default=timezone.now)  # change
+```
+
+Both approaches are valid, and the choice depends on your specific project requirements! 🚀
+
