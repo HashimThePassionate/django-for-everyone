@@ -248,3 +248,58 @@ blog/
 - **`tests.py`**: Contains tests for your application.
 - **`views.py`**: Defines the application logic. Each view processes an HTTP request and returns a response.
 
+> New Section Starts here
+
+# **Creating the Blog Data Models** 📝
+
+In Django, a **model** is a Python class that represents a database table. Models are the blueprint for your data and provide a practical API to interact with the database.
+
+Each model:
+
+- Subclasses `django.db.models.Model`.
+- Maps to a single database table.
+- Has attributes that represent database fields.
+
+When you define a model, Django automatically creates database tables through migrations.
+
+
+## Creating the Post Model 📂
+
+Let’s define a `Post` model for storing blog posts. Add the following lines to the `models.py` file of the blog application:
+
+```python
+from django.db import models
+
+class Post(models.Model):
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    body = models.TextField()
+
+    def __str__(self):
+        return self.title
+```
+
+### Field Descriptions:
+
+- **`title`**: A `CharField` that translates to a `VARCHAR` column in the database, used for the post title.
+- **`slug`**: A `SlugField` that translates to a `VARCHAR` column, containing short, URL-friendly labels (e.g., `django-reinhardt-legend-jazz`). This will be used to create SEO-friendly URLs.
+- **`body`**: A `TextField` that translates to a `TEXT` column, used for the main content of the post.
+
+### The `__str__` Method:
+
+The `__str__` method returns a human-readable representation of the object. Django uses this method in places like the administration site to display object names.
+
+
+## Database Table Correspondence 🔧
+
+<div align="center">
+  <img src="./images/tables.jpg" alt="Tables" width="400px"/>
+</div>
+
+### Primary Key:
+
+By default, Django adds an **auto-incrementing primary key** field to each model. The default type is `BigAutoField`, a 64-bit integer.
+
+- You can explicitly define a primary key by setting `primary_key=True` on a field.
+
+> New Section Starts here
