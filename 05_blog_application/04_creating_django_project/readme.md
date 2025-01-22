@@ -303,3 +303,41 @@ By default, Django adds an **auto-incrementing primary key** field to each model
 - You can explicitly define a primary key by setting `primary_key=True` on a field.
 
 > New Section Starts here
+
+# **Adding DateTime Fields** ⏰
+
+Let’s enhance the `Post` model by adding datetime fields. Each blog post will have:
+- A publication date and time.
+- The creation and last modification timestamps (to be added later).
+
+### Updating the `Post` Model:
+Edit the `models.py` file of the blog application to include the new `publish` field:
+
+```python
+from django.db import models
+from django.utils import timezone
+
+class Post(models.Model):
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)  # datetime field
+
+    def __str__(self):
+        return self.title
+```
+
+### New Field Details:
+- **`publish`**:
+  - **Type**: `DateTimeField`
+  - **SQL Type**: `DATETIME`
+  - **Purpose**: Stores the publication date and time of the post.
+  - **Default Value**: Uses `timezone.now`, which provides the current datetime in a timezone-aware format.
+
+### Why Use `timezone.now`?
+- `timezone.now` is a timezone-aware alternative to the standard `datetime.now`.
+- It ensures consistent datetime values across different time zones.
+
+
+This addition enables you to manage publication dates for blog posts. In the next steps, we’ll add fields for creation and modification timestamps to further track post history! 🚀
+
