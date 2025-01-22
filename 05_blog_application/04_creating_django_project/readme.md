@@ -385,7 +385,7 @@ Both approaches are valid, and the choice depends on your specific project requi
 
 > New Section Starts here
 
-# Auto_now_add and Auto_now Fields ⏰
+# **Auto_now_add and Auto_now Fields** ⏰
 
 To enhance the `Post` model, we can use `auto_now_add` and `auto_now` fields to automatically track the creation and modification times of posts.
 
@@ -427,7 +427,7 @@ Utilizing these fields is a best practice for monitoring changes and ensuring ac
 
 > New Section Starts here
 
-# Defining a Default Sort Order 🔄
+# **Defining a Default Sort Order** 🔄
 
 Blog posts are typically presented in reverse chronological order, displaying the newest posts first. To achieve this, we define a default ordering for our `Post` model. This default ordering is applied when retrieving objects from the database unless a specific order is indicated in the query.
 
@@ -463,4 +463,50 @@ class Post(models.Model):
 - **Default Ordering**:
   - `['-publish']`: Sorts posts by the `publish` field in descending order (newest posts first).
   - This ordering applies by default for database queries unless overridden.
+
+> New Section Starts here
+# **Adding a Database Index** ✨
+
+Defining a database index for the `publish` field can significantly improve performance for queries that filter or order results by this field. Since the `publish` field is used for default ordering, adding an index will optimize these operations. ✨✨✨
+
+## Updated Post Model: ✨
+Edit the `models.py` file of the blog application to include the following:
+
+```python
+from django.db import models
+from django.utils import timezone
+
+class Post(models.Model):
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-publish']
+        indexes = [  # index attribute added
+            models.Index(fields=['-publish']),
+        ]
+
+    def __str__(self):
+        return self.title
+```
+
+## Explanation: ✨
+- **`indexes` Attribute**: 🗂️
+  - Added to the `Meta` class of the model.
+  - Defines database indexes for one or more fields.
+
+- **Index on `publish` Field**: 🔍
+  - Specifies a descending order index (`-publish`).
+  - Optimizes queries for filtering or ordering results by the `publish` field. ✨✨✨
+
+## Important Note: ✨
+- **MySQL Limitation**: ❗
+  - MySQL does not support descending indexes.
+  - If MySQL is used, the descending index will be created as a normal (ascending) index.
+
+By adding this index, queries on the `publish` field become faster and more efficient, particularly for large datasets! 🚀
 

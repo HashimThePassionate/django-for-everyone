@@ -11,6 +11,9 @@ class Post(models.Model):
 
     class Meta:  # new class meta
         ordering = ['-publish']  # add default ordering
+        indexes = [  # index attribute added
+            models.Index(fields=['-publish']),
+        ]
 
 
     def __str__(self):
