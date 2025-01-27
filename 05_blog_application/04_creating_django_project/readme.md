@@ -545,3 +545,94 @@ INSTALLED_APPS = [
 
 By activating the blog application, you integrate it into your Django project and enable its functionalities! 🚀✨✨✨
 
+> New Section Starts here
+> 
+# **Adding a Status Field** 📝✨
+A common functionality for blogs is to save posts as drafts until they are ready for publication. To achieve this, we will add a `status` field to our model, allowing us to manage the status of blog posts. ✨✨✨
+
+---
+
+## Updated Post Model:
+Edit the `models.py` file of the blog application as follows:
+
+```python
+from django.db import models
+from django.utils import timezone
+
+class Post(models.Model):
+    class Status(models.TextChoices):  # Choices Class
+        DRAFT = 'DF', 'Draft'         # Draft
+        PUBLISHED = 'PB', 'Published' # Published
+
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(  # New status field
+        max_length=2,
+        choices=Status.choices,
+        default=Status.DRAFT
+    )
+
+    class Meta:
+        ordering = ['-publish']
+        indexes = [
+            models.Index(fields=['-publish']),
+        ]
+
+    def __str__(self):
+        return self.title
+```
+
+---
+
+## Detailed Explanation: ✨✨✨
+
+### `Status` Class:
+- **Purpose**: Encapsulates the available post statuses, making the code cleaner and more maintainable.
+- **Subclassed from**: `models.TextChoices` (Django’s specialized class for defining enumerated choices).
+- **Defined Choices**:
+  - **DRAFT**: Represents posts that are saved as drafts. Value: `'DF'`, Label: `'Draft'`.
+  - **PUBLISHED**: Represents posts that are ready for public view. Value: `'PB'`, Label: `'Published'`.
+- **Why Use `TextChoices`?**:
+  - Provides human-readable labels (`labels`) and machine-readable values (`values`).
+  - Simplifies referencing choices, e.g., `Post.Status.DRAFT`.
+
+### `status` Field:
+- **Type**: `CharField`.
+- **Purpose**: Stores the post’s current status, e.g., draft or published.
+- **Attributes**:
+  - **`choices`**: Restricts the field to the defined choices in `Status.choices`.
+  - **`default`**: Automatically assigns the `DRAFT` status when creating a new post.
+
+---
+
+## How to Access Enumeration Details: ✨✨✨
+Django’s enumeration types provide a convenient way to access choices and their properties:
+- **Choices**: Retrieve all available choices with `Post.Status.choices`. Example output:
+  ```python
+  [('DF', 'Draft'), ('PB', 'Published')]
+  ```
+- **Names**: Retrieve the names of the choices with `Post.Status.names`. Example output:
+  ```python
+  ['DRAFT', 'PUBLISHED']
+  ```
+- **Labels**: Retrieve the human-readable labels with `Post.Status.labels`. Example output:
+  ```python
+  ['Draft', 'Published']
+  ```
+- **Values**: Retrieve the machine-readable values with `Post.Status.values`. Example output:
+  ```python
+  ['DF', 'PB']
+  ```
+
+---
+
+## Best Practices: ✨✨✨
+- **Encapsulation**: Always define choices inside the model class to keep the codebase clean and centralized.
+- **Reusability**: Use `Post.Status.DRAFT` or `Post.Status.PUBLISHED` wherever you need to reference the post statuses in your project.
+- **Default Value**: Define a default value (`DRAFT`) to avoid null values for the status field.
+
+> New Section Starts here
