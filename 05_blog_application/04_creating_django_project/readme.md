@@ -721,3 +721,82 @@ You can also retrieve its `name` and `value` properties:
 - **Member Access**: Allows direct referencing of specific statuses like `Post.Status.PUBLISHED`.
 
 > New Section Starts here
+# **Adding a Many-to-One Relationship** 🔗✨
+
+Blog posts are always written by an author. To represent this relationship, we will create a **many-to-one relationship** between users and posts. Django’s authentication framework, located in the `django.contrib.auth` package, provides a default `User` model that we will use for this relationship. ✨✨✨
+
+---
+
+## Updated Post Model:
+Edit the `models.py` file of the blog application to include the following:
+
+```python
+from django.conf import settings  # imported setting
+from django.db import models
+from django.utils import timezone
+
+class Post(models.Model):
+    class Status(models.TextChoices):
+        DRAFT = 'DF', 'Draft'
+        PUBLISHED = 'PB', 'Published'
+
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    author = models.ForeignKey(  # adding many to one relationship
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='blog_posts'
+    )
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(
+        max_length=2,
+        choices=Status.choices,
+        default=Status.DRAFT
+    )
+
+    class Meta:
+        ordering = ['-publish']
+        indexes = [
+            models.Index(fields=['-publish']),
+        ]
+
+    def __str__(self):
+        return self.title
+```
+
+---
+
+## Explanation: ✨✨✨
+
+### Author Field:
+- **Type**: `ForeignKey`
+- **Relationship**: Represents a many-to-one relationship between `User` and `Post`.
+  - A **user** can write multiple posts.
+  - A **post** is written by a single user.
+- **Attributes**:
+  - **`settings.AUTH_USER_MODEL`**: Refers to the default user model, which is `auth.User` by default.
+  - **`on_delete=models.CASCADE`**:
+    - Specifies that when a user is deleted, all related posts will also be deleted.
+    - This behavior aligns with the SQL `CASCADE` standard.
+    - Explore other options for `on_delete` at [Django ForeignKey on_delete](https://docs.djangoproject.com/en/5.0/ref/models/fields/#django.db.models.ForeignKey.on_delete).
+  - **`related_name='blog_posts'`**:
+    - Allows reverse relationships from `User` to `Post`.
+    - Example: Access all posts by a user using `user.blog_posts.all()`.
+
+---
+
+## Why Use ForeignKey? 🛠️
+- **Simplifies Relationships**: Automatically creates a foreign key column in the database linking to the primary key of the related model.
+- **Efficient Data Access**: Enables seamless querying of related objects.
+
+---
+
+## Resources for Further Learning: 🌐
+- **All Field Types**: Explore all available field types at [Django Model Fields](https://docs.djangoproject.com/en/5.0/ref/models/fields/).
+- **Reverse Relationships**: Learn more about reverse relationships and `related_name` usage in Django documentation.
+
+
+> New Section Starts here
