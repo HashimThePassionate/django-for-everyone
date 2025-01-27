@@ -1087,6 +1087,75 @@ To manage the administration site, you need to create a superuser with the highe
 
 <div align="center">
 
+<div align="center">
+
+> New Section Starts here
+
+</div>
+
+</div>
+
+# **Adding Models to the Administration Site** 🛠️✨
+
+Let’s include the `Post` model of the blog application in the Django administration site to manage blog posts easily. ✨✨✨
+
+---
+
+## Steps to Register the Model:
+
+### 1. Edit the `admin.py` File:
+Update the `admin.py` file of the blog application to register the `Post` model:
+
+```python
+from django.contrib import admin
+from .models import Post
+
+admin.site.register(Post)  # Register the Post model
+```
+
+---
+
+### 2. Reload the Administration Site:
+- Open your browser and reload the Django administration site.
+- You should now see the **Post** model listed on the site.
+
+<div align="center">
+  <img src="./images/adding_model.jpg" alt="Post model of the blog application" width="500px"/>
+
+  **Figure 1.9**:  The Post model of the blog application included in the Django administration site index
+page
+
+</div>
+
+### Add a New Post:
+1. Click the **Add** link beside **Posts** to create a new blog post.
+2. Django dynamically generates a form for your `Post` model fields.
+
+<div align="center">
+  <img src="./images/Django_administr_tion_site_edit_form.jpg" alt="Admistration Site" width="500px"/>
+
+  **Figure 1.10**: The generated form includes user-friendly widgets like a JavaScript date picker for `DateTimeField`
+
+</div>
+
+### Save and View the Post:
+1. Fill in the form and click the **SAVE** button.
+2. You will be redirected to the post list page with a success message.
+<div align="center">
+  <img src="./images/list_view_model.jpg" alt="List Of Posts" width="500px"/>
+
+  **Figure 1.11**: Displays the list of posts, including the one you just created.
+
+</div>
+
+## Benefits of Using the Admin Interface:
+- Django automatically provides a user-friendly interface for your models.
+- Supports listing, editing, creating, and deleting objects easily.
+- Dynamically adapts widgets to match the type of field (e.g., date pickers for `DateTimeField`).
+
+
+<div align="center">
+
 > New Section Starts here
 
 </div>
