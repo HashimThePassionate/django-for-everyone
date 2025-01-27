@@ -55,7 +55,12 @@ In this chapter, you will:
 3. Set up the Django administration site for managing blog content. 🔧
 4. Build views, templates, and URLs. 🔐
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 
 # **Applying Initial Database Migrations** 📊
 
@@ -138,7 +143,12 @@ Learn more about deploying Django in production [here](https://docs.djangoprojec
 
 With the development server running, you’re now ready to build and test your Django application! 🌐
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 
 # **Project Settings** ⚙️
 
@@ -196,7 +206,12 @@ Let’s explore the **`settings.py`** file to understand the project configurati
 
 If you don’t understand all these settings right now, don’t worry! You’ll learn more about each of them in the upcoming chapters. 😊
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 
 # **Projects and Applications** 🗂️
 
@@ -248,7 +263,12 @@ blog/
 - **`tests.py`**: Contains tests for your application.
 - **`views.py`**: Defines the application logic. Each view processes an HTTP request and returns a response.
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 
 # **Creating the Blog Data Models** 📝
 
@@ -302,7 +322,12 @@ By default, Django adds an **auto-incrementing primary key** field to each model
 
 - You can explicitly define a primary key by setting `primary_key=True` on a field.
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 
 # **Adding DateTime Fields** ⏰
 
@@ -341,7 +366,12 @@ class Post(models.Model):
 
 This addition enables you to manage publication dates for blog posts. In the next steps, we’ll add fields for creation and modification timestamps to further track post history! 🚀
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 # **Another Method for Timezone Defaults** 🕐
 
 Django 5 introduces a new way to define default values for model fields using **database-computed default values**. This allows you to utilize underlying database functions to generate default values.
@@ -383,7 +413,12 @@ class Post(models.Model):
 
 Both approaches are valid, and the choice depends on your specific project requirements! 🚀
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 
 # **Auto_now_add and Auto_now Fields** ⏰
 
@@ -425,7 +460,12 @@ class Post(models.Model):
 
 Utilizing these fields is a best practice for monitoring changes and ensuring accurate timestamps for your objects! 🚀
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 
 # **Defining a Default Sort Order** 🔄
 
@@ -464,7 +504,12 @@ class Post(models.Model):
   - `['-publish']`: Sorts posts by the `publish` field in descending order (newest posts first).
   - This ordering applies by default for database queries unless overridden.
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 # **Adding a Database Index** ✨
 
 Defining a database index for the `publish` field can significantly improve performance for queries that filter or order results by this field. Since the `publish` field is used for default ordering, adding an index will optimize these operations. ✨✨✨
@@ -510,7 +555,12 @@ class Post(models.Model):
 
 By adding this index, queries on the `publish` field become faster and more efficient, particularly for large datasets! 🚀
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 # **Activating the Application** 🚀✨
 
 To enable the blog application in the project, we need to activate it so that Django can keep track of the application and create database tables for its models. ✨✨✨
@@ -545,7 +595,12 @@ INSTALLED_APPS = [
 
 By activating the blog application, you integrate it into your Django project and enable its functionalities! 🚀✨✨✨
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 > 
 # **Adding a Status Field** 📝✨
 A common functionality for blogs is to save posts as drafts until they are ready for publication. To achieve this, we will add a `status` field to our model, allowing us to manage the status of blog posts. ✨✨✨
@@ -635,7 +690,12 @@ Django’s enumeration types provide a convenient way to access choices and thei
 - **Reusability**: Use `Post.Status.DRAFT` or `Post.Status.PUBLISHED` wherever you need to reference the post statuses in your project.
 - **Default Value**: Define a default value (`DRAFT`) to avoid null values for the status field.
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 # **Interacting with Status Choices** 🛠️✨
 
 Django’s enumeration types provide a structured way to interact with choices for fields like `status`. Here’s how you can explore and use the `Status` choices in the Python shell. ✨✨✨
@@ -720,7 +780,12 @@ You can also retrieve its `name` and `value` properties:
 - **Names**: Retrieves the names of the enum members for programmatic usage.
 - **Member Access**: Allows direct referencing of specific statuses like `Post.Status.PUBLISHED`.
 
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
 # **Adding a Many-to-One Relationship** 🔗✨
 
 Blog posts are always written by an author. To represent this relationship, we will create a **many-to-one relationship** between users and posts. Django’s authentication framework, located in the `django.contrib.auth` package, provides a default `User` model that we will use for this relationship. ✨✨✨
@@ -799,4 +864,148 @@ class Post(models.Model):
 - **Reverse Relationships**: Learn more about reverse relationships and `related_name` usage in Django documentation.
 
 
+
+<div align="center">
+
 > New Section Starts here
+
+</div>
+
+# **Creating and Applying Migrations** 🔄✨
+
+Now that we have defined the `Post` model, the next step is to create the corresponding database table. Django's migration system helps track model changes and propagate them into the database. ✨✨✨
+
+---
+
+## Overview of Migrations:
+- The `migrate` command applies migrations for all applications listed in `INSTALLED_APPS`.
+- Migrations synchronize the database with the current models and existing migrations.
+
+---
+
+## Steps to Create and Apply Migrations:
+
+### 1. Create Initial Migration:
+Run the following command from your project’s root directory:
+```bash
+python manage.py makemigrations blog
+```
+
+Expected output:
+```bash
+Migrations for 'blog':
+  blog/migrations/0001_initial.py
+    - Create model Post
+    - Create index blog_post_publish_bb7600_idx on field(s) -publish of model post
+```
+
+- Django creates the `0001_initial.py` file inside the `migrations/` directory of the blog application.
+- This file contains:
+  - SQL statements to create the database table for the `Post` model.
+  - The definition of the database index for the `publish` field.
+
+### 2. Inspect SQL for the Migration:
+To view the SQL code for the migration without executing it, run:
+```bash
+python manage.py sqlmigrate blog 0001
+```
+
+Example output (for SQLite):
+```sql
+BEGIN;
+--
+-- Create model Post
+--
+CREATE TABLE "blog_post" (
+    "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "title" varchar(250) NOT NULL,
+    "slug" varchar(250) NOT NULL,
+    "body" text NOT NULL,
+    "publish" datetime NOT NULL,
+    "created" datetime NOT NULL,
+    "updated" datetime NOT NULL,
+    "status" varchar(10) NOT NULL,
+    "author_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create blog_post_publish_bb7600_idx on field(s) -publish of model post
+--
+CREATE INDEX "blog_post_publish_bb7600_idx" ON "blog_post" ("publish" DESC);
+CREATE INDEX "blog_post_slug_b95473f2" ON "blog_post" ("slug");
+CREATE INDEX "blog_post_author_id_dd7a8485" ON "blog_post" ("author_id");
+COMMIT;
+```
+
+- Table name: `blog_post` (generated by combining the application name and the lowercase name of the model).
+- You can specify a custom table name in the `Meta` class using the `db_table` attribute.
+
+---
+
+## Key Details of the Migration: ✨✨✨
+- **Primary Key**:
+  - Django creates an auto-incrementing `id` column as the default primary key.
+  - You can override this by specifying `primary_key=True` on another field.
+
+- **Indexes Created**:
+  1. **Explicit Index**: Descending index on the `publish` field (defined in the `Meta` class).
+  2. **SlugField Index**: Automatically created for the `slug` field.
+  3. **ForeignKey Index**: Automatically created for the `author_id` field.
+
+- **Auto-Generated ID**:
+  - Default `id` column is an integer that increments automatically.
+  - Corresponds to the `id` field automatically added to the model.
+
+## **Comparing the Post Model and Database Table** 🔄✨
+
+The **Post model** and its corresponding database table `blog_post` are directly linked. Each model field corresponds to a column in the database table. Figure 1.6 illustrates this relationship:
+
+<div align="center">
+  <img src="./images/compare_model_and_db_table.jpg" alt="Model vs Table" width="500px"/>
+</div>
+
+---
+
+## Syncing the Database with the New Model:
+After defining the `Post` model, the next step is to synchronize the database with it. Follow these steps:
+
+### 1. Apply Existing Migrations:
+Run the following command in your shell prompt:
+```bash
+python manage.py migrate
+```
+
+Expected output:
+```bash
+Applying blog.0001_initial... OK
+```
+
+- This applies all migrations for applications listed in `INSTALLED_APPS`, including the `blog` application.
+- After applying the migrations, the database reflects the current state of the models.
+
+---
+
+## Making Future Model Changes:
+- **Edit Models**:
+  - Add, remove, or modify fields in the `models.py` file.
+  - Add new models if required.
+
+- **Create a New Migration**:
+  Run the following command:
+  ```bash
+  python manage.py makemigrations
+  ```
+  - This generates a migration file capturing the changes.
+
+- **Apply the New Migration**:
+  Synchronize the database with the updated models by running:
+  ```bash
+  python manage.py migrate
+  ```
+
+<div align="center">
+
+> New Section Starts here
+
+</div>
+
+
+
