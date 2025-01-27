@@ -57,7 +57,7 @@ In this chapter, you will:
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -145,7 +145,7 @@ With the development server running, you’re now ready to build and test your D
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -208,7 +208,7 @@ If you don’t understand all these settings right now, don’t worry! You’ll 
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -265,7 +265,7 @@ blog/
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -324,7 +324,7 @@ By default, Django adds an **auto-incrementing primary key** field to each model
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -368,7 +368,7 @@ This addition enables you to manage publication dates for blog posts. In the nex
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -415,7 +415,7 @@ Both approaches are valid, and the choice depends on your specific project requi
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -462,7 +462,7 @@ Utilizing these fields is a best practice for monitoring changes and ensuring ac
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -506,7 +506,7 @@ class Post(models.Model):
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -557,7 +557,7 @@ By adding this index, queries on the `publish` field become faster and more effi
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -597,7 +597,7 @@ By activating the blog application, you integrate it into your Django project an
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -692,7 +692,7 @@ Django’s enumeration types provide a convenient way to access choices and thei
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -782,7 +782,7 @@ You can also retrieve its `name` and `value` properties:
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -867,7 +867,7 @@ class Post(models.Model):
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -1003,7 +1003,7 @@ Applying blog.0001_initial... OK
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -1089,7 +1089,7 @@ To manage the administration site, you need to create a superuser with the highe
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
 
@@ -1156,6 +1156,6 @@ page
 
 <div align="center">
 
-> `New Section Starts here`
+`New Section Starts here`
 
 </div>
