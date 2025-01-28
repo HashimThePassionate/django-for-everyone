@@ -10,4 +10,4 @@ class PostAdmin(admin.ModelAdmin):
     raw_id_fields = ['author']  # Raw ID fields
     date_hierarchy = 'publish'  # Date hierarchy
     ordering = ['status', 'publish']  # Default ordering']
-    show_facets = admin.ShowFacets.ALWAY  
+    show_facets = admin.ShowFacets.ALWAYS  
