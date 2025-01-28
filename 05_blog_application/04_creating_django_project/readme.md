@@ -1,5 +1,66 @@
 # **Creating Your First Project** 🚀
 
+### **📖 What we will cover** ✨  
+
+#### **🌟 [1. Creating Your First Project](#creating-your-first-project-)** 🚀  
+   - Introduction to Blog Application Features  
+   - Setting Up Your Django Project  
+
+#### **📊 [2. Applying Initial Database Migrations](#applying-initial-database-migrations-)**  
+   - Database Configuration Overview  
+   - Running Initial Migrations  
+
+#### **🌐 [3. Running the Development Server](#running-the-development-server-)**  
+   - Starting the Development Server  
+   - Customizing Server Host and Port  
+
+#### **⚙️ [4. Understanding Project Settings](#understanding-project-settings-)**  
+   - Exploring Key Settings  
+   - Configuring Debug Mode and Allowed Hosts  
+
+#### **🗂️ [5. Projects and Applications](#projects-and-applications-)**  
+   - Difference Between Projects and Applications  
+   - Creating Your First Application  
+
+#### **📝 [6. Creating Blog Data Models](#creating-blog-data-models-)**  
+   - Defining the `Post` Model  
+   - Adding DateTime Fields (auto_now, auto_now_add)  
+   - Setting Default Sort Order  
+   - Adding Database Indexes  
+
+#### **🚀✨ [7. Activating the Application](#activating-the-application-)**  
+   - Registering Your Blog Application  
+
+#### **📝 [8. Adding a Status Field](#adding-a-status-field-)**  
+   - Using Enum Choices for Post Status  
+   - Accessing Status Choices Dynamically  
+
+#### **🔗 [9. Creating Relationships](#creating-relationships-)**  
+   - Adding ForeignKey for Post Author  
+
+#### **🔄 [10. Managing Migrations](#managing-migrations-)**  
+   - Creating and Applying Migrations  
+   - Inspecting SQL Statements for Migrations  
+
+#### **🛠️✨ [11. Setting Up the Administration Site](#setting-up-the-administration-site-)**  
+   - Creating a Superuser  
+   - Exploring the Admin Interface  
+
+#### **✨ [12. Customizing the Admin Interface](#customizing-the-admin-interface-)**  
+   - Enhancing List View with Filters and Search  
+   - Prepopulating Slug Fields for SEO-Friendly URLs  
+
+#### **📊 [13. Facet Counts for Filters](#facet-counts-for-filters-)**  
+   - Enabling and Testing Facet Counts  
+
+---
+<div align="center">
+
+# `Learning Django: A Hands-On Guide` 🚀
+
+</div>
+
+
 Your first Django project will be a **blog application**, offering a comprehensive introduction to Django’s capabilities and functionalities. Blogging is an excellent starting point because it covers a wide range of features, including:
 - Basic content management 🔄
 - Commenting 💬
@@ -1277,3 +1338,64 @@ class PostAdmin(admin.ModelAdmin):
 # `New Section Starts here`
 
 </div>
+
+# Adding Facet Counts to Filters 📊✨✨✨
+
+Django 5.0 introduces **facet filters** to the administration site, allowing administrators to see **facet counts**—the number of objects corresponding to each specific filter. This feature enhances the usability of the admin changelist view by making it easier to identify matching objects at a glance. In this section, we will enable facet filters for the `PostAdmin` model in our application. ✨✨✨
+
+---
+
+## Enabling Facet Filters:
+
+### Steps to Update `admin.py`:
+Edit the `admin.py` file of your blog application as follows:
+
+```python
+from django.contrib import admin
+from .models import Post
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['title', 'slug', 'author', 'publish', 'status']
+    list_filter = ['status', 'created', 'publish', 'author']
+    search_fields = ['title', 'body']
+    prepopulated_fields = {'slug': ('title',)}
+    raw_id_fields = ['author']
+    date_hierarchy = 'publish'
+    ordering = ['status', 'publish']
+    show_facets = admin.ShowFacets.ALWAYS  # Enable facet filters
+```
+
+---
+
+## Explanation of Changes:
+
+### 1. **`show_facets` Attribute**:
+- **Purpose**: Ensures facet filters with counts are always displayed in the admin changelist view.
+- **Value**: `admin.ShowFacets.ALWAYS` ensures that facet counts are displayed for all relevant filters.
+
+### 2. **List Filters with Facet Counts**:
+- The `list_filter` attribute includes fields like `status`, `created`, `publish`, and `author`. Once `show_facets` is enabled:
+  - Filters show the number of objects corresponding to each filter value.
+  - For example, the `status` filter will display counts for `Draft` and `Published` posts.
+
+---
+
+<div align="center">
+  <img src="./images/Status_field_filters_including_facet_counts.jpg" alt="Facet filters" width="500px"/>
+
+  **Figure 1.15**: Status field filters including facet counts
+
+</div>
+
+## Testing the Feature:
+
+### Steps to Verify:
+1. Create some posts using the Django administration site.
+2. Access the following URL in your browser:
+   ```
+   http://127.0.0.1:8000/admin/blog/post/
+   ```
+3. Observe the filters in the right sidebar. Each filter value (e.g., `status`, `author`) should now include total facet counts, as shown in **Figure 1.15**.
+
+
