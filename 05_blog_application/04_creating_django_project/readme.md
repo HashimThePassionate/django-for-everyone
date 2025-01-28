@@ -75,7 +75,7 @@ The blog project will be developed across the first three chapters of this guide
 - A **detail view** for each post showing the full content, including the title, publishing date, author, and body. 🖬
 
 <div align="center">
-  <img src="./images/posts.jpg" alt="posts" width="400px"/>
+  <img src="./images/posts.jpg" alt="posts" width="500px"/>
 </div>
 
 ## Setting Up Your Django Project 🔧
@@ -177,7 +177,7 @@ Django includes a lightweight web server for development. This server:
    Quit the server with CONTROL-C.
    ```
 <div align="center">
-  <img src="./images/server.jpg" alt="running the server" width="400px"/>
+  <img src="./images/server.jpg" alt="running the server" width="500px"/>
 </div>
 
 
@@ -291,7 +291,7 @@ Let’s visualize the structure of a Django project and its applications:
 - **Application**: Modular units providing functionalities, interacting with the framework.
 
 <div align="center">
-  <img src="./images/applications.jpg" alt="Project and Applications" width="400px"/>
+  <img src="./images/applications.jpg" alt="Project and Applications" width="500px"/>
 </div>
 
 ## Creating an Application 🚀
@@ -374,7 +374,7 @@ The `__str__` method returns a human-readable representation of the object. Djan
 ## Database Table Correspondence 🔧
 
 <div align="center">
-  <img src="./images/tables.jpg" alt="Tables" width="400px"/>
+  <img src="./images/tables.jpg" alt="Tables" width="500px"/>
 </div>
 
 ### Primary Key:
