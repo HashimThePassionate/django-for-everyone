@@ -1159,3 +1159,121 @@ page
 # `New Section Starts here`
 
 </div>
+
+# **Customizing How Models Are Displayed** 🛠️✨
+
+Django provides powerful tools to customize the administration site for your models. By enhancing the way the `Post` model is displayed and interacted with, we can create a more intuitive and efficient management system for blog posts. In this section, we will explore different ways to customize Django’s admin interface. ✨✨✨
+
+---
+
+## Initial Customization:
+
+### 1. Update `admin.py` to Register a Custom ModelAdmin:
+
+Edit the `admin.py` file of your blog application as follows:
+
+```python
+from django.contrib import admin
+from .models import Post
+
+@admin.register(Post)  # Register Post model
+class PostAdmin(admin.ModelAdmin):  # Use ModelAdmin
+    list_display = ['title', 'slug', 'author', 'publish', 'status']  # Fields to display
+```
+
+### Detailed Explanation:
+
+- **`@admin.register(Post)`**:
+  - This decorator registers the `Post` model to be managed via the Django admin interface.
+  - It replaces the traditional `admin.site.register()` method and links it with a `ModelAdmin` class.
+  
+- **`list_display`**:
+  - This attribute specifies which fields will be displayed in the list view of the admin panel.
+  - Displaying `title`, `slug`, `author`, `publish`, and `status` makes it easier to review key details of each post at a glance.
+
+---
+
+## Advanced Customization:
+
+To further enhance the admin interface, let’s add features such as filters, search functionality, and improved field management. Update the `admin.py` file as follows:
+
+```python
+from django.contrib import admin
+from .models import Post
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['title', 'slug', 'author', 'publish', 'status']  # List view fields
+    list_filter = ['status', 'created', 'publish', 'author']  # Sidebar filters
+    search_fields = ['title', 'body']  # Search functionality
+    prepopulated_fields = {'slug': ('title',)}  # Auto-populate slug
+    raw_id_fields = ['author']  # Use raw ID field for author selection
+    date_hierarchy = 'publish'  # Navigation by publish date
+    ordering = ['status', 'publish']  # Default ordering
+```
+
+---
+
+## Features of the Custom Admin Interface:
+
+### List View Enhancements:
+
+- **`list_display`**:
+  - Defines which fields appear in the list view, making it easier to manage posts efficiently.
+
+- **`list_filter`**:
+  - Adds a filter sidebar, allowing users to refine results by `status`, `created`, `publish`, and `author`.
+  - Filters for ForeignKey fields, such as `author`, are displayed only when multiple users exist in the database.
+
+- **`search_fields`**:
+  - Enables search functionality for the `title` and `body` fields.
+  - This feature helps quickly locate posts based on keywords.
+
+- **`date_hierarchy`**:
+  - Provides easy navigation through posts based on their `publish` date.
+  - This feature is useful for viewing posts chronologically.
+
+- **`ordering`**:
+  - Specifies the default sorting order for posts.
+  - Posts are first sorted by `status` and then by `publish` date.
+
+### Add/Edit Post Form Enhancements:
+
+- **`prepopulated_fields`**:
+  - Automatically fills the `slug` field based on the `title` field.
+  - This ensures consistent URL structures for posts.
+
+- **`raw_id_fields`**:
+  - Replaces the dropdown selection for the `author` field with a search lookup widget.
+  - This improves efficiency, especially when dealing with a large number of users.
+
+---
+
+## Visual Enhancements:
+
+<div align="center">
+  <img src="./images/The_Django_administration_site_custom_list_view.jpg" alt="The Django administration site custom list view for the Post mod" width="500px"/>
+
+  **Figure 1.12**: The custom list view for the `Post` model in the Django administration site.
+
+</div>
+
+<div align="center">
+  <img src="./images/slug_model_is_now_automatically_prepopulated.jpg" alt="Slug Field" width="500px"/>
+
+  **Figure 1.13**: Demonstrates how the `slug` field is prepopulated as the title is typed.
+
+</div>
+
+<div align="center">
+  <img src="./images/select_related_object.jpg" alt="The widget to select related objects for the Author field of the Post model" width="500px"/>
+
+  **Figure 1.14**: Displays the lookup widget for selecting related objects in the `author` field.
+
+</div>
+
+<div align="center">
+
+# `New Section Starts here`
+
+</div>
