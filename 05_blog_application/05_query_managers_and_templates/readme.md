@@ -141,3 +141,44 @@ In scenarios where you need to **fetch an object from the database or create it 
 # `New Section Starts here`
 
 </div>
+
+# **Updating Objects** 🔄✨
+
+Once you have created objects in Django's ORM, you can modify their attributes and update them in the database. In this section, we will learn how to **update objects and persist changes**. ✨✨✨
+
+---
+
+## Updating an Existing `Post` Object 📝
+
+### Example Code:
+```python
+>>> post.title = 'New title'  # Modify the title
+>>> post.save()  # Save the changes
+```
+
+### Explanation:
+1. **Modify an Attribute**:
+   ```python
+   post.title = 'New title'
+   ```
+   - This updates the `title` attribute **in memory** but **does not persist the change to the database** yet.
+
+2. **Persist Changes with `save()`**:
+   ```python
+   post.save()
+   ```
+   - This method triggers an **UPDATE SQL statement** behind the scenes.
+   - Only after calling `save()`, the changes are stored in the database.
+
+---
+
+## Important Notes 🛠️
+- Changes made to a model object are **not automatically saved** to the database.
+- You **must call** the `save()` method to persist modifications.
+- The **`save()` method determines** whether to run an `INSERT` (for new objects) or an `UPDATE` (for existing objects).
+
+<div align="center">
+
+# `New Section Starts here`
+
+</div>
