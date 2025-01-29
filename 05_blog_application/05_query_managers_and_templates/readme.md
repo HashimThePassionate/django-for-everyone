@@ -664,6 +664,71 @@ Use the `order_by()` method to dynamically override the default ordering.
 
 <div align="center">
 
+# `New Section Limiting QuerySets in Django ORM`
+
+</div>
+
+# **Limiting QuerySets in Django ORM** ✂️✨
+
+Django allows you to limit the number of results returned by a QuerySet using **Python’s array-slicing syntax**. This makes it easy to retrieve a subset of data efficiently. ✨✨✨
+
+---
+
+## Limiting the Number of Results 📉
+### Retrieve the First `n` Results:
+- Example: Fetch the first 5 `Post` objects:
+  ```python
+  >>> Post.objects.all()[:5]
+  ```
+  - **SQL Translation**:
+    ```sql
+    SELECT * FROM "blog_post" LIMIT 5;
+    ```
+
+### Retrieve a Slice of Results:
+- Example: Fetch the 4th to 6th `Post` objects:
+  ```python
+  >>> Post.objects.all()[3:6]
+  ```
+  - **SQL Translation**:
+    ```sql
+    SELECT * FROM "blog_post" LIMIT 6 OFFSET 3;
+    ```
+
+### Notes:
+1. **Negative Indexing is Not Supported**:
+   - Unlike Python lists, Django QuerySets do not support negative indexing.
+
+---
+
+## Retrieve a Single Object Using Indexing 🛠️
+Instead of using slicing, you can retrieve a **single object** by specifying an index.
+
+### Example: Fetch the First Object in Random Order:
+```python
+>>> Post.objects.order_by('?')[0]
+```
+- This retrieves a single `Post` object in **random order**.
+
+---
+
+## Key Points 🌟
+1. **Efficiency**:
+   - Limiting results minimizes the amount of data fetched, improving performance for large datasets.
+
+2. **SQL Translation**:
+   - Slicing operations translate directly into SQL `LIMIT` and `OFFSET` clauses.
+
+3. **Indexing vs. Slicing**:
+   - **Indexing** retrieves a single object.
+   - **Slicing** retrieves a subset of objects as a QuerySet.
+
+4. **No Negative Indexing**:
+   - Ensure that all slicing operations use **non-negative indices**.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
+
