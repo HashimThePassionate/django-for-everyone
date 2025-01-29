@@ -515,6 +515,74 @@ SELECT "blog_post"."id", "blog_post"."title", "blog_post"."slug", "blog_post"."a
 
 <div align="center">
 
+# `New Section Excluding Objects in Django ORM`
+
+</div>
+
+# **Excluding Objects in Django ORM** 🚫✨
+
+Django ORM provides an `exclude()` method that allows you to **filter out** specific results from a QuerySet. This is particularly useful when you want to **exclude** certain records based on conditions while retrieving data. ✨✨✨
+
+---
+
+## Using the `exclude()` Method 🚀
+- You can use `exclude()` to **remove objects** that match a certain condition from your QuerySet.
+- Example:
+  ```python
+  >>> Post.objects.filter(publish__year=2025) \
+  ...     .exclude(title__startswith='Python')
+  ```
+
+### Explanation:
+1. **First Filter**:
+   - `Post.objects.filter(publish__year=2025)` retrieves all posts **published in the year 2025**.
+   - Returns a QuerySet containing these posts.
+
+2. **Excluding Results**:
+   - `.exclude(title__startswith='Python')` removes all posts where the `title` **starts with 'Python'**.
+
+3. **Chaining**:
+   - The `exclude()` method works just like `filter()` and can be chained with other QuerySet methods.
+   - The final QuerySet contains **only posts from 2025 whose titles do NOT start with 'Python'**.
+
+---
+
+## Generated SQL Query 🛠️
+Django translates the above QuerySet into an optimized SQL query:
+
+```sql
+SELECT * FROM "blog_post"
+WHERE "blog_post"."publish__year" = 2025
+AND "blog_post"."title" NOT LIKE 'Python%';
+```
+
+- **`NOT LIKE 'Python%'`** ensures that all posts **starting with 'Python'** are excluded.
+- **Efficient Execution**: Django optimizes the query to execute efficiently in the database.
+
+---
+
+## Key Benefits of `exclude()` 🌟
+1. **Removes Unwanted Data**:
+   - Exclude specific results dynamically without modifying your main filters.
+
+2. **Can Be Combined with Filters**:
+   - Works seamlessly with `filter()`, `order_by()`, and other QuerySet methods.
+
+3. **Keeps Queries Readable & Modular**:
+   - Instead of writing complex conditions inside `filter()`, separating exclusions makes the code easier to read.
+
+---
+
+## Best Practices 📝
+- **Always Verify with `.query`**:
+  - Use `.query` to inspect the generated SQL and ensure it aligns with your expectations:
+    ```python
+    >>> queryset = Post.objects.filter(publish__year=2025).exclude(title__startswith='Python')
+    >>> print(queryset.query)
+    ```
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
