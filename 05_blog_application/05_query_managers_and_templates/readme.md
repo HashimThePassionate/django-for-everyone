@@ -1037,6 +1037,126 @@ QuerySets are **lazy**, meaning no database query is executed when they are crea
 
 <div align="center">
 
+# `New Section Creating Model Managers`
+
+</div>
+
+# **Creating Model Managers in Django ORM** 🛠️✨
+
+Django models come with a default manager called `objects`, which retrieves all records from the database. However, sometimes we need to customize managers to retrieve only specific data based on predefined conditions. In this section, we will learn how to create a **custom model manager** for retrieving only **published posts**. ✨✨✨
+
+---
+
+## Why Use Custom Model Managers? 🤔
+Custom model managers allow us to:
+- Extend the functionality of Django’s default `objects` manager.
+- Define reusable QuerySets for retrieving specific records.
+- Organize database queries more efficiently by encapsulating logic inside managers.
+
+---
+
+## Two Ways to Customize Managers 🛠️
+1. **Adding Extra Manager Methods**: This allows us to use `Post.objects.my_manager()`.
+2. **Creating a New Manager with a Modified QuerySet** (Preferred): This allows us to use `Post.my_manager.all()`.
+
+We will use the second method to create a **custom manager** that retrieves only published posts.
+
+---
+
+## Implementing a Custom Manager 📋
+To define a custom manager, modify the `models.py` file of the **blog application** as follows:
+
+```python
+from django.db import models
+
+class PublishedManager(models.Manager):  # ✅ Add Custom Manager class
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
+class Post(models.Model):
+    # Model Fields
+    # ...
+    
+    objects = models.Manager()  # ✅ Default Manager
+    published = PublishedManager()  # ✅ Custom Manager
+    
+    class Meta:
+        ordering = ['-publish']
+        indexes = [
+            models.Index(fields=['-publish']),
+        ]
+    
+    def __str__(self):
+        return self.title
+```
+
+---
+
+## Understanding the Custom Manager 📝
+### 1️⃣ Declaring the Default Manager
+```python
+objects = models.Manager()  # The default manager
+```
+- If no custom manager is defined, Django **automatically** creates a default manager named `objects`.
+- If you declare any custom managers, you **must explicitly add** `objects` if you want to keep it.
+
+### 2️⃣ Creating a Custom Manager (`PublishedManager`)
+```python
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+```
+- **Overrides** the default `get_queryset()` method.
+- Calls `super().get_queryset()` to get all records.
+- Applies `filter(status=Post.Status.PUBLISHED)` to return only **published** posts.
+
+### 3️⃣ Attaching the Custom Manager to the Model
+```python
+published = PublishedManager()  # Our custom manager
+```
+- This allows us to retrieve only **published posts** using:
+  ```python
+  >>> Post.published.all()
+  ```
+
+---
+
+## How the Default Manager Works ⚙️
+- The **first declared manager** in the model becomes the **default manager**.
+- You can explicitly specify a different default manager using:
+  ```python
+  class Meta:
+      default_manager_name = 'published'  # This makes 'published' the default manager
+  ```
+- If no manager is defined, Django automatically creates the `objects` manager.
+
+---
+
+## Key Benefits of Custom Managers 🌟
+✅ **Code Reusability**: Encapsulates logic for retrieving specific records.
+✅ **Improved Readability**: Query logic is centralized within the model.
+✅ **Efficiency**: Returns only the required data instead of filtering QuerySets manually.
+
+---
+
+## Example Usage 🚀
+### Retrieve All Published Posts:
+```python
+>>> Post.published.all()
+```
+- Returns all posts **with a status of `PUBLISHED`**.
+
+### Retrieve All Posts (Including Drafts & Published):
+```python
+>>> Post.objects.all()
+```
+- Returns **all posts** regardless of status.
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
+
+
