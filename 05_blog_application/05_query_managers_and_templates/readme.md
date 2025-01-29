@@ -306,6 +306,147 @@ SELECT "blog_post"."id", "blog_post"."title", "blog_post"."slug", "blog_post"."a
 
 <div align="center">
 
+# `New Section Using Field Lookups in Django ORM`
+
+</div>
+
+# **Using Field Lookups in Django ORM** 🔍✨
+
+Django ORM provides **field lookups** to filter QuerySets efficiently. These lookups allow you to construct **SQL WHERE clauses** using Pythonic syntax. Two underscores (`__`) are used to define the lookup type in the format **`field__lookup`**. ✨✨✨
+
+---
+
+## 1️⃣ Exact Match Lookup 🔍
+- The `exact` lookup filters records by **matching the exact value**.
+- Example:
+  ```python
+  >>> Post.objects.filter(id__exact=1)
+  ```
+- Since `exact` is the **default lookup**, the following is equivalent:
+  ```python
+  >>> Post.objects.filter(id=1)
+  ```
+
+---
+
+## 2️⃣ Case-Insensitive Exact Match 🔠
+- The `iexact` lookup performs a **case-insensitive match**:
+  ```python
+  >>> Post.objects.filter(title__iexact='python deep dive') 
+  ```
+
+---
+
+## 3️⃣ Containment Lookups 🔎
+### Using `contains` (Case-Sensitive):
+- Filters records where the field contains a specific substring.
+  ```python
+  >>> Post.objects.filter(title__contains='deep')
+  ```
+- Equivalent SQL:
+  ```sql
+  WHERE title LIKE '%deep%'
+  ```
+
+### Using `icontains` (Case-Insensitive):
+- Performs a **case-insensitive containment lookup**:
+  ```python
+  >>> Post.objects.filter(title__icontains='deep')
+  ```
+
+---
+
+## 4️⃣ `in` Lookup 📋
+- Checks whether a field’s value is present in a given iterable (list, tuple, or another QuerySet).
+  ```python
+  >>> Post.objects.filter(id__in=[1, 3])
+  ```
+- Equivalent SQL:
+  ```sql
+  WHERE id IN (1, 3)
+  ```
+
+---
+
+## 5️⃣ Comparison Lookups ⚖️
+| Lookup | Meaning | Example | SQL Equivalent |
+|--------|---------|---------|---------------|
+| `gt`   | Greater than | `id__gt=3` | `WHERE id > 3` |
+| `gte`  | Greater than or equal | `id__gte=3` | `WHERE id >= 3` |
+| `lt`   | Less than | `id__lt=3` | `WHERE id < 3` |
+| `lte`  | Less than or equal | `id__lte=3` | `WHERE id <= 3` |
+
+Example Query:
+```python
+>>> Post.objects.filter(id__gt=3)  # Fetch posts with ID greater than 3
+```
+
+---
+
+## 6️⃣ String Matching Lookups 🔡
+- **`startswith` / `istartswith`**: Case-sensitive/insensitive **starts with** lookup.
+  ```python
+  >>> Post.objects.filter(title__istartswith='who')
+  ```
+
+- **`endswith` / `iendswith`**: Case-sensitive/insensitive **ends with** lookup.
+  ```python
+  >>> Post.objects.filter(title__istartswith='python') 
+  ```
+
+---
+
+## 7️⃣ Date-Based Lookups 📅
+### Exact Date Match:
+```python
+>>> from datetime import date
+>>> Post.objects.filter(publish__date=date(2025, 1, 27))
+```
+
+### Filter by Year, Month, or Day:
+```python
+>>> Post.objects.filter(publish__year=2025)  # Posts from 2025
+>>> Post.objects.filter(publish__month=1)   # Posts from January
+>>> Post.objects.filter(publish__day=28)     # Posts from the 28th day of the month
+```
+
+### Date Comparison:
+- Fetch posts published **after** January 1, 2024:
+  ```python
+  >>> Post.objects.filter(publish__date__gt=date(2025, 1, 27))
+  ```
+
+---
+
+## 8️⃣ Filtering Related Objects 🔗
+- To filter based on **related models**, use **double underscores (`__`)** notation.
+
+### Fetch posts by a specific author:
+```python
+>>> Post.objects.filter(author__username='admin')
+```
+
+### Using Lookups on Related Fields:
+- Fetch posts written by users whose **username starts with `ad`**:
+  ```python
+  >>> Post.objects.filter(author__username__startswith='ad')
+  ```
+
+### Filter by Multiple Fields:
+- Fetch posts published in 2024 **by the user "admin"**:
+  ```python
+  >>> Post.objects.filter(publish__year=2025, author__username='admin')
+  ```
+
+---
+
+## Summary 🌟
+- **Field lookups allow filtering objects efficiently using Django ORM.**
+- **Use `filter()` with different lookup types** (`exact`, `contains`, `gt`, `lt`, etc.).
+- **Chain lookups** for powerful filtering, including **related models and date fields**.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
