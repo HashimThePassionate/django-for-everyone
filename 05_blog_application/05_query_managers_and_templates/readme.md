@@ -3,8 +3,41 @@
 Now that we have a fully functional administration site to manage blog posts, it's time to learn how to **read and write content to the database programmatically**. Django provides an **Object-Relational Mapper (ORM)** that allows seamless interaction with the database using Python. ✨
 
 ---
+# **📌 Table of Contents**  
 
-## What is Django ORM? 🗄️
+## **1️⃣ Introduction 🚀**  
+- Working with QuerySets & Managers  
+- What is Django ORM? 🏗️  
+- Defining the Database 🗄️  
+
+## **2️⃣ QuerySets in Django ORM 🔍**  
+- Understanding QuerySets  
+- Creating Objects 📝  
+- Updating Objects 🔄  
+- Retrieving Data 📊  
+
+## **3️⃣ Advanced Querying ⚡**  
+- Filtering Data 🔎  
+- Field Lookups 📌  
+- Chaining Filters 🔗  
+- Excluding Data 🚫  
+- Ordering & Limiting Results 📉  
+
+## **4️⃣ QuerySet Operations & Performance 🚀**  
+- Counting Objects 🔢  
+- Checking Existence ✅  
+- Deleting Data 🗑️  
+- Complex Queries with Q Objects 🤯  
+
+## **5️⃣ Custom Model Managers 🎯**  
+- Creating Model Managers 🏗️  
+- Testing Custom Managers 🧪  
+
+## **6️⃣ Conclusion 🎯**  
+- Key Takeaways & Best Practices
+---
+
+## What is Django ORM 🗄️
 - A **powerful database abstraction API** that enables creating, retrieving, updating, and deleting objects easily.
 - Converts Python **object-oriented code** into SQL queries.
 - Allows interaction with the database in a **Pythonic way** instead of writing raw SQL.
@@ -142,7 +175,7 @@ In scenarios where you need to **fetch an object from the database or create it 
 
 </div>
 
-# **Updating Objects** 🔄✨
+# **Updating Objects** 🔄
 
 Once you have created objects in Django's ORM, you can modify their attributes and update them in the database. In this section, we will learn how to **update objects and persist changes**. ✨✨✨
 
@@ -184,7 +217,7 @@ Once you have created objects in Django's ORM, you can modify their attributes a
 </div>
 
 
-# **Retrieving Objects from the Database** 🛠️✨
+# **Retrieving Objects from the Database** ✨
 
 Django provides multiple ways to retrieve objects from the database using its powerful ORM. In this section, we will explore how to retrieve objects efficiently. ✨✨✨
 
@@ -1155,8 +1188,86 @@ published = PublishedManager()  # Our custom manager
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Testing the Custom Manager`
 
 </div>
 
+# **Testing the Custom Manager for the Post Model** 🛠️✨
 
+Now that we have defined a **custom manager** for the `Post` model, it's time to test its functionality and ensure it retrieves the expected results. Follow the steps below to verify the custom manager. ✨✨✨
+
+---
+
+## Starting the Development Server 🚀
+To test the custom manager, start the **Django shell** by running the following command in your terminal:
+
+```bash
+python manage.py shell
+```
+
+This command opens an interactive Python shell with access to your project models and environment.
+
+---
+
+## Retrieving All Published Posts 📋
+After starting the shell, import the `Post` model and use the **custom manager** to retrieve all published posts:
+
+```python
+>>> from blog.models import Post
+>>> Post.published.all()
+```
+
+### Explanation:
+1. **`Post.published`**:
+   - Uses the custom manager `PublishedManager` to filter posts with the status set to `PUBLISHED`.
+
+2. **`.all()`**:
+   - Retrieves all posts matching the `PUBLISHED` filter.
+
+- **Expected Output**:
+  - A QuerySet containing all posts with `status=PUBLISHED`.
+
+---
+
+## Filtering Published Posts by Title 🔍
+To retrieve only published posts whose title starts with "Python," use the following QuerySet:
+
+```python
+>>> Post.published.filter(title__startswith='Python')
+```
+
+### Explanation:
+1. **`Post.published`**:
+   - Filters posts with `status=PUBLISHED` (as defined in the custom manager).
+
+2. **`filter(title__startswith='Python')`**:
+   - Applies an additional filter to retrieve posts where the title starts with "Python" (case-sensitive).
+
+- **Expected Output**:
+  - A QuerySet containing all published posts where the title starts with "Python".
+
+---
+
+## Ensuring Results Are Returned ✅
+To get results for the above QuerySet, ensure the following:
+1. **Set the Status Field to PUBLISHED**:
+   - Update the `status` field of the `Post` object with a title starting with "Python" to `PUBLISHED`.
+   - Example:
+     ```python
+     post = Post.objects.get(title__startswith='Python')
+     post.status = Post.Status.PUBLISHED
+     post.save()
+     ```
+
+2. **Re-run the QuerySet**:
+   - After updating the status, re-run the QuerySet to verify that the results are returned:
+     ```python
+     >>> Post.published.filter(title__startswith='Python')
+     ```
+
+---
+
+## Key Notes 🛠️
+- The custom manager (`PublishedManager`) only returns posts with `status=PUBLISHED`.
+- You can chain additional filters (like `title__startswith`) to refine the QuerySet.
+- Always ensure the database contains matching records before running the QuerySet.
