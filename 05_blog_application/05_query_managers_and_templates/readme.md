@@ -32,7 +32,7 @@ A **QuerySet** is a collection of **database queries** used to retrieve objects 
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Creating Objects with Django ORM`
 
 </div>
 
@@ -138,7 +138,7 @@ In scenarios where you need to **fetch an object from the database or create it 
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Updating Objects`
 
 </div>
 
@@ -179,7 +179,7 @@ Once you have created objects in Django's ORM, you can modify their attributes a
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Retrieving Objects from the Database`
 
 </div>
 
@@ -244,6 +244,65 @@ To retrieve a single record using a filter condition:
 - **`get()`**: Retrieves a single object. Use unique fields for filtering (e.g., `id`, `slug`). Raises exceptions if no match or multiple matches are found.
 - **`all()`**: Retrieves all objects in the database.
 - **Lazy Evaluation**: QuerySets are only executed when their data is needed, ensuring efficiency.
+
+<div align="center">
+
+# `New Section Filtering Objects in Django ORM`
+
+</div>
+
+# **Filtering Objects in Django ORM** 🔍✨
+
+Filtering objects in Django ORM is an essential operation that allows you to retrieve specific records from the database based on conditions. The `filter()` method provides an efficient way to apply **SQL WHERE clauses** using Django’s **field lookups**. ✨✨✨
+
+---
+
+## Using the `filter()` Method 📋
+- The `filter()` method is used to **retrieve a subset of objects** that match certain conditions.
+- Example: Filtering `Post` objects by **title**:
+  ```python
+  >>> Post.objects.filter(title='Python Deep Dive')
+  ```
+  - This QuerySet returns all `Post` objects **where the title is exactly** 'Python Deep Dive'.
+  - The result is a QuerySet containing the matching records.
+
+---
+
+## Viewing the SQL Query Generated 🛠️
+To inspect the SQL statement executed by Django ORM, use the `query` attribute:
+```python
+>>> posts = Post.objects.filter(title='Python Deep Dive?')
+>>> print(posts.query)
+```
+### Expected SQL Output:
+```sql
+SELECT "blog_post"."id", "blog_post"."title", "blog_post"."slug", "blog_post"."author_id", "blog_post"."body", "blog_post"."publish", "blog_post"."created", "blog_post"."updated", "blog_post"."status" FROM "blog_post" WHERE "blog_post"."title" = Python Deep Dive ORDER BY "blog_post"."publish" DESC
+```
+
+### Explanation:
+1. **WHERE Clause**:
+   - The `WHERE` condition ensures that only posts with a title **exactly matching** 'Who was Django Reinhardt?' are retrieved.
+
+2. **ORDER BY Clause**:
+   - Since we haven't specified an explicit ordering, Django applies the default sorting **defined in the `ordering` attribute** of the `Meta` class in the `Post` model.
+
+---
+
+## Important Notes 📝
+- **QuerySets are lazy**:
+  - The `filter()` method **does not immediately execute the query**.
+  - It only runs the SQL query when the QuerySet is **iterated over, printed, or explicitly evaluated**.
+
+- **QuerySet API**:
+  - The `.query` attribute is a helpful debugging tool but is **not part of Django’s public API**.
+  - Use it only for inspecting the raw SQL generated.
+
+---
+
+## Summary 🌟
+- **`filter()`**: Retrieves objects matching specified conditions.
+- **SQL Inspection**: Use `.query` to see the generated SQL.
+- **Lazy Evaluation**: QuerySets execute SQL **only when needed**, improving efficiency.
 
 <div align="center">
 
