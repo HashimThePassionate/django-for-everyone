@@ -938,11 +938,105 @@ You can delete multiple objects at once by using QuerySets.
 3. **Precaution**:
    - Always test your deletion logic in a safe environment to avoid accidental data loss.
 
+<div align="center">
 
+# `New Section Complex Lookups with Q Objects`
+
+</div>
+
+# **Complex Lookups with Q Objects in Django ORM** 🌟✨
+
+Django’s ORM allows you to build complex queries using **Q objects**, which provide a way to encapsulate field lookups and create SQL queries with **logical operators** such as `OR`, `AND`, and `XOR`. ✨✨✨
+
+---
+
+## Field Lookups with SQL AND 🔗
+- By default, field lookups using `filter()` are combined using a **SQL AND operator**.
+- Example:
+  ```python
+  >>> Post.objects.filter(field1='foo', field2='bar')
+  ```
+  - Retrieves all `Post` objects where:
+    - `field1` = 'foo' **AND**
+    - `field2` = 'bar'
+
+---
+
+## Building Complex Queries with Q Objects 🔍
+### What Are Q Objects?
+- A **Q object** is used to encapsulate a collection of field lookups.
+- Allows you to compose complex queries using logical operators:
+  - `&` (AND)
+  - `|` (OR)
+  - `^` (XOR)
+
+### Example: Using Q Objects
+#### Query: Retrieve Posts Where the Title Starts with "Python" OR "Django"
+```python
+>>> from django.db.models import Q
+>>> starts_python = Q(title__istartswith='python')
+>>> starts_django = Q(title__istartswith='django')
+>>> Post.objects.filter(starts_python | starts_django)
+```
+- **Explanation**:
+  - `Q(title__istartswith='python')`: Filters posts where the title starts with "Python" (case-insensitive).
+  - `Q(title__istartswith='django')`: Filters posts where the title starts with "Django" (case-insensitive).
+  - `|` operator combines these filters with an **OR** condition.
+- **SQL Translation**:
+  ```sql
+  SELECT * FROM "blog_post"
+  WHERE "title" ILIKE 'python%' OR "title" ILIKE 'django%';
+  ```
+
+---
+
+## When QuerySets Are Evaluated 🛠️
+QuerySets are **lazy**, meaning no database query is executed when they are created. Instead, they are evaluated only when needed.
+
+### Scenarios When QuerySets Are Evaluated:
+1. **Iteration**:
+   - The first time you iterate over a QuerySet (e.g., in a `for` loop).
+2. **Slicing**:
+   - For example:
+     ```python
+     Post.objects.all()[:3]  # Fetch the first three posts
+     ```
+3. **Pickling or Caching**:
+   - When QuerySets are serialized or cached.
+4. **Calling `repr()` or `len()`**:
+   - Example:
+     ```python
+     len(Post.objects.filter(status='published'))
+     ```
+5. **Explicitly Calling `list()`**:
+   - Example:
+     ```python
+     posts_list = list(Post.objects.all())
+     ```
+6. **Testing in Statements**:
+   - Example:
+     ```python
+     if Post.objects.filter(status='draft').exists():
+         print("Draft posts exist!")
+     ```
+
+---
+
+## More About QuerySets 📖
+- **QuerySets in Action**:
+  - You will use QuerySets extensively throughout your Django projects.
+  - They are the backbone of Django ORM for interacting with your database.
+
+- **Advanced Topics**:
+  - Learn how to generate **aggregates** over QuerySets in Chapter 3.
+  - Learn how to optimize QuerySets involving related objects in Chapter 7.
+
+- **Further Reading**:
+  - QuerySet API Reference: [Django QuerySet API Reference](https://docs.djangoproject.com/en/5.0/ref/models/querysets/)
+  - Making Queries: [Django ORM Query Documentation](https://docs.djangoproject.com/en/5.0/topics/db/queries/)
 
 <div align="center">
 
 # `New Section Starts here`
 
 </div>
-
