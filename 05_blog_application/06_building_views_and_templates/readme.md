@@ -136,6 +136,90 @@ return render(request, 'template.html', context)
 
 <div align="center">
 
+# `New Section get_object_or_404 Shortcut`
+
+</div>
+
+# **Using the `get_object_or_404` Shortcut in Django** 🚀✨
+
+Django provides a convenient shortcut called **`get_object_or_404()`**, which helps retrieve objects safely while handling cases where the object **does not exist** by raising an **HTTP 404 error**. This is a cleaner and more efficient way to fetch objects compared to using `get()` with a manual `DoesNotExist` exception. ✨✨✨
+
+---
+
+## Why Use `get_object_or_404()`? 🤔
+- ✅ **Prevents crashes**: If an object does not exist, it **automatically raises** an HTTP 404 error.
+- ✅ **Reduces boilerplate code**: Eliminates the need for `try-except` blocks.
+- ✅ **More readable and concise**: Simplifies the code for fetching objects safely.
+
+---
+
+## Updating the `post_detail` View 🔍
+### Edit the `views.py` file to import `get_object_or_404` and update the view:
+```python
+from django.shortcuts import get_object_or_404, render  # ✅ Import get_object_or_404
+
+# ...
+
+def post_detail(request, id):  # ✅ Detail view function
+    post = get_object_or_404(  # ✅ Use get_object_or_404 to fetch post
+        Post,
+        id=id,
+        status=Post.Status.PUBLISHED  # ✅ Ensures only published posts are retrieved
+    )
+    return render(
+        request,
+        'blog/post/detail.html',  # ✅ Template for post details
+        {'post': post}  # ✅ Pass the retrieved post to the template
+    )
+```
+
+---
+
+## Understanding `get_object_or_404()` 📌
+The **`get_object_or_404()`** function is used to retrieve a single object from the database while handling cases where the object **does not exist**. If no matching object is found, it **raises an `Http404` exception automatically**.
+
+### Syntax:
+```python
+get_object_or_404(ModelName, filter_conditions)
+```
+
+### Arguments Explained:
+| Argument | Description |
+|----------|-------------|
+| `ModelName` | The Django model to query. |
+| `filter_conditions` | The lookup conditions used to filter the query. |
+
+### Example Usage:
+```python
+post = get_object_or_404(Post, id=5, status=Post.Status.PUBLISHED)
+```
+- **Fetches a `Post` object** where `id=5` and `status=PUBLISHED`.
+- If no matching object is found, an **HTTP 404 error** is raised.
+
+---
+
+## Key Benefits of `get_object_or_404()` 🌟
+1. **Improves Code Readability**:
+   - Before using `get_object_or_404()`, error handling required manual try-except blocks:
+     ```python
+     try:
+         post = Post.objects.get(id=id, status=Post.Status.PUBLISHED)
+     except Post.DoesNotExist:
+         raise Http404("No Post found.")
+     ```
+   - Now, this is simplified to just:
+     ```python
+     post = get_object_or_404(Post, id=id, status=Post.Status.PUBLISHED)
+     ```
+
+2. **Reduces Boilerplate Code**:
+   - No need to manually check for object existence and handle exceptions.
+
+3. **Enhances Security**:
+   - Ensures only valid objects are retrieved, preventing unnecessary database queries.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
