@@ -728,6 +728,70 @@ Instead of using slicing, you can retrieve a **single object** by specifying an 
 
 <div align="center">
 
+# `New Section Counting Objects in Django ORM`
+
+</div>
+
+# **Counting Objects in Django ORM** 🔢✨
+
+Django provides a convenient `count()` method to calculate the total number of objects in a QuerySet. This method translates directly into an efficient SQL `SELECT COUNT(*)` query. ✨✨✨
+
+---
+
+## Using the `count()` Method 📊
+The `count()` method is used to determine the total number of objects that match a QuerySet. It returns an integer value.
+
+### Example: Count Posts with Specific Criteria
+```python
+>>> Post.objects.filter(id__lt=3).count()
+2
+```
+
+### Explanation:
+1. **Filter Condition**:
+   - `Post.objects.filter(id__lt=3)` generates a QuerySet containing all posts with an ID **less than 3**.
+
+2. **Counting Objects**:
+   - `.count()` calculates the total number of objects in the resulting QuerySet.
+
+3. **SQL Translation**:
+   - This QuerySet translates into the following SQL:
+     ```sql
+     SELECT COUNT(*) FROM "blog_post" WHERE "id" < 3;
+     ```
+   - Returns the integer `2` in this case.
+
+---
+
+## Benefits of `count()` 🌟
+1. **Efficiency**:
+   - The `count()` method is optimized for performance and uses SQL's `COUNT(*)` function directly.
+
+2. **Simple and Clean**:
+   - Provides an easy way to count objects without iterating over the QuerySet.
+
+3. **Works with Filters**:
+   - Combine `count()` with filters to count objects matching specific conditions.
+
+---
+
+## Key Points 🛠️
+- **SQL Translation**:
+  - `count()` is translated into a `SELECT COUNT(*)` query, making it highly efficient.
+
+- **Use Cases**:
+  - Count all objects in a table:
+    ```python
+    >>> Post.objects.all().count()
+    ```
+  - Count objects matching a filter:
+    ```python
+    >>> Post.objects.filter(publish__year=2025).count()
+    ```
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
