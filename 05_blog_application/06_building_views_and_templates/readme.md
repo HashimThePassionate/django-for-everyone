@@ -532,6 +532,90 @@ Edit the `base.html` file and add the following code:
 
 <div align="center">
 
+# `New Section Post List Template`
+
+</div>
+
+# **Creating the Post List Template in Django** 📝✨
+
+Now that we have a **base template**, we can create the **post list template** to display all blog posts dynamically. This template will extend the `base.html` layout and list all published blog posts. ✨
+
+---
+
+## Editing `post/list.html` 🛠️
+Open the `post/list.html` file and add the following:
+
+```html
+{% extends "blog/base.html" %}  {# ✅ Extend the base template #}
+
+{% block title %}My Blog{% endblock %}  {# ✅ Define page title #}
+
+{% block content %}  {# ✅ Start content block #}
+    <h1>My Blog</h1>
+    {% for post in posts %}  {# ✅ Iterate through posts #}
+        <h2>
+            <a href="{% url 'blog:post_detail' post.id %}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <p class="date">
+            Published {{ post.publish }} by {{ post.author }}
+        </p>
+        {{ post.body|truncatewords:30|linebreaks }}  {# ✅ Apply template filters #}
+    {% endfor %}
+{% endblock %}  {# ✅ End content block #}
+```
+
+---
+
+## Understanding the Template Code 🔍
+### **1️⃣ `{% extends "blog/base.html" %}` - Extending the Base Template**
+- This **inherits** the `base.html` layout.
+- The **navigation, sidebar, and other common elements** are automatically included.
+
+### **2️⃣ `{% block title %}My Blog{% endblock %}` - Custom Page Title**
+- Overrides the **title block** in `base.html`.
+- Sets the title of the page to **My Blog**.
+
+### **3️⃣ `{% block content %}` - Defining the Content Block**
+- **All content inside this block** replaces the `{% block content %}` in `base.html`.
+- Ensures a **consistent structure** across all pages.
+
+---
+
+## Displaying Blog Posts 📝
+### **4️⃣ `{% for post in posts %}...{% endfor %}` - Looping Through Posts**
+- Iterates over the **posts QuerySet** provided by the `post_list` view.
+- Displays **each post’s title, author, publish date, and truncated content**.
+
+### **5️⃣ `<a href="{% url 'blog:post_detail' post.id %}">...</a>` - Dynamic URLs**
+- Uses `{% url %}` to generate **dynamic links** to each post’s detail page.
+- The `{% url 'blog:post_detail' post.id %}` resolves to the **post’s detail view**.
+
+📌 **Tip:** Always use `{% url %}` instead of hardcoded links to keep URLs maintainable.
+
+---
+
+## Applying Template Filters 🎨
+### **6️⃣ `{{ post.body|truncatewords:30|linebreaks }}` - Formatting Post Content**
+Django provides **template filters** to modify content dynamically:
+| Filter | Description |
+|--------|-------------|
+| `truncatewords:30` | Limits the text to **30 words**. |
+| `linebreaks` | Converts new lines into **HTML `<br>` tags**. |
+
+### **Example Output**:
+If a blog post has the following body:
+```text
+Django is a powerful web framework that makes it easier to build applications...
+```
+Applying `truncatewords:30|linebreaks` will display:
+```html
+<p>Django is a powerful web framework that makes it easier to build <br> applications... </p>
+```
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
