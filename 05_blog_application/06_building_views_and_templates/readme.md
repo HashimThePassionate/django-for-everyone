@@ -781,9 +781,99 @@ Applying `linebreaks` will display:
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Request/Response Cycle`
 
 </div>
+
+# **Understanding the Django Request/Response Cycle** 🔄✨
+
+A web application follows a **request/response cycle**, where a client (typically a web browser) makes a request, and the server processes it before returning a response. In Django, this cycle involves several components, including **URL routing, views, models, templates, and the ORM**. 🚀✨✨✨
+
+<div align="center">
+  <img src="./images/request_and_response_cycle.jpg" alt="" width="600px"/>
+
+  **Figure 1.19**: The Django request/response cycle
+
+</div>
+
+## The Request/Response Cycle in Django 🌍
+The following steps outline **how Django processes an HTTP request and generates an HTTP response**:
+
+### **Step 1: The Client (Browser) Makes a Request** 🌐
+- A **user visits a webpage** (e.g., `https://domain.com/blog/33/`).
+- This request is sent to the **web server**, which then passes it to **Django** for processing.
+
+### **Step 2: URL Routing - Matching the Requested Path** 🛤️
+- Django checks **URL patterns** defined in the `urls.py` file.
+- It **iterates through the patterns in order** and stops at the **first match**.
+- In this case, `/blog/<id>/` matches the requested path `/blog/33/`.
+
+📌 **URL Pattern in `urls.py`**:
+```python
+urlpatterns = [
+    path('/blog/<id>/', post_detail, name='post_detail'),
+]
+```
+
+### **Step 3: The View Retrieves Data from the Database** 🛠️
+- Django **calls the corresponding view function** and passes the request object along with any captured parameters (e.g., `id=33`).
+- The view **retrieves the requested post** using the Django ORM.
+- The ORM translates the query into **SQL** and fetches the post from the database.
+
+📌 **View Function in `views.py`**:
+```python
+def post_detail(request, id):
+    post = Post.objects.get(id=id)  # ✅ Retrieve the post with ID 33
+    return render(request, 'post/detail.html', {'post': post})
+```
+
+📌 **Equivalent SQL Query Executed by Django ORM**:
+```sql
+SELECT * FROM posts WHERE ID=33;
+```
+
+📌 **Example Post Data Fetched from Database**:
+```
+ID: 33,
+Title: "Hello World",
+Body: "Sample blog post."
+```
+
+### **Step 4: Rendering the Template** 🎨
+- The **view function uses `render()`** to pass the post object to the template.
+- Django dynamically **renders the `post/detail.html` template**, inserting the post data.
+
+📌 **Template in `post/detail.html`**:
+```html
+<html>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.body }}</p>
+</body>
+</html>
+```
+
+### **Step 5: Returning the HTTP Response** 📩
+- The **rendered HTML** is sent back as an **HTTP response** to the client.
+- The browser receives and **displays the formatted content**.
+
+📌 **Final Rendered HTML Sent to Browser**:
+```html
+<html>
+<body>
+    <h1>Hello World</h1>
+    <p>Sample blog post.</p>
+</body>
+</html>
+```
+
+## Middleware in the Request/Response Cycle ⚡
+- This diagram does **not include middleware** for simplicity.
+- Django **middleware** is a set of hooks that **process requests and responses globally**.
+- Middleware can be used for **authentication, security, and modifying responses**.
+- You will learn how to create **custom middleware** in later sections.
+
+📌 **Learn more about Django Middleware**: [Django Middleware Docs](https://docs.djangoproject.com/en/5.0/topics/http/middleware/)
 
 
 
