@@ -616,6 +616,171 @@ Applying `truncatewords:30|linebreaks` will display:
 
 <div align="center">
 
+# `New Section Acessing Post List`
+
+</div>
+
+# **Accessing Our Django Application** 🌍✨
+
+Now that we have created the **post list template**, it's time to access our blog application and ensure everything is working correctly. Let's publish some posts and run our Django development server. 🚀✨
+
+---
+
+## Publishing Blog Posts 📝
+Before we access the blog, we need to ensure that at least one post has its **status set to Published**.
+
+### **1️⃣ Change Post Status to Published** ✅
+- Open the Django **Admin Panel** (`/admin/`).
+- Navigate to the **Post** model.
+- Edit an existing post and **set its status to Published**.
+- Save the post.
+
+<div align="center">
+  <img src="./images/status_field.jpg" alt="Status Field" width="500px"/>
+
+  **Figure 1.16**: The status field for a published post
+
+</div>
+
+
+This will make the post visible on the public blog page.
+
+📌 **Make sure you have at least one published post to display on the blog page.**
+
+---
+
+## Running the Development Server 🛠️
+Once we have published posts, we need to **start the Django development server** to access the blog.
+
+### **2️⃣ Start the Server** 🚀
+Run the following command in the terminal:
+```bash
+python manage.py runserver
+```
+
+### **What This Does?**
+- Starts a local server at **`http://127.0.0.1:8000/`**.
+- Allows you to view your blog in the browser.
+- Auto-reloads when you make changes (except when adding new files).
+
+<div align="center">
+  <img src="./images/post_list.jpg" alt="Post List" width="500px"/>
+
+  **Figure 1.17**: The page for the post list view
+
+</div>
+
+
+📌 **If the server is already running, restart it to reflect recent changes.**
+
+---
+
+## Viewing the Blog in the Browser 🌐
+### **3️⃣ Open the Blog URL** 🔗
+Navigate to:
+```
+http://127.0.0.1:8000/blog/
+```
+- You should see your **blog homepage**, displaying published posts.
+- Each **post title** should be clickable, leading to the post’s **detail page**.
+
+
+<div align="center">
+
+# `New Section Post Detail `
+
+</div>
+
+# **Creating the Post Detail Template** 📝✨
+
+Now that we have the **post list template**, we need to create the **post detail template** to display an individual blog post when clicked. This template will extend our `base.html` layout and dynamically show the selected post's details. 🚀✨
+
+---
+
+## Editing `post/detail.html` 🛠️
+Open the `post/detail.html` file and add the following:
+
+```html
+{% extends "blog/base.html" %}  {# ✅ Extend the base template #}
+
+{% block title %}{{ post.title }}{% endblock %}  {# ✅ Dynamic page title #}
+
+{% block content %}  {# ✅ Start content block #}
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|linebreaks }}  {# ✅ Apply template filter #}
+{% endblock %}  {# ✅ End content block #}
+```
+
+---
+
+## Understanding the Template Code 🔍
+### **1️⃣ `{% extends "blog/base.html" %}` - Extending the Base Template**
+- This **inherits** the `base.html` structure.
+- Ensures **consistent layout** with other pages.
+
+### **2️⃣ `{% block title %}{{ post.title }}{% endblock %}` - Dynamic Page Title**
+- The **post title** is dynamically inserted into the `<title>` tag.
+- Ensures that each post’s page has its **own unique title**.
+
+### **3️⃣ `{% block content %}` - Defining the Content Block**
+- Everything inside this block **replaces** `{% block content %}` in `base.html`.
+- This allows us to display post-specific content dynamically.
+
+---
+
+## Displaying Blog Post Details 📝
+### **4️⃣ `{{ post.title }}` - Displaying Post Title**
+- Inserts the **post’s title** inside an `<h1>` tag.
+
+### **5️⃣ `<p class="date">Published {{ post.publish }} by {{ post.author }}</p>`**
+- Shows the **publication date** and **author’s name**.
+- Ensures proper **formatting of post metadata**.
+
+### **6️⃣ `{{ post.body|linebreaks }}` - Formatting the Post Body**
+Django provides **template filters** to modify how content is displayed.
+
+| Filter | Description |
+|--------|-------------|
+| `linebreaks` | Converts new lines into **HTML `<br>` tags** |
+
+### **Example Output:**
+If a post’s body contains:
+```text
+Django is a powerful web framework.
+It simplifies development.
+```
+Applying `linebreaks` will display:
+```html
+<p>Django is a powerful web framework.</p>
+<p>It simplifies development.</p>
+```
+
+---
+
+## Viewing the Post Detail Page 🌍
+### **7️⃣ Click a Post Title to See the Detail View** 🔗
+- Open the **blog homepage (`/blog/`)**.
+- Click on any post title.
+- You should now see the **post detail page**.
+
+<div align="center">
+  <img src="./images/post_detail.jpg" alt="Post Detail" width="500px"/>
+
+  **Figure 1.18**: The page for the post’s detail view
+
+</div>
+
+📌 **Check the URL:**
+- It should include the **post’s ID**, such as:
+  ```
+  http://127.0.0.1:8000/blog/1/
+  ```
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
