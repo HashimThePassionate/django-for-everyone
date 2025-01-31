@@ -329,7 +329,7 @@ For example, instead of:
 We will now have:
 
 ```plaintext
-/blog/2024/1/28/python-deep-dive/
+/blog/2024/1/27/python-deep-dive/
 ```
 
 This will help search engines and users understand the **context** of the post just by looking at the URL. 🚀
@@ -395,6 +395,110 @@ The new **post detail URL pattern** takes the following parameters:
 
 To learn more about **path converters in Django**, visit:
 🔗 [Django Path Converters Documentation](https://docs.djangoproject.com/en/5.0/topics/http/urls/#path-converters)
+
+<div align="center">
+
+# `New Section post_detail View to Match SEO-Friendly URLs`
+
+</div>
+
+# **Modifying the `post_detail` View to Match SEO-Friendly URLs** 🛠️✨
+
+To ensure that our **post_detail view** matches the **new SEO-friendly URL structure**, we need to update its parameters. The view should now accept **year, month, day, and post (slug)** to correctly retrieve the **corresponding blog post**. 📆🔍
+
+---
+
+## **Updating the `post_detail` View** 📝
+Edit the `views.py` file inside the **blog application** and update the `post_detail` view as follows:
+
+### **Old Code (Before SEO-Friendly URLs)** ❌
+```python
+def post_detail(request, id):
+    post = get_object_or_404(Post, id=id, status=Post.Status.PUBLISHED)
+    return render(request, 'blog/post/detail.html', {'post': post})
+```
+
+### **New Code (After Updating to SEO-Friendly URLs)** ✅
+```python
+from django.shortcuts import get_object_or_404, render
+from .models import Post
+
+def post_detail(request, year, month, day, post):  # ✅ Updated parameters
+    post = get_object_or_404(
+        Post,
+        status=Post.Status.PUBLISHED,
+        slug=post,  # ✅ Match post slug
+        publish__year=year,  # ✅ Match year of publication
+        publish__month=month,  # ✅ Match month of publication
+        publish__day=day  # ✅ Match day of publication
+    )
+    return render(
+        request,
+        'blog/post/detail.html',
+        {'post': post}
+    )
+```
+
+---
+
+## **Understanding the Changes in `post_detail`** 🧐
+
+- **✅ Added `year, month, day, and post` as parameters**: 
+  - These match the **new URL structure** to fetch the correct post.
+- **✅ Used `slug=post`**: 
+  - Instead of fetching by `id`, we now use the **slug field**.
+- **✅ Filtered posts by `publish__year`, `publish__month`, and `publish__day`**: 
+  - Ensures that posts are retrieved based on their **exact publication date**.
+- **✅ Only retrieves posts with `status=Post.Status.PUBLISHED`**: 
+  - This prevents fetching drafts or unpublished posts.
+
+---
+
+## **How `get_object_or_404` Works in This Context** 🔍🛠️
+
+The function `get_object_or_404()` is a **Django shortcut** that attempts to retrieve an object from the database using the given parameters. If the object does **not** exist, Django **automatically raises a 404 error** (`Http404` exception), returning an HTTP 404 response.
+
+### **Breaking Down the Parameters Inside `get_object_or_404()`** 🧐
+```python
+post = get_object_or_404(
+    Post,  # ✅ Model to query
+    status=Post.Status.PUBLISHED,  # ✅ Filter posts that are published only
+    slug=post,  # ✅ Match the post's slug
+    publish__year=year,  # ✅ Match the exact year of publication
+    publish__month=month,  # ✅ Match the exact month of publication
+    publish__day=day  # ✅ Match the exact day of publication
+)
+```
+### **How It Works Step by Step** 📌
+1️⃣ **Queries the `Post` model** to fetch a post matching the given filters.
+2️⃣ **Filters by `status=Post.Status.PUBLISHED`** to ensure only published posts are retrieved.
+3️⃣ **Filters by `slug=post`** to match the requested slug.
+4️⃣ **Filters by `publish__year`, `publish__month`, and `publish__day`**:
+   - Ensures the retrieved post has the exact **date of publication** as specified in the URL.
+5️⃣ **If a post exists that meets all these conditions**, it is returned.
+6️⃣ **If no post is found**, Django **automatically raises an HTTP 404 error** (instead of returning `None` or causing an error later in the view).
+
+### **Why Use `get_object_or_404()` Instead of `get()`?** 🤔
+✅ **Avoids writing manual error handling**
+✅ **Automatically raises a proper 404 response**
+✅ **Reduces unnecessary try/except blocks**
+✅ **Enhances user experience by properly handling missing content**
+
+---
+
+## **How Does This Work? 🤔**
+1️⃣ **User Requests a Blog Post**
+   - Example URL: `/blog/2024/1/1/who-was-django-reinhardt/`
+
+2️⃣ **Django Matches the URL to `post_detail` View**
+   - Extracts **year, month, day, and slug** from the URL.
+
+3️⃣ **Django Fetches the Post from the Database**
+   - Looks for a **published post** that matches the given **date and slug**.
+
+4️⃣ **Renders the `blog/post/detail.html` Template**
+   - Displays the requested **blog post details**.
+
 
 <div align="center">
 
