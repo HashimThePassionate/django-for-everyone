@@ -502,6 +502,85 @@ post = get_object_or_404(
 
 <div align="center">
 
+# `New Section Modifying the Canonical URL`
+
+</div>
+
+# **Modifying the Canonical URL for Posts** 🌍✨
+To fully align with the new **SEO-friendly URL structure**, we need to update the `get_absolute_url()` method in our **Post model**. This ensures that the canonical URL of each post now includes the **publication date** (year, month, and day) along with the **slug**. 📆🔗
+
+---
+
+## **Updating the `get_absolute_url()` Method** 📝
+Edit the `models.py` file inside the **blog application** and modify the `get_absolute_url()` method as follows:
+
+### **Old Code (Before SEO-Friendly URLs)** ❌
+```python
+def get_absolute_url(self):
+    return reverse('blog:post_detail', args=[self.id])
+```
+
+### **New Code (After Updating to SEO-Friendly URLs)** ✅
+```python
+from django.urls import reverse
+
+class Post(models.Model):
+    # ... (other model fields)
+    
+    def get_absolute_url(self):  # ✅ Updated canonical URL method
+        return reverse(
+            'blog:post_detail',
+            args=[
+                self.publish.year,  # ✅ Year of publication
+                self.publish.month,  # ✅ Month of publication
+                self.publish.day,  # ✅ Day of publication
+                self.slug  # ✅ Unique slug for the post
+            ]
+        )
+```
+
+---
+
+## **Understanding the Changes in `get_absolute_url()`** 🧐
+
+- **✅ Uses `self.publish.year`, `self.publish.month`, and `self.publish.day`**: 
+  - Ensures URLs include the **exact publication date**.
+- **✅ Uses `self.slug`**:
+  - Replaces the use of `id` with a **user-friendly slug**.
+- **✅ Generates URLs that match the new `post_detail` URL pattern**:
+  - This ensures that **all references** to post URLs are dynamically built.
+
+---
+
+## **Starting the Development Server & Testing the Changes** 🚀
+After modifying the `models.py` file, start the **Django development server** by running:
+```sh
+python manage.py runserver
+```
+
+Now, open your browser and visit:
+```sh
+http://127.0.0.1:8000/blog/
+```
+Click on any **post title**, and it should direct you to a detail page with the new **SEO-friendly URL format**. 🎯
+
+
+<div align="center">
+  <img src="./images/seo_friendly_urls.jpg" alt="Seo Friendly urls" width="600px"/>
+
+  **Figure 2.2**:  The page for the post’s detail view
+
+</div>
+
+## **Expected URL Format After Changes** 🔍
+The URL structure for posts should now look like:
+```sh
+/blog/2024/1/1/who-was-django-reinhardt/
+```
+Instead of using `id`, we are now using **publish date + slug** to generate **SEO-friendly, human-readable URLs**. This is beneficial for **search engine optimization (SEO) and user readability**.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
