@@ -57,6 +57,99 @@ In this section we will expand our **Django blog application** by adding **new f
 
 <div align="center">
 
+# `New Section Using Canonical URLs for Models`
+
+</div>
+
+# **Using Canonical URLs for Models** 🌍✨
+
+A website may have **multiple pages displaying the same content**. In our blog application, each post's **initial content** is displayed on both the **post list page** and the **post detail page**. To **identify a preferred URL** for a resource, we use **canonical URLs**.
+
+A **canonical URL** is the **main representative URL** for specific content. Even though posts might be displayed in different sections of the site, there should be **one primary URL** that acts as the **definitive** reference for that post. 🏷️
+
+---
+
+## **Why Canonical URLs Matter?** 🔍
+- Prevents **duplicate content issues** in search engines.
+- Ensures **better SEO ranking** by defining a single, authoritative URL.
+- Helps users and crawlers **navigate efficiently**.
+
+---
+
+## **Implementing Canonical URLs in Django** 🛠️
+Django allows us to implement the **`get_absolute_url()`** method in our models. This method **returns the canonical URL** for an object, ensuring that each post has a single, primary URL reference.
+
+We will **build the canonical URL** using the `post_detail` URL pattern of the application. Django provides **URL resolver functions** to dynamically generate URLs. For this, we use the **`reverse()`** function from `django.urls`.
+
+### **Editing `models.py` to Add Canonical URLs** 📝
+Modify the `models.py` file of the blog application to:
+✅ **Import the `reverse()` function**.
+✅ **Add the `get_absolute_url()` method to the `Post` model**.
+
+```python
+from django.conf import settings
+from django.db import models
+from django.urls import reverse  # ✅ Import reverse
+from django.utils import timezone
+
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
+class Post(models.Model):
+    # ... (existing fields)
+    
+    class Meta:
+        ordering = ['-publish']
+        indexes = [
+            models.Index(fields=['-publish']),
+        ]
+    
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):  # ✅ Define the canonical URL
+        return reverse(
+            'blog:post_detail',  # ✅ Uses post_detail from blog namespace
+            args=[self.id]  # ✅ Passes the post ID as an argument
+        )
+```
+
+---
+
+## **Understanding the `reverse()` Function 🔄**
+Django’s `reverse()` function **dynamically generates URLs** based on the **URL name** defined in `urls.py`. 
+
+📌 **Key Points:**
+- **`'blog:post_detail'`** refers to the `post_detail` URL inside the **blog namespace**.
+- The **post ID (`self.id`)** is passed as an argument using `args=[self.id]`.
+- This ensures that **every post has a unique, SEO-friendly URL**.
+
+📌 **Example Usage:**
+```python
+post = Post.objects.get(id=5)
+print(post.get_absolute_url())  # Output: /blog/5/
+```
+
+---
+
+## **Where is `post_detail` Defined? 📌**
+The `post_detail` URL is defined in `urls.py`:
+```python
+urlpatterns = [
+    path('<int:id>/', views.post_detail, name='post_detail'),
+]
+```
+
+### **How URLs Are Built** 🏗️
+| URL Namespace | URL Name | Example Output |
+|--------------|---------|---------------|
+| `blog`       | `post_detail` | `/blog/5/` |
+
+Since the **blog namespace** is defined when including `blog.urls` in the project’s `urls.py`, the resulting URL reference **can be used globally across the project**.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
