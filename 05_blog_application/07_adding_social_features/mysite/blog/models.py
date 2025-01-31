@@ -14,7 +14,7 @@ class Post(models.Model):
         DRAFT = 'DF', 'Draft'
         PUBLISHED = 'PB', 'Published'
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250)
+    slug = models.SlugField(max_length=250,unique_for_date='publish')
     author = models.ForeignKey(  # Adding many-to-one relationship
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

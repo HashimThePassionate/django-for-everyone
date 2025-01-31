@@ -214,8 +214,104 @@ python manage.py runserver
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Creating SEO-Friendly URLs`
 
 </div>
 
 
+# **Creating SEO-Friendly URLs for Posts** 🔍✨
+
+The current **canonical URL** for a blog post detail view looks like:
+
+```plaintext
+/blog/1/
+```
+
+This format is **not SEO-friendly** because it lacks meaningful keywords that search engines use for indexing. To **improve search engine rankings**, we will modify the **URL structure** to include the **publish date** and **slug**.
+
+For example, a new **SEO-friendly URL** will look like:
+
+```plaintext
+/blog/2025/1/1/python-deep-dive/
+```
+
+This new format will make **URLs more informative** and **search engine-friendly**, as they include both the **title** and **date of publication**.
+
+---
+
+## **Ensuring Unique Slugs for Each Post** 🔄
+
+To **retrieve posts** using a combination of **publish date** and **slug**, we need to ensure that **no post** in the database has the **same slug and publish date** as another post.
+
+We will enforce this **uniqueness constraint** by modifying the `Post` model to ensure that slugs are unique for a given publication date.
+
+### **Editing ********`models.py`******** to Enforce Unique Slugs** 🛠️
+
+Modify the `Post` model in `models.py` to include the **`unique_for_date`** constraint for the `slug` field.
+
+```python
+class Post(models.Model):
+    # ... (existing fields)
+    
+    slug = models.SlugField(
+        max_length=250,
+        unique_for_date='publish'  # ✅ Ensure slugs are unique per publication date
+    )
+    
+    # ... (other fields and methods)
+```
+
+### **What Does ********`unique_for_date`******** Do? 🤔**
+
+✅ Ensures that **no two posts** can have the **same slug on the same publish date**.
+✅ Prevents **duplicate posts** in the database.
+✅ Works at the **Django model level**, not at the **database level**.
+✅ Applies uniqueness check **only to the date**, ignoring the time portion of `DateTimeField`.
+
+Now, Django will **automatically prevent duplicate slugs** for posts published on the same date. 📆✨
+
+---
+
+## **Applying Model Changes with Migrations** 📜
+
+Since we have **modified the model**, we need to **create migrations**. However, note that `unique_for_date` is **not enforced at the database level**, so no actual database modification is needed.
+
+### **Step 1: Create the Migration** ⚙️
+
+Run the following command in the shell prompt:
+
+```bash
+python manage.py makemigrations blog
+```
+
+**Expected Output:**
+
+```plaintext
+Migrations for 'blog':
+  blog/migrations/0002_alter_post_slug.py
+  - Alter field slug on post
+```
+
+Django has generated the **0002\_alter\_post\_slug.py** file inside the **migrations directory**.
+
+### **Step 2: Apply the Migration** ✅
+
+To apply the migration, run:
+
+```bash
+python manage.py migrate
+```
+
+**Expected Output:**
+
+```plaintext
+Applying blog.0002_alter_post_slug... OK
+```
+
+Even though **no actual database change occurs**, Django **tracks model changes** through migrations to ensure consistency.
+
+<div align="center">
+
+# `New Section Starts here`
+
+</div>
