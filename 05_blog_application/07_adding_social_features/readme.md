@@ -312,6 +312,93 @@ Even though **no actual database change occurs**, Django **tracks model changes*
 
 <div align="center">
 
+# `New Section SEO-Friendly URLs`
+
+</div>
+
+# **Modifying the URL Patterns for SEO-Friendly URLs** 🌍✨
+
+To make our **blog post URLs SEO-friendly**, we need to modify the **post detail URL pattern** so that it includes **the publication date and slug** instead of just the post ID. This will make our URLs **more readable, structured, and optimized for search engines**. 🔍📈
+
+For example, instead of:
+
+```plaintext
+/blog/1/
+```
+
+We will now have:
+
+```plaintext
+/blog/2024/1/28/python-deep-dive/
+```
+
+This will help search engines and users understand the **context** of the post just by looking at the URL. 🚀
+
+---
+
+## **Updating the URL Patterns** 🛠️
+
+We need to **modify** the `urls.py` file inside the `blog` application.
+
+### **Old Code:** ❌
+
+```python
+path('<int:id>/', views.post_detail, name='post_detail'),
+```
+
+### **New Code (SEO-Friendly URLs):** ✅
+
+```python
+path(
+    '<int:year>/<int:month>/<int:day>/<slug:post>/',  # ✅ Updated URL pattern
+    views.post_detail,
+    name='post_detail'
+),
+```
+
+### **Updated ****************`urls.py`**************** File:** 📌
+
+```python
+from django.urls import path
+from . import views
+
+app_name = 'blog'
+
+urlpatterns = [
+    # Post views
+    path('', views.post_list, name='post_list'),
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:post>/',  # ✅ New SEO-friendly pattern
+        views.post_detail,
+        name='post_detail'
+    ),
+]
+```
+
+---
+
+## **Understanding the New URL Pattern** 📖
+
+The new **post detail URL pattern** takes the following parameters:
+
+- **`year`** 🗓️ → Requires an **integer** (`int`) to specify the **year** of publication.
+- **`month`** 📆 → Requires an **integer** (`int`) to specify the **month** of publication.
+- **`day`** 🕒 → Requires an **integer** (`int`) to specify the **day** of publication.
+- **`post`** 🔖 → Requires a **slug** (`slug`) which contains only **letters, numbers, underscores, or hyphens**.
+
+### **Django Path Converters Used** 🔄
+
+| Path Converter | Description                                        |
+| -------------- | -------------------------------------------------- |
+| `int`          | Matches an integer value (e.g., `2025`, `1`, `27`) |
+| `slug`         | Matches a slug (e.g., `python-deep-dive`)  |
+
+To learn more about **path converters in Django**, visit:
+🔗 [Django Path Converters Documentation](https://docs.djangoproject.com/en/5.0/topics/http/urls/#path-converters)
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
+
