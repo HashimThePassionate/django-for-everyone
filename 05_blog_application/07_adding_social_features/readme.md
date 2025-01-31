@@ -150,6 +150,70 @@ Since the **blog namespace** is defined when including `blog.urls` in the projec
 
 <div align="center">
 
+# `New Section Updating Post Detail URLs`
+
+</div>
+
+# **Updating Post Detail URLs in Templates** 🌐✨
+
+Now that we have implemented **canonical URLs** using the `get_absolute_url()` method, we need to **update our templates** to use this method instead of hardcoding the URL with `{% url 'blog:post_detail' post.id %}`. 🎯
+
+This ensures that our blog posts always reference the **canonical URL dynamically**, making our project **more maintainable and structured**. 🏗️
+
+---
+
+## **Updating the Template** 📝
+
+### **Modify `blog/post/list.html`**
+Edit the `blog/post/list.html` file and replace the existing post detail link:
+
+❌ **Old Code:**
+```html
+<a href="{% url 'blog:post_detail' post.id %}">
+```
+✅ **New Code (Using `get_absolute_url()`):**
+```html
+<a href="{{ post.get_absolute_url }}"> {% comment %} added here {% endcomment %}
+```
+
+### **Updated `blog/post/list.html` File:**
+```html
+{% extends "blog/base.html" %}
+{% block title %}My Blog{% endblock %}
+{% block content %}
+ <h1>My Blog</h1>
+ {% for post in posts %}
+ <h2>
+ <a href="{{ post.get_absolute_url }}"> {% comment %} absolute url {% endcomment %}
+ {{ post.title }}
+ </a>
+ </h2>
+ <p class="date">
+ Published {{ post.publish }} by {{ post.author }}
+ </p>
+ {{ post.body|truncatewords:30|linebreaks }}
+ {% endfor %}
+{% endblock %}
+```
+
+---
+
+## **Testing the Changes 🛠️**
+To ensure everything works correctly, **start the Django development server** by running the following command:
+
+```bash
+python manage.py runserver
+```
+
+### **Verify in the Browser** 🖥️
+- Open your web browser and go to: 
+  **[http://127.0.0.1:8000/blog/](http://127.0.0.1:8000/blog/)**
+- Click on any **blog post title**.
+- The links should now be **correctly built using `get_absolute_url()`**.
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
