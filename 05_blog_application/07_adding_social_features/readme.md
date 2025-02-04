@@ -621,6 +621,96 @@ Django provides a **built-in pagination system** that makes implementing paginat
 
 <div align="center">
 
+# `New Section Pagination to the Post List View`
+
+</div>
+
+# **Adding Pagination to the Post List View** 📄🔄✨
+
+---
+
+## **Updating the ****`post_list`**** View for Pagination** 🛠️
+
+To implement pagination, we will use Django's built-in `Paginator` class to divide posts into multiple pages.
+
+### **Edit the ****`views.py`**** file** 📄
+
+Modify the `post_list` view as follows:
+
+```python
+from django.core.paginator import Paginator  # ✅ Import Paginator class
+from django.shortcuts import get_object_or_404, render
+from .models import Post
+
+def post_list(request):
+    post_list = Post.published.all()
+    
+    # ✅ Pagination with 3 posts per page
+    paginator = Paginator(post_list, 3)
+    
+    # ✅ Get page number from request, default to 1 if not provided
+    page_number = request.GET.get('page', 1)
+    
+    # ✅ Retrieve the corresponding page of posts
+    posts = paginator.page(page_number)
+    
+    return render(
+        request,
+        'blog/post/list.html',
+        {'posts': posts}
+    )
+```
+
+---
+
+## **Understanding the Changes** 🔍📌
+
+### **1️⃣ Instantiating the ****`Paginator`**** Class**
+
+```python
+paginator = Paginator(post_list, 3)
+```
+
+- We **instantiate the ****`Paginator`**** class** with the full list of published posts.
+- The second argument (`3`) specifies the **number of posts per page**.
+
+### **2️⃣ Retrieving the Requested Page Number**
+
+```python
+page_number = request.GET.get('page', 1)
+```
+
+- We use `request.GET.get('page', 1)` to retrieve the **current page number** from the URL query parameters.
+- If no page number is provided, it defaults to **1**, ensuring that the **first page is loaded by default**.
+
+### **3️⃣ Fetching the Posts for the Current Page**
+
+```python
+posts = paginator.page(page_number)
+```
+
+- We call `paginator.page(page_number)` to **retrieve only the posts belonging to the requested page**.
+- This method returns a **`Page`**** object**, containing paginated data.
+
+### **4️⃣ Passing Paginated Posts to the Template**
+
+```python
+return render(request, 'blog/post/list.html', {'posts': posts})
+```
+
+- The `posts` object (which contains only a subset of posts for the current page) is passed to the template.
+
+---
+
+## **How Does This Work? 🤔**
+
+🔹 When a user visits `/blog/`, the first three posts are displayed.
+🔹 When they visit `/blog/?page=2`, the next three posts are displayed.
+🔹 If they enter an invalid page number, Django raises an error
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
