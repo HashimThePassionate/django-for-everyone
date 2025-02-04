@@ -833,6 +833,16 @@ python manage.py runserver
 
 </div>
 
+If you click on Next, you will see the last post. The URL for the second page contains the ?page=2 GET
+parameter. This parameter is used by the view to load the requested page of results using the paginator.
+
+<div align="center">
+  <img src="./images/next_page.jpg" alt="" width="600px"/>
+
+  **Figure 2.5**: The second page of results
+
+</div>
+
 <div align="center">
 
 # `New Section Starts here`
