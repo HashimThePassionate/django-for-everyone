@@ -845,6 +845,97 @@ parameter. This parameter is used by the view to load the requested page of resu
 
 <div align="center">
 
+# `New Section Handling Pagination Errors `
+
+</div>
+
+# **Handling Pagination Errors in Django** 🛠️📄
+
+## Understanding Pagination Errors ⚠️
+
+When working with Django's `Paginator`, you might encounter errors if a user:
+
+- Requests a page number that **does not exist**. ❌
+- Provides a **non-numeric value** as the page number. 🔢
+
+For example, opening the following URL:
+
+```
+http://127.0.0.1:8000/blog/?page=3
+```
+
+If **page 3** does not exist, Django throws an `EmptyPage` exception. To prevent this, we need to **handle pagination errors** properly. ✅
+
+<div align="center">
+  <img src="./images/handling_error.jpg" alt="" width="600px"/>
+
+  **Figure 2.6**: The EmptyPage error page
+
+</div>
+
+## Implementing Error Handling in Views 🛠️
+
+To handle pagination errors gracefully, follow these steps:
+
+### Step 1: Modify `views.py` 📄
+
+Edit the `views.py` file in your **blog application** to include error handling.
+
+```python
+from django.core.paginator import Paginator, EmptyPage  # Import EmptyPage
+from django.shortcuts import render
+from .models import Post
+
+def post_list(request):
+    post_list = Post.published.all()  # Retrieve all published posts
+    
+    # Pagination: Display 3 posts per page
+    paginator = Paginator(post_list, 3)
+    page_number = request.GET.get('page', 1)  # Get page number from URL (default: 1)
+    
+    try:
+        posts = paginator.page(page_number)  # Fetch requested page
+    except EmptyPage:
+        # If requested page is out of range, return the last page
+        posts = paginator.page(paginator.num_pages)
+    
+    return render(request, 'blog/post/list.html', {'posts': posts})
+```
+
+### Explanation of the Code 📌
+
+1. **Importing Necessary Modules** 🏗️
+
+   - `EmptyPage`: Catches errors when the requested page is **out of range**.
+
+2. **Handling Pagination Errors with Try-Except** 🛠️
+
+   - `paginator.page(page_number)`: Fetches the requested page.
+   - `except EmptyPage`: If the **requested page is out of range**, fetch the **last available page** instead.
+   - `paginator.num_pages`: Provides the total number of pages (i.e., last page number).
+
+## Testing the Implementation ✅
+
+Revisit the URL after implementing error handling:
+
+```
+http://127.0.0.1:8000/blog/?page=3
+```
+
+- If page **3 exists**, it will be displayed. 📖
+- If page **3 does not exist**, the last page of results will be shown instead. 🔄
+
+<div align="center">
+  <img src="./images/handle_pagination_error.jpg" alt="" width="600px"/>
+
+  **Figure 2.7**: The last page of results
+
+</div>
+
+</div>
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
