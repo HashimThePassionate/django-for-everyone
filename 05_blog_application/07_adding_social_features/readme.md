@@ -932,7 +932,76 @@ http://127.0.0.1:8000/blog/?page=3
 
 </div>
 
+<div align="center">
+
+# `New Section Handling Non-Integer Page`
+
 </div>
+
+# **Handling Non-Integer Page Numbers** 🔢🚀
+
+When implementing pagination in Django, we must handle cases where users provide **invalid page numbers** (such as text instead of integers). If an invalid page parameter is passed, Django's `Paginator` raises a `PageNotAnInteger` exception. This guide covers how to handle such errors properly. 🛠️
+
+## Problem: Non-Integer Page Number ❌
+
+Consider the following URL:
+```
+http://127.0.0.1:8000/blog/?page=asdf
+```
+Since **page numbers should be integers**, Django throws a `PageNotAnInteger` exception when attempting to retrieve the page **'asdf'**. We need to handle this exception and ensure our pagination remains functional. ✅
+
+<div align="center">
+  <img src="./images/pagenotintegererror.jpg" alt="" width="600px"/>
+
+  **Figure 2.8**: The PageNotAnInteger error page
+
+</div>
+
+## Implementing Error Handling in Views 🛠️
+
+### Step 1: Modify `views.py` 📄
+Edit your `views.py` file to include error handling for non-integer page numbers.
+
+```python
+from django.shortcuts import get_object_or_404, render
+from django.core.paginator import EmptyPage, Paginator, PageNotAnInteger  # Import PageNotAnInteger
+from .models import Post
+
+def post_list(request):
+    post_list = Post.published.all()  # Retrieve all published posts
+    
+    # Pagination: Display 3 posts per page
+    paginator = Paginator(post_list, 3)
+    page_number = request.GET.get('page')
+    
+    try:
+        posts = paginator.page(page_number)  # Fetch requested page
+    except PageNotAnInteger:  # Handle non-integer page numbers
+        # If page_number is not an integer, return the first page
+        posts = paginator.page(1)
+    except EmptyPage:  # Handle out-of-range pages
+        # If requested page is out of range, return the last page
+        posts = paginator.page(paginator.num_pages)
+    
+    return render(request, 'blog/post/list.html', {'posts': posts})
+```
+
+### Explanation of the Code 📌
+1. **Importing Required Modules** 🏗️
+   - `PageNotAnInteger`: Catches errors when the **page number is not an integer**.
+  
+2. **Handling Different Pagination Errors** ⚠️
+   - `except PageNotAnInteger:` If the user provides **a non-integer page number**, return **the first page**.
+   - `except EmptyPage:` If the requested page is **out of range**, return **the last available page**.
+
+## Testing the Implementation ✅
+
+Revisit the following URLs after implementing error handling:
+
+- **Valid Page**: `http://127.0.0.1:8000/blog/?page=2` → Displays **Page 2**. 📖
+- **Invalid Page (Text)**: `http://127.0.0.1:8000/blog/?page=asdf` → Redirects to **Page 1**. 🔄
+- **Out of Range Page**: `http://127.0.0.1:8000/blog/?page=100` → Redirects to **Last Page**. 📌
+
 
 <div align="center">
 
