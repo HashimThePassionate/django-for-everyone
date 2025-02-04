@@ -1005,6 +1005,73 @@ Revisit the following URLs after implementing error handling:
 
 <div align="center">
 
+# `New Section Class-Based Viewse`
+
+</div>
+
+# **Class-Based Views in Django** 🏗️🎯
+
+## Why Use Class-Based Views? 🤔
+
+Class-based views (CBVs) offer several advantages over function-based views (FBVs), making them useful in specific scenarios. Here are some key benefits of using class-based views:
+
+✅ **Organized Code**: CBVs allow separating HTTP methods like `GET`, `POST`, or `PUT` into distinct methods instead of using conditional statements inside a single function.
+
+✅ **Code Reusability**: With **multiple inheritance**, you can create reusable view classes, also known as **mixins**, to extend functionality efficiently.
+
+## Implementing a Class-Based View to List Posts 📝
+
+To understand class-based views, let's create a `PostListView` that is equivalent to the `post_list` function-based view. We will utilize Django's **generic ListView**, which allows listing any type of object with minimal code.
+
+### Steps to Create a Class-Based List View 🚀
+
+1️⃣ Open the `views.py` file of your **blog application**.
+
+
+2️⃣ Add the following **CBV implementation**:
+
+```python
+from django.views.generic import ListView
+
+class PostListView(ListView):
+    """
+    Alternative post list view
+    """
+    queryset = Post.published.all()  # Custom QuerySet to filter published posts
+    context_object_name = 'posts'  # Context variable name to be used in the template
+    paginate_by = 3  # Pagination: 3 posts per page
+    template_name = 'blog/post/list.html'  # Custom template for rendering
+```
+
+## Explanation of `PostListView` Attributes 🧐📌
+
+1️⃣ **Inherits from ListView**:
+
+- The `PostListView` class is a subclass of Django’s built-in `ListView`.
+- It simplifies the process of displaying lists of objects.
+
+2️⃣ **QuerySet (****`queryset`****)**:
+
+- We define `queryset = Post.published.all()` to retrieve only published posts.
+- Alternatively, we could use `model = Post`, which would automatically fetch all posts (`Post.objects.all()`).
+
+3️⃣ **Context Object Name (****`context_object_name`****)**:
+
+- We set `context_object_name = 'posts'` so that the retrieved posts will be available in the template under the variable name `posts`.
+- If this attribute is not specified, Django assigns the default name `object_list`.
+
+4️⃣ **Pagination (****`paginate_by`****)**:
+
+- We define `paginate_by = 3`, which means **only 3 posts** will be displayed per page.
+- This helps in optimizing page load times and enhances user experience.
+
+5️⃣ **Template (****`template_name`****)**:
+
+- We explicitly define `template_name = 'blog/post/list.html'`, instructing Django to render this view using the specified template.
+- If not provided, Django defaults to `blog/post_list.html`.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
