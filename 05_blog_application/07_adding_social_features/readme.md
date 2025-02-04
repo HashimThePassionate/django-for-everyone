@@ -711,6 +711,130 @@ return render(request, 'blog/post/list.html', {'posts': posts})
 
 <div align="center">
 
+# `New Section Pagination Template`
+
+</div>
+
+#  **Creating a Pagination Template** 📌
+
+## 📖 Introduction
+
+We will create a **pagination template** that can be reused for any object pagination on our website. 📝
+
+---
+
+## 📂 Setting Up the Pagination Template
+
+1. Navigate to the **templates/** directory of your project.
+2. Create a new file and name it **pagination.html**.
+3. Add the following **HTML** code to the file:
+
+```html
+<div class="pagination">
+    <span class="step-links">
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ page.number }} of {{ page.paginator.num_pages }}.
+        </span>
+        {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
+```
+
+### 📌 Explanation of the Code
+
+✅ **`<div class="pagination">`**: A wrapper `div` to contain the pagination links.</br>
+✅ **`<span class="step-links">`**: A `span` element that holds the navigation links.</br>
+✅ **`{% if page.has_previous %}`**: Checks if there is a previous page and, if so, displays a **Previous** button.</br>
+✅ **`<a href="?page={{ page.previous_page_number }}">Previous</a>`**: Creates a hyperlink to navigate to the previous page.</br>
+✅ **`<span class="current"> Page {{ page.number }} of {{ page.paginator.num_pages }}. </span>`**: Displays the **current page number** and the **total number of pages**.</br>
+✅ **`{% if page.has_next %}`**: Checks if there is a next page and, if so, displays a **Next** button.</br>
+✅ **`<a href="?page={{ page.next_page_number }}">Next</a>`**: Creates a hyperlink to navigate to the next page.</br>
+
+This **generic pagination template** is designed to work with a **Page object** in the context and dynamically render navigation links based on the current page state. 🛠️
+
+---
+
+## 🏗️ Integrating Pagination into the Blog List Template
+
+To include the pagination template in our **blog post list page**, follow these steps:
+
+1. Open the **blog/post/list.html** template.
+2. Include the **pagination.html** file at the bottom of the `{% block content %}`.
+
+Modify the file as follows:
+
+```html
+{% extends "blog/base.html" %}
+{% block title %}My Blog{% endblock %}
+{% block content %}
+    <h1>My Blog</h1>
+    {% for post in posts %}
+        <h2>
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <p class="date">
+            Published {{ post.publish }} by {{ post.author }}
+        </p>
+        {{ post.body|truncatewords:30|linebreaks }}
+    {% endfor %}
+
+    {% include "pagination.html" with page=posts %} {% comment %} ✅  include here {% endcomment %}
+{% endblock %}
+```
+
+### 📌 Explanation of the Code
+
+✅ **`{% extends "blog/base.html" %}`**: Inherits the base template.</br>
+✅ **`{% block title %}My Blog{% endblock %}`**: Sets the page title.</br>
+✅ **Loop through posts** using `{% for post in posts %}` to display each blog post.</br>
+✅ **`{% include "pagination.html" with page=posts %}`**: Includes the **pagination.html** file and passes the `posts` Page object as `page`.</br>
+
+### 🔄 How Pagination Works
+
+- The `{% include %}` tag **loads the pagination template** and renders it **within the current template context**.
+- We use `{% with page=posts %}` to pass the **posts** variable (which is a Page object) to the pagination template.
+- This method makes the **pagination template reusable** for any type of object. 🔄
+
+---
+
+## 🚀 Running the Development Server
+
+To test our pagination, we need to start the **Django development server**. Run the following command in your terminal:
+
+```bash
+python manage.py runserver
+```
+
+### 🌐 Viewing the Blog Posts
+
+1. Open your **Django Admin Panel** to create blog posts:
+
+   - URL: [http://127.0.0.1:8000/admin/blog/post/](http://127.0.0.1:8000/admin/blog/post/)
+   - Create **four** different posts.
+   - Set the **status to Published** for each post.
+
+2. Open the **blog post list page** in your browser:
+
+   - URL: [http://127.0.0.1:8000/blog/](http://127.0.0.1:8000/blog/)
+   - You should see **three posts per page** in **reverse chronological order**.
+   - The **pagination links** will appear at the bottom of the post list.
+
+<div align="center">
+  <img src="./images/pagination_page.jpg" alt="" width="600px"/>
+
+  **Figure 2.4**: The post list page including pagination
+
+</div>
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
