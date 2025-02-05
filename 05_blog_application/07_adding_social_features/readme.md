@@ -1702,6 +1702,172 @@ EMAIL_HOST_PASSWORD=your-secure-password
 DEFAULT_FROM_EMAIL=your-email@gmail.com
 ```
 
+If you have a Gmail account, replace your_account@gmail.com with your Gmail account. The EMAIL_
+HOST_PASSWORD variable has no value yet, we will add it later. The DEFAULT_FROM_EMAIL variable will
+be used to specify the default sender for our emails. If you don’t have a Gmail account, you can use
+the SMTP credentials for your email service provider.</br>
+If you are using a git repository for your code, make sure to include .env in the .gitignore file of
+your repository. By doing so, you ensure that credentials are excluded from the repository
+
+<div align="center">
+
+# `New Section Configuring Email`
+
+</div>
+
+# **Configuring Email in Django with SMTP** 📧
+
+## Introduction 🚀
+
+To enable email functionality in Django, you need to configure **SMTP settings** in the `settings.py` file. Django provides flexible options to send emails securely using SMTP servers such as **Gmail, SendGrid, or Amazon SES**.
+
+This guide explains:
+
+- How to **configure SMTP settings in Django**.
+- **Using environment variables** to store sensitive email credentials.
+- Setting up **Gmail SMTP with App Passwords**.
+- Using **django-anymail** for third-party email providers.
+- **Testing emails using the Django console backend**.
+
+---
+
+## Editing `settings.py` to Configure Email 📌
+
+Edit your `settings.py` file and add the following configuration:
+
+```python
+from decouple import config
+
+# Email server configuration
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP server (Gmail example)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Load email username from environment variables
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Load email password from environment variables
+EMAIL_PORT = 587  # SMTP port for TLS
+EMAIL_USE_TLS = True  # Enable Transport Layer Security (TLS)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')  # Default sender email
+```
+
+### Explanation of SMTP Configuration 🧐
+
+| Setting                   | Description                                                      |
+| ------------------------- | ---------------------------------------------------------------- |
+| **`EMAIL_HOST`**          | The SMTP server address (e.g., `smtp.gmail.com` for Gmail).      |
+| **`EMAIL_PORT`**          | The SMTP port (587 for TLS, 465 for SSL).                        |
+| **`EMAIL_USE_TLS`**       | Enables TLS encryption for secure email transmission.            |
+| **`EMAIL_HOST_USER`**     | The email address used to send messages.                         |
+| **`EMAIL_HOST_PASSWORD`** | The password (or **App Password**) used for SMTP authentication. |
+| **`DEFAULT_FROM_EMAIL`**  | The default sender email displayed in outgoing messages.         |
+
+---
+
+## Storing SMTP Credentials Securely 🔐
+
+Instead of hardcoding sensitive information in `settings.py`, store them in **environment variables**. This prevents accidental exposure and enhances security.
+
+### 1️⃣ Add the Credentials to `.env` File
+
+Create (or update) your **`.env`**** file** inside your Django project root:
+
+```env
+EMAIL_HOST_USER=your_account@gmail.com
+EMAIL_HOST_PASSWORD=xxxxxxxxxxxxxxxx  # Use App Password here
+DEFAULT_FROM_EMAIL=My Blog <your_account@gmail.com>
+```
+
+### 2️⃣ Load Credentials in `settings.py`
+
+Ensure Django reads these credentials using `python-decouple`:
+
+```python
+from decouple import config
+
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+```
+
+This ensures that sensitive email credentials **are not exposed in your codebase**. 🔒
+
+---
+
+## Using Gmail SMTP with App Passwords 🔑
+
+Google requires **App Passwords** to allow less secure apps (like Django) to send emails via Gmail.
+
+### 🔹 **Step 1: Enable 2-Step Verification**
+
+- Open: [Google Security Settings](https://myaccount.google.com/security)
+- Enable **2-Step Verification**.
+
+<div align="center">
+  <img src="./images/two_step.jpg" alt="" width="600px"/>
+
+  **Figure 2.11**: The sign in to Google page for Google accounts
+
+</div>
+
+
+
+### 🔹 **Step 2: Generate an App Password**
+
+- Open: [Google App Passwords](https://myaccount.google.com/apppasswords)
+
+<div align="center">
+  <img src="./images/app_password.jpg" alt="" width="600px"/>
+
+  **Figure 2.12**: Form to generate a new Google app password
+
+</div>
+
+- Select **Mail** as the app.
+- Select **Other (Custom Name)** and enter `Blog`.
+
+<div align="center">
+  <img src="./images/app_name.jpg" alt="" width="600px"/>
+
+  **Figure 2.13**: Form to generate a new Google app password
+
+</div>
+
+- Click **Create**, and **copy the generated 16-character password**.
+
+<div align="center">
+  <img src="./images/generated_app_password.jpg" alt="" width="600px"/>
+
+  **Figure 2.14**: Generated Google app password
+
+</div>
+
+### 🔹 **Step 3: Update ****`.env`**** File**
+
+Replace `xxxxxxxxxxxxxxxx` with your **newly generated App Password**:
+
+```env
+EMAIL_HOST_PASSWORD=your_app_password_here
+```
+
+🔹 **Important Notes:**
+
+- If you cannot access **App Passwords**, ensure **2-Step Verification is enabled**.
+- Organization or Google Workspace accounts may **restrict App Password usage**.
+- Learn more: [Google Support](https://support.google.com/accounts/answer/185833)
+
+---
+
+## Testing Emails Without an SMTP Server 🧪
+
+If you don’t want to send real emails during development, **Django provides a console email backend**. This backend writes emails to the console instead of sending them.
+
+Add this setting to `settings.py`:
+
+```python
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+```
+
+🔹 **How It Works:**
+
+- Instead of sending emails, Django will print them in the **terminal/console**.
+- Ideal for **testing email templates and functionality** without an actual SMTP server.
 
 
 <div align="center">
