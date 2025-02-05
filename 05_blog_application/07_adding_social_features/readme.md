@@ -1619,6 +1619,93 @@ To display **validation errors** in the template, we use:
 
 <div align="center">
 
+# `New Section Sending Emails`
+
+</div>
+
+# **Sending Emails with Django** ✉️
+
+## Introduction 🚀
+
+Django provides **a simple and flexible way** to send emails using **SMTP servers**. You can either:
+
+- Use a **local SMTP server** 🏠
+- Access an **external SMTP server** (e.g., **Gmail, Outlook, or any email service provider**) 🌍
+
+This guide will walk you through **configuring SMTP settings, securing credentials, and using environment variables** to send emails safely. 🔒
+
+---
+
+## SMTP Configuration in Django ⚙️
+
+To enable email functionality, you need to define **SMTP settings** in your Django project’s `settings.py` file. Below are the key SMTP configurations:
+
+```python
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP server host (default: 'localhost')
+EMAIL_PORT = 587  # SMTP port (default: 25)
+EMAIL_HOST_USER = 'your-email@gmail.com'  # Your SMTP username (email)
+EMAIL_HOST_PASSWORD = 'your-email-password'  # Your SMTP password
+EMAIL_USE_TLS = True  # Use Transport Layer Security (TLS)
+EMAIL_USE_SSL = False  # Use Secure Sockets Layer (SSL)
+DEFAULT_FROM_EMAIL = 'your-email@gmail.com'  # Default sender email
+```
+
+### Explanation of SMTP Settings 📌
+
+| Setting                   | Description                                                               |
+| ------------------------- | ------------------------------------------------------------------------- |
+| **`EMAIL_HOST`**          | Specifies the SMTP **server host** (e.g., `smtp.gmail.com`).              |
+| **`EMAIL_PORT`**          | Defines the **SMTP port** (587 for TLS, 465 for SSL, default: 25).        |
+| **`EMAIL_HOST_USER`**     | The **username/email** used to send emails.                               |
+| **`EMAIL_HOST_PASSWORD`** | The **password** for SMTP authentication.                                 |
+| **`EMAIL_USE_TLS`**       | Enables **TLS encryption** for secure email sending.                      |
+| **`EMAIL_USE_SSL`**       | Uses **SSL encryption** (set `True` for implicit TLS, `False` otherwise). |
+| **`DEFAULT_FROM_EMAIL`**  | The **default sender email** for outgoing messages.                       |
+
+🔹 **TLS vs SSL?**
+
+- **TLS (Transport Layer Security)**: Recommended for most SMTP servers. Uses **port 587**.
+- **SSL (Secure Sockets Layer)**: Required for some older email servers. Uses **port 465**.
+
+---
+
+## Using Environment Variables for SMTP Credentials 🔐
+
+### Why Use Environment Variables? 🤔
+
+Instead of **hardcoding sensitive information** (like email credentials) in `settings.py`, we should store them **securely using environment variables**. This helps:
+
+✅ **Enhance Security**: Prevents accidental exposure of sensitive credentials. 🔒\
+✅ **Increase Flexibility**: Allows the **same codebase** to work across different environments (development, testing, production). 🔄\
+✅ **Improve Maintainability**: Changing credentials won’t require **modifying code**. 📌
+
+### How to Implement Environment Variables in Django? 🏗️
+
+To manage environment variables efficiently, we use **`python-decouple`**, a lightweight library.
+
+### Step 1️⃣: Install `python-decouple`
+
+Run the following command:
+
+```sh
+
+pip install python-decouple
+```
+
+### Step 2️⃣: Create a `.env` File
+
+Inside your **Django project root directory**, create a **`.env`** file and add your email credentials:
+
+```env
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-secure-password
+DEFAULT_FROM_EMAIL=your-email@gmail.com
+```
+
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
