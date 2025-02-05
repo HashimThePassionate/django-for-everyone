@@ -2130,6 +2130,85 @@ sent = True  # Email was successfully sent
 
 <div align="center">
 
+# `New Section post_share URL`
+
+</div>
+
+# **Adding `post_share` URL Pattern in Django** 🛠️
+
+## Introduction 🚀
+
+To enable the **post sharing functionality**, we need to define a **URL pattern** for the `post_share` view in `urls.py`. This will allow users to **share a blog post via email**.
+
+This guide explains:
+
+- How to modify **`urls.py`** to include the `post_share` route.
+- **Understanding path parameters** in Django URLs.
+- **How Django matches URL patterns to views**.
+
+---
+
+## Updating `urls.py` to Include `post_share` 📝
+
+Edit the `urls.py` file of your **blog application** and add the following code:
+
+```python
+from django.urls import path
+from . import views
+
+app_name = 'blog'
+
+urlpatterns = [
+    # Post views
+    # path('', views.post_list, name='post_list'),  # Old function-based view
+    path('', views.PostListView.as_view(), name='post_list'),  # Class-based ListView
+    
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:post>/',
+        views.post_detail,
+        name='post_detail'
+    ),
+    
+    path('<int:post_id>/share/', views.post_share, name='post_share'),  # post_share URL
+]
+```
+
+---
+
+## Understanding the `post_share` URL Pattern 📌
+
+This line defines the **route for sharing posts via email**:
+
+```python
+path('<int:post_id>/share/', views.post_share, name='post_share')
+```
+
+### 🔹 Explanation of the URL Pattern
+
+| Parameter                | Description                                                    |
+| ------------------------ | -------------------------------------------------------------- |
+| `'<int:post_id>/share/'` | The **URL structure** that maps to `post_share`.               |
+| `<int:post_id>`          | A **path converter** that ensures `post_id` is an **integer**. |
+| `views.post_share`       | The **view function** that handles the request.                |
+| `name='post_share'`      | The **URL name** used for **reverse URL resolution**.          |
+
+---
+
+## How Django Matches URLs to Views 🔄
+
+1️⃣ **User visits the URL**: `/5/share/`
+
+2️⃣ Django checks \`\`finds a match: `'<int:post_id>/share/'`.
+
+3️⃣ **The ************************************************************`post_id`************************************************************ is passed as an argument** to the `post_share` view.
+
+4️⃣ **The view handles the request** and processes **post sharing via email**.
+
+
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
