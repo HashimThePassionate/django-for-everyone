@@ -1975,6 +1975,161 @@ This ensures that Python can verify SSL certificates when connecting to SMTP ser
 
 <div align="center">
 
+# `New Section Email with views`
+
+</div>
+
+# **Sending Emails in Django Views** ✉️
+
+## Introduction 🚀
+
+We will now integrate **email functionality** into the `post_share` view in Django. This allows users to **recommend blog posts via email** by submitting a form.
+
+This guide covers:
+- **Updating the `post_share` view** to send emails.
+- **Building an absolute URL for the post**.
+- **Formatting the email subject and message dynamically**.
+- **Displaying a confirmation message** after email submission.
+
+---
+
+## Editing the `post_share` View 🖥️
+
+Modify the `post_share` view in the `views.py` file of your blog application as follows:
+
+```python
+from django.core.mail import send_mail  # Import send_mail
+from django.shortcuts import render, get_object_or_404
+from .models import Post
+from .forms import EmailPostForm
+
+def post_share(request, post_id):
+    # Retrieve post by ID
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        status=Post.Status.PUBLISHED
+    )
+    
+    sent = False  # Default: Email not sent
+    
+    if request.method == 'POST':
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data  # Get cleaned data from form
+            
+            # Build absolute URL of the post
+            post_url = request.build_absolute_uri(
+                post.get_absolute_url()
+            )
+            
+            # Construct email subject
+            subject = (
+                f"{cd['name']} ({cd['email']}) "
+                f"recommends you read {post.title}"
+            )
+            
+            # Construct email message body
+            message = (
+                f"Read {post.title} at {post_url}\n\n"
+                f"{cd['name']}\'s comments: {cd['comments']}"
+            )
+            
+            # Send the email
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=None,  # Uses DEFAULT_FROM_EMAIL
+                recipient_list=[cd['to']]
+            )
+            
+            sent = True  # Email was sent successfully
+    else:
+        form = EmailPostForm()
+    
+    return render(
+        request,
+        'blog/post/share.html',
+        {
+            'post': post,
+            'form': form,
+            'sent': sent  # Send status
+        }
+    )
+```
+
+---
+
+## 1️⃣ Understanding the `post_share` View 🧐
+
+###  Building the Absolute URL 🌍
+
+- The post’s **absolute URL** is needed for the email.
+- We use `get_absolute_url()` and `request.build_absolute_uri()` to create the full URL.
+
+```python
+post_url = request.build_absolute_uri(
+    post.get_absolute_url()
+)
+```
+
+---
+
+### 2️⃣ Constructing the Email Subject 📌
+
+- The **subject** is dynamically generated using the sender’s name and the post title.
+
+```python
+subject = (
+    f"{cd['name']} ({cd['email']}) "
+    f"recommends you read {post.title}"
+)
+```
+
+---
+
+### 3️⃣ Constructing the Email Message ✉️
+
+- The **message body** contains the post title, link, and sender’s comments.
+
+```python
+message = (
+    f"Read {post.title} at {post_url}\n\n"
+    f"{cd['name']}\'s comments: {cd['comments']}"
+)
+```
+
+---
+
+### 4️⃣ Sending the Email 📩
+
+- The **`send_mail()`** function sends the email.
+- `from_email=None` ensures that Django uses `DEFAULT_FROM_EMAIL`.
+- The recipient's email is retrieved from the **form input**.
+
+```python
+send_mail(
+    subject=subject,
+    message=message,
+    from_email=None,  # Uses DEFAULT_FROM_EMAIL
+    recipient_list=[cd['to']]
+)
+```
+
+---
+
+### 5️⃣ Displaying a Success Message ✅
+
+- The `sent` variable is initially set to **False**.
+- If the email is **successfully sent**, `sent = True`.
+- The template will use this variable to **display a success message**.
+
+```python
+sent = True  # Email was successfully sent
+```
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
