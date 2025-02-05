@@ -1243,8 +1243,59 @@ For an in-depth introduction to **class-based views**, visit:
 
 <div align="center">
 
+# `New Section Recommending Posts by Email`
+
+</div>
+
+# **Recommending Posts by Email** 📩
+
+## Overview 🚀
+
+We will implement a feature that allows users to **share blog posts via email**. This will enhance the user experience by making it easier for readers to recommend posts to others. By implementing this, you will learn how to:
+
+✔️ **Create forms in Django** 📝\
+✔️ **Handle data submission in views** 📥\
+✔️ **Send emails with Django** ✉️
+
+This feature adds a **personal touch** to your blog, increasing engagement and interaction. 🎉
+
+---
+
+## Planning the Email Recommendation Feature 🏗️
+
+Before diving into implementation, let’s think about how we will structure this feature using Django’s **views, URLs, and templates**. The feature will require:
+
+### Steps to Implement:
+
+### 1️⃣ **Create a Form for User Input** 📝
+
+Users will need to provide the following details:
+
+- **Their Name**
+- **Their Email Address**
+- **The Recipient’s Email Address**
+- **Optional Comments**
+
+### 2️⃣ **Create a View to Handle Data and Send Email** 🖥️
+
+- The `views.py` file will contain a new **view** that:
+  - **Validates the form data**.
+  - **Sends an email** with the post recommendation.
+  - **Renders a response confirming that the email was sent**.
+
+### 3️⃣ **Define a URL Pattern for the New View** 🌍
+
+- Add a **new route** in `urls.py` that will map to the post-sharing view.
+
+### 4️⃣ **Create a Template for the Email Form** 🎨
+
+- A new **HTML template** will be designed to display the email-sharing form.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
+
 
 
