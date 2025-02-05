@@ -1072,6 +1072,177 @@ class PostListView(ListView):
 
 <div align="center">
 
+# `New Section Updating URLs and Templates`
+
+</div>
+
+# **Updating URLs and Templates for CBVs** 🚀
+
+## Editing `urls.py` to Use `PostListView` 📌
+
+In this step, we will update the `urls.py` file of the **blog application** to replace the function-based `post_list` view with a class-based view (`PostListView`).
+
+### Steps to Modify `urls.py` 📝
+
+1️⃣ **Comment out the previous function-based view (********`post_list`********).**
+
+2️⃣ **Add a new URL pattern using the ********`PostListView`******** class.**
+
+3️⃣ **Ensure that the pagination continues to work correctly.**
+
+### Updated `urls.py` Code:
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # Post views
+    # path('', views.post_list, name='post_list'),  # Old function-based view (commented out)
+    path('', views.PostListView.as_view(), name='post_list'),  # Class-Based View
+    
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:post>/',
+        views.post_detail,
+        name='post_detail'
+    ),
+]
+```
+
+### Explanation of Changes 🧐
+
+✅ **`post_list`**\*\* commented out\*\*:
+
+- The function-based view `post_list` is now **disabled** by commenting it out.
+
+✅ **Using \*\*\*\*****`PostListView.as_view()`**:
+
+- Instead of `views.post_list`, we now use `views.PostListView.as_view()`, which invokes the class-based view.
+- The `.as_view()` method is required to convert the class into a view function.
+
+✅ **Existing ********`post_detail`******** URL pattern remains unchanged**:
+
+- The `post_detail` URL pattern is still used to display individual blog posts.
+
+---
+
+## Updating the `post/list.html` Template 📝
+
+Since we are now using `ListView`, Django automatically provides a pagination object named `page_obj`instead of the previously used page variable. We need to update the **pagination template** accordingly.
+
+### Updated `post/list.html` Template:
+
+```django
+{% extends "blog/base.html" %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+    <h1>My Blog</h1>
+    {% for post in posts %}
+        <h2>
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <p class="date">
+            Published {{ post.publish }} by {{ post.author }}
+        </p>
+        {{ post.body|truncatewords:30|linebreaks }}
+    {% endfor %}
+    
+    {% include "pagination.html" with page=page_obj %} {% comment %} page_obj {% endcomment %}
+{% endblock %}
+```
+
+### Explanation of Template Changes 📌
+
+✅ **Using ********`page_obj`******** for pagination**:
+
+- Django’s `ListView` provides pagination through the `page_obj` variable.
+- We modify `{% include "pagination.html" with page=page_obj %}` to ensure pagination continues working correctly.
+
+✅ **Keeping the structure unchanged**:
+
+- The loop remains the same (`{% for post in posts %}`), displaying post titles, publication dates, authors, and content previews.
+
+✅ **Using ********`truncatewords`******** and \*\*\*\*****`linebreaks`**:
+
+- The body of each post is truncated to 30 words for a clean display.
+
+---
+
+## Testing the Implementation 🖥️✅
+
+1️⃣ Run your Django server:
+
+```sh
+python manage.py runserver
+```
+
+2️⃣ Open your browser and visit:
+
+```
+http://127.0.0.1:8000/blog/
+```
+
+3️⃣ Verify that:
+
+- Blog posts are listed as expected.
+- Pagination links appear at the bottom of the page.
+- Clicking pagination links loads the next set of posts correctly.
+
+# Exception Handling in Django Class-Based Views 🚀
+
+## Handling Exceptions in ListView 🛠️
+
+Django’s **ListView** provides built-in exception handling, making it more robust when handling pagination errors and invalid page requests.
+
+### What Happens When an Invalid Page is Requested? ❌
+
+If a user:
+
+- Tries to load a **page that is out of range** (e.g., requesting page 100 when there are only 10 pages), or
+- Passes a **non-integer value** in the `page` parameter (e.g., `?page=abc` instead of `?page=2`),
+
+Django’s `PostListView` automatically returns an **HTTP 404 (Page Not Found) response**.
+
+### Example Behavior 🌍
+
+If a request is made to an invalid page, the response will return:
+
+<div align="center">
+  <img src="./images/page_not_found.jpg" alt="" width="600px"/>
+
+  **Figure 2.10**: HTTP 404 Page not found respon
+
+</div>
+
+### How is Exception Handling Provided? 🤔
+
+- The **ListView** class in Django provides built-in exception handling.
+- When an invalid page is accessed, `ListView` triggers a **404 error** response **automatically**.
+- No additional code is needed to handle out-of-range or invalid page values manually.
+
+This makes class-based views **more efficient** and reduces the need for custom error-handling logic. 🚀
+
+---
+
+## Learning More About Class-Based Views 📖
+
+This is just an **introductory example** of how **exception handling** works in class-based views. As you progress, you will learn more advanced use cases and customization techniques.
+
+✔️ **More advanced exception handling** 🔄
+✔️ **Customizing class-based views** 🏗️
+✔️ **Using mixins and decorators for flexibility** 🎛️
+
+### Official Django Documentation 📚
+
+For an in-depth introduction to **class-based views**, visit:
+🔗 [Django Class-Based Views Documentation](https://docs.djangoproject.com/en/5.0/topics/class-based-views/intro/)
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
