@@ -1466,6 +1466,159 @@ For a full list of field types, refer to:\
 
 <div align="center">
 
+# `New Section forms in views`
+
+</div>
+
+# **Handling Forms in Views** 📝
+
+## Introduction 🚀
+
+After defining the **form** for recommending posts via email, we need to create a **view** that:
+
+✅ **Creates an instance of the form** 📄  
+✅ **Handles form submissions** 📥  
+✅ **Validates user input** 🔍  
+✅ **Processes and cleans form data** 🧼  
+
+This guide will walk through the **implementation of the `post_share` view** and explain how Django handles form submissions effectively.
+
+---
+
+## Implementing the `post_share` View 📌
+
+### 1️⃣ Adding the View in `views.py`
+
+Edit the `views.py` file of the **blog application** and add the following code:
+
+```python
+from django.shortcuts import render, get_object_or_404
+from .forms import EmailPostForm
+from .models import Post
+
+def post_share(request, post_id):
+    # Retrieve post by id
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        status=Post.Status.PUBLISHED
+    )
+    
+    if request.method == 'POST':
+        # Form was submitted
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            # Form fields passed validation
+            cd = form.cleaned_data
+            # ... send email functionality will be added later
+    else:
+        form = EmailPostForm()
+    
+    return render(
+        request,
+        'blog/post/share.html',
+        {'post': post, 'form': form}
+    )
+```
+
+---
+
+## Understanding the `post_share` View 🧐
+
+### 1️⃣ **Retrieving the Blog Post** 📰
+
+- The `post_share` view takes **two parameters**:
+  - `request` → The **HTTP request object**.
+  - `post_id` → The **ID of the post to be shared**.
+- We use **`get_object_or_404()`** to retrieve the published post by its ID:
+
+```python
+post = get_object_or_404(
+    Post,
+    id=post_id,
+    status=Post.Status.PUBLISHED
+)
+```
+This ensures that:
+- If the post **exists**, it is retrieved.
+- If the post **does not exist**, Django automatically returns a **404 (Page Not Found) error**.
+
+---
+
+### 2️⃣ **Handling GET and POST Requests** 🌍
+
+Django differentiates **GET** and **POST** requests to determine whether the form is being displayed or submitted:
+
+#### 🟢 **Handling a GET Request** (Displaying the Form)
+When the page is **loaded for the first time**, the view receives a **GET request**. In this case:
+- A new **empty** `EmailPostForm` instance is created:
+
+```python
+form = EmailPostForm()
+```
+- The empty form is rendered in the **blog/post/share.html** template.
+
+#### 🔴 **Handling a POST Request** (Processing the Form)
+When the user **submits the form**, the request method will be **POST**:
+
+```python
+if request.method == 'POST':
+    form = EmailPostForm(request.POST)
+```
+- A new form instance is created with the **submitted data** (`request.POST`).
+- The form’s `is_valid()` method is used to **validate the data**.
+
+---
+
+### 3️⃣ **Validating and Cleaning Form Data** ✅
+
+Once the form is submitted, **validation is performed**:
+
+```python
+if form.is_valid():
+    cd = form.cleaned_data
+```
+
+#### **How Validation Works:**
+- **`is_valid()`** checks if all fields contain **valid data**.
+- If **any field contains invalid data**, `is_valid()` returns `False`, and the form is **re-rendered with errors**.
+- If all data is **valid**, `cleaned_data` retrieves **validated and cleaned input** in a dictionary format.
+
+Example of `cleaned_data`:
+```python
+{
+    'name': 'John Doe',
+    'email': 'johndoe@example.com',
+    'to': 'friend@example.com',
+    'comments': 'Check out this blog post!'
+}
+```
+
+#### **What Happens If Data is Invalid?** ❌
+If validation **fails**:
+- The form is **re-rendered**.
+- **Errors** are displayed in the template.
+- Only valid fields are included in `cleaned_data`.
+
+To display **validation errors** in the template, we use:
+```django
+{{ form.errors }}
+```
+
+---
+
+## How the View Handles Form Submission Process 🔄
+
+| Step | Action |
+|------|--------|
+| **1️⃣ Page is loaded (GET request)** | The view creates an **empty form** and renders the template. |
+| **2️⃣ User fills and submits the form (POST request)** | The form is created using `request.POST` data. |
+| **3️⃣ Form validation occurs** | `is_valid()` checks for errors and cleans the data. |
+| **4️⃣ If invalid data is submitted** | The form is re-rendered with errors. |
+| **5️⃣ If data is valid** | `cleaned_data` is retrieved, and the next step (sending email) is prepared. |
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
