@@ -1872,6 +1872,109 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 <div align="center">
 
+# `New Section Email with Shell`
+
+</div>
+
+# **Sending Emails with Django in the Python Shell** ✉️
+
+## Introduction 🚀
+
+Django provides a built-in method for sending emails using the \`\` function from `django.core.mail`. You can test email functionality directly in the **Python shell** before integrating it into your project.
+
+This guide explains how to:
+
+✅ Open the **Django shell** to send test emails.\
+✅ Use \`\` to send an email.\
+✅ Troubleshoot **certificate verification errors**.
+
+---
+
+## Opening the Django Shell 🖥️
+
+To start the **Python shell**, run the following command in your system terminal:
+
+```sh
+python manage.py shell
+```
+
+This will launch an interactive Python environment where you can execute Django-related commands.
+
+---
+
+## Sending a Test Email 📧
+
+Once inside the Django shell, execute the following code to send an email:
+
+```python
+from django.core.mail import send_mail
+
+send_mail(
+    'Django mail',  # Email subject
+    'This e-mail was sent with Django.',  # Email body/message
+    'your_account@gmail.com',  # Sender email
+    ['your_account@gmail.com'],  # Recipient list (can be multiple)
+    fail_silently=False  # Raise an error if the email fails
+)
+```
+
+### Explanation of `send_mail()` Parameters 🧐
+
+| Parameter                             | Description                                                         |
+| ------------------------------------- | ------------------------------------------------------------------- |
+| `'Django mail'`                       | The **subject** of the email.                                       |
+| `'This e-mail was sent with Django.'` | The **message body** of the email.                                  |
+| `'your_account@gmail.com'`            | The **sender’s email**.                                             |
+| `['your_account@gmail.com']`          | A **list of recipients** (one or more email addresses).             |
+| `fail_silently=False`                 | If set to `False`, Django **raises an exception** if sending fails. |
+
+---
+
+## Checking the Output ✅
+
+If the function executes successfully, it should return:
+
+```python
+1
+```
+
+A return value of `1` means **one email was sent successfully**.
+
+💡 **Tip:** Check your inbox to confirm that the email has been received. It should look like this:
+
+> **Subject:** Django mail\
+> **Message:** This e-mail was sent with Django.
+
+---
+
+## Troubleshooting SSL Certificate Errors ❌🔍
+
+If you encounter the following error:
+
+```sh
+ssl.SSLCertVerificationError: CERTIFICATE_VERIFY_FAILED
+```
+
+### 🔹 Solution: Install or Update `certifi`
+
+Run the following command to install the `certifi` package, which includes updated SSL certificates:
+
+```sh
+pip install --upgrade certifi
+```
+
+### 🔹 Solution for macOS Users 🍏
+
+On **macOS**, you may need to allow Python to access root certificates by running:
+
+```sh
+/Applications/Python\ 3.12/Install\ Certificates.command
+```
+
+This ensures that Python can verify SSL certificates when connecting to SMTP servers.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>

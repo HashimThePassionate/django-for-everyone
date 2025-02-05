@@ -69,7 +69,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
 EMAIL_HOST = 'smtp.gmail.com' 
 EMAIL_HOST_USER = config('EMAIL_HOST_USER') 
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
