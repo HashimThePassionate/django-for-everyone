@@ -2209,6 +2209,223 @@ path('<int:post_id>/share/', views.post_share, name='post_share')
 
 <div align="center">
 
+# `New Section Rendering Forms in Templates`
+
+</div>
+
+# **Rendering Forms in Django Templates** 🎨
+
+## Introduction 🚀
+
+After creating the **form**, implementing the **view**, and adding the **URL pattern**, the last step is to **render the form in a template**. The form will allow users to **share blog posts via email**, and we will also update the **post detail page** to include a **share post link**.
+
+This guide explains:
+
+- **Creating the ************`share.html`************ template** for the post-sharing form inside post folder.
+- **Displaying form fields properly in templates**.
+- **Using CSRF tokens to prevent security vulnerabilities**.
+- **Updating the ************`post/detail.html`************ template** to include a **share link**.
+- **Testing the functionality** in the browser.
+
+---
+
+## Creating the `share.html` Template 📜
+
+Create a new file inside:
+
+```
+blog/templates/blog/post/
+```
+
+Name this file **`share.html`** and add the following code:
+
+```django
+{% extends "blog/base.html" %}
+
+{% block title %}Share a post{% endblock %}
+
+{% block content %}
+    {% if sent %}
+        <h1>E-mail successfully sent</h1>
+        <p>
+            "{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.
+        </p>
+    {% else %}
+        <h1>Share "{{ post.title }}" by e-mail</h1>
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}  {# CSRF protection token #}
+            <input type="submit" value="Send e-mail">
+        </form>
+    {% endif %}
+{% endblock %}
+```
+
+---
+
+## Understanding the `share.html` Template 🧐
+
+### 1️⃣ **Checking If the Email Was Sent** ✅
+
+We use:
+
+```django
+{% if sent %}
+```
+
+- If `sent` is **True**, the template displays a **success message**.
+- Otherwise, it displays the **email-sharing form**.
+
+### 2️⃣ **Creating the Form** 📋
+
+```django
+<form method="post">
+```
+
+- The form uses the **POST method**, ensuring **secure data submission**.
+- The form fields are rendered using:
+
+```django
+{{ form.as_p }}
+```
+
+- This renders fields as **HTML ************`<p>`************ elements**.
+- You can also use:
+  - `{{ form.as_ul }}` → Renders fields as an **unordered list \*\*\*\*\*\*\*\*****`<ul>`**.
+  - `{{ form.as_table }}` → Renders fields as an **HTML table \*\*\*\*\*\*\*\*****`<table>`**.
+
+### 3️⃣ **Adding CSRF Protection** 🔒
+
+```django
+{% csrf_token %}
+```
+
+- Prevents **Cross-Site Request Forgery (CSRF) attacks**.
+- Generates a **hidden input field** with an **authentication token**.
+
+---
+
+## Updating the `post/detail.html` Template ✍️
+
+Edit `blog/templates/blog/post/detail.html` to include a **share link**:
+
+```django
+{% extends "blog/base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|linebreaks }}
+    
+    <p>
+        <a href="{% url 'blog:post_share' post.id %}">Share this post</a>
+    </p>
+{% endblock %}
+```
+
+### Explanation:
+
+- The `{% url 'blog:post_share' post.id %}` tag **dynamically builds the share URL**.
+- This generates links like:
+
+```html
+<a href="/5/share/">Share this post</a>
+```
+
+- Clicking the **Share this post** link redirects users to the **post-sharing form**.
+
+---
+
+## Testing the Post-Sharing Feature 🖥️
+
+### 1️⃣ **Start the Development Server**
+
+Run:
+
+```sh
+python manage.py runserver
+```
+
+### 2️⃣ **Open the Blog in Your Browser** 🌍
+
+Visit:
+
+```
+http://127.0.0.1:8000/blog/
+```
+
+- Click any **post title** to view its detail page.
+- Under the post body, you should see the **Share this post** link.
+
+<div align="center">
+  <img src="./images/post_share.jpg" alt="" width="600px"/>
+
+  **Figure 2.16**: The post detail page, including a link to share the post
+
+</div>
+
+### 3️⃣ **Testing the Email Form** 📩
+
+- Click **Share this post**.
+
+<div align="center">
+  <img src="./images/dhare_with_form.jpg" alt="" width="600px"/>
+
+  **Figure 2.17**: The page to share a post via email
+
+</div>
+
+- Enter recipient details in the form.
+<div align="center">
+  <img src="./images/send_and_share.jpg" alt="" width="600px"/>
+
+  **Figure 2.18**: Submit Form to share a post via email
+
+</div>
+
+- Click **Send e-mail**.
+- If valid, you should see a **success message**.
+
+<div align="center">
+  <img src="./images/success_message.jpg" alt="" width="600px"/>
+
+  **Figure 2.19**: Success message after sending an email
+</div>
+
+
+## Disabling Browser Form Validation (For Testing) 🛠️
+
+To test **Django’s validation**, bypass **browser-based validation** by modifying the `<form>` tag:
+
+```django
+<form method="post" novalidate>
+```
+
+- The `novalidate` attribute **disables browser validation**.
+- Allows Django to **handle form validation instead**.
+
+
+### 4️⃣ **Testing Invalid Input Handling** ❌
+
+- Try submitting an **empty form**.
+- The form should display **validation errors**.
+
+<div align="center">
+  <img src="./images/email_field.jpg" alt="" width="600px"/>
+
+  **Figure 2.20**: The share post form displaying invalid data errorsl
+
+</div>
+
+---
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
