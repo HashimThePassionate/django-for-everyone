@@ -2557,6 +2557,75 @@ Applying blog.0003_comment... OK
 
 <div align="center">
 
+# `New Section Comment to adminstration site`
+
+</div>
+
+# **Adding Comments to the Administration Site** 🛠️📝
+
+To manage comments efficiently, we will add the **Comment model** to the Django **administration site**. This allows administrators to view, filter, and manage user comments through a user-friendly interface. 🚀
+
+## Step 1: Register the Comment Model 🏗️
+Open the `admin.py` file in your **blog application**, import the `Comment` model, and define the `ModelAdmin` class as follows:
+
+```python
+from django.contrib import admin
+from .models import Comment, Post
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'post', 'created', 'active']
+    list_filter = ['active', 'created', 'updated']
+    search_fields = ['name', 'email', 'body']
+```
+
+### Explanation 🧐
+- `@admin.register(Comment)`: This **registers** the `Comment` model with Django’s admin panel.
+- `list_display`: Specifies the fields that will be displayed in the **admin list view**.
+- `list_filter`: Enables filtering options for **active status, created date, and updated date**.
+- `search_fields`: Allows admins to **search** comments by **name, email, or comment body**.
+
+## Step 2: Start the Development Server 🏃‍♂️
+Run the following command in the terminal to start your **Django development server**:
+
+```bash
+python manage.py runserver
+```
+
+## Step 3: Access the Django Admin Panel 🌐
+1. Open your browser and visit:
+   ```
+   http://127.0.0.1:8000/admin/
+   ```
+2. Log in using your **superuser credentials**.
+3. You should now see the **Comment model** included in the **BLOG section**.
+
+<div align="center">
+  <img src="./images/comment_admin.jpg" alt="" width="600px"/>
+
+  **Figure 2.21**: Blog application models on the Django administration index page
+
+</div>
+
+
+The `Comment` model is now registered in the **Django admin panel**. You can now **add, edit, and delete** comments using this interface.
+
+## Step 4: Adding a Comment via Admin UI ✍️
+- Click on the **Comments** row.
+- Click **Add** to create a new comment.
+- Fill in the required details and save the comment.
+- The comment will now be stored in the database and visible in the admin panel.
+
+<div align="center">
+  <img src="./images/add_new_comment.jpg" alt="" width="600px"/>
+
+  **Figure 2.22**: Form to add a new comment in the Django administration site
+</div>
+
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
