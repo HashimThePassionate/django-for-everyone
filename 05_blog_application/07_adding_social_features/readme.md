@@ -2421,7 +2421,54 @@ To test **Django’s validation**, bypass **browser-based validation** by modify
 
 </div>
 
----
+<div align="center">
+
+# `New Section Comment System`
+
+</div>
+
+# **Creating a Comment System**📝💬
+
+We will continue extending our **blog application** by adding a **comment system** that allows users to comment on posts. This feature will enable interaction and engagement within the blog. 🚀
+
+## Requirements 📌
+To build the comment system, we will need the following components:
+
+### 1️⃣ Comment Model 🗂️
+A **Comment model** is required to store user comments on blog posts. This model will include fields such as:
+- `post` ➝ The blog post to which the comment belongs
+- `name` ➝ The name of the commenter
+- `email` ➝ The email of the commenter
+- `body` ➝ The comment text
+- `created` ➝ The timestamp of when the comment was created
+- `updated` ➝ The timestamp of the last update
+- `active` ➝ A boolean field to manage visibility
+
+### 2️⃣ Django Form 📝
+A **Django form** will be used to:
+- Allow users to submit comments
+- Manage **data validation** to prevent incorrect inputs
+- Process user inputs before saving them to the database
+
+### 3️⃣ View to Process Comments ⚙️
+The **view** will handle the following:
+- Display the comment form
+- Process form submissions
+- Save valid comments to the database
+- Handle errors if validation fails
+
+### 4️⃣ Display Comments in Post Detail Template 🖥️
+To enhance the user experience, we will:
+- Show a **list of comments** below each blog post
+- Include the **HTML form** for submitting new comments
+- Render comments in a structured and readable format
+
+## Implementation Plan 🚀
+1. **Define the Comment Model** in `models.py`
+2. **Create a Django Form** in `forms.py`
+3. **Develop a View** in `views.py` to handle comment submission
+4. **Update the Post Detail Template** to include the comment list and form
+5. **Style the Comments Section** with CSS for better readability
 
 
 <div align="center">
