@@ -2622,7 +2622,50 @@ The `Comment` model is now registered in the **Django admin panel**. You can now
   **Figure 2.22**: Form to add a new comment in the Django administration site
 </div>
 
+<div align="center">
 
+# `New Section Creating Forms for Comment`
+
+</div>
+
+# **Creating Forms from Models** 📝🖊️
+
+To allow users to **comment on blog posts**, we need to create a **form**. Django provides two base classes for creating forms:
+- `Form` (used previously for sharing posts by email)
+- `ModelForm` (used to build forms dynamically based on models)
+
+Since we already have a `Comment` model, we will use `ModelForm` to generate a **comment submission form** dynamically. 🚀
+
+## Step 1: Define the Comment Form 🏗️
+Edit the `forms.py` file in your **blog application** and add the following lines:
+
+```python
+from django import forms
+from .models import Comment
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['name', 'email', 'body']
+```
+
+## Explanation 🧐
+- **`ModelForm`**: Automatically creates a form based on a model.
+- **`Meta` class**: Specifies the model and the fields to include.
+- **`fields = ['name', 'email', 'body']`**: Only these fields from the `Comment` model will be included in the form.
+
+### 🔍 How ModelForms Work
+- Django **introspects** the model and **dynamically** builds the form.
+- Each model field type maps to a **corresponding form field type**.
+- Model field attributes are automatically used for **form validation**.
+
+### 🛠️ Customizing Forms
+- We can **explicitly specify** which fields to include using `fields`.
+- Alternatively, we can use `exclude = ['field_name']` to exclude specific fields.
+
+## Additional Resources 📚
+For more details on `ModelForm`, visit:
+🔗 [Django ModelForms Documentation](https://docs.djangoproject.com/en/5.0/topics/forms/modelforms/)
 
 <div align="center">
 
