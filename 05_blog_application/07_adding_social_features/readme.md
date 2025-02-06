@@ -2750,6 +2750,55 @@ def post_comment(request, post_id):
 
 <div align="center">
 
+# `New Section include comment url`
+
+</div>
+
+# **Editing URLs to Include Comment Submission** 🚀🌐
+
+To enable **comment submission**, we need to update the `urls.py` file in the **blog application** by adding a new **URL pattern**. This will ensure that comments are processed correctly and associated with the correct blog post. 📌
+
+## Step 1: Update `urls.py` 🛠️
+
+Edit the `urls.py` file in your **blog application** and add the following:
+
+```python
+from django.urls import path
+from . import views
+
+app_name = 'blog'
+
+urlpatterns = [
+    # Post views
+    # path('', views.post_list, name='post_list'),
+    path('', views.PostListView.as_view(), name='post_list'),
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:post>/',
+        views.post_detail,
+        name='post_detail'
+    ),
+    path('<int:post_id>/share/', views.post_share, name='post_share'),
+    path(
+        '<int:post_id>/comment/', views.post_comment, name='post_comment'
+    ),  # ➕ Added comment URL pattern
+]
+```
+
+## Explanation 🧐
+
+- **Comment Submission View**:
+  - This newly added path allows users to submit comments.
+  - The URL pattern `<int:post_id>/comment/` ensures that the correct **post ID** is linked to the comment.
+  - The request is handled by the `post_comment` view function.
+
+### 🔄 Why This Matters?
+
+- This addition ensures that users can submit comments **directly on blog posts**.
+- The correct post is retrieved using its **post ID**.
+- The `post_comment` view handles form validation and saving comments to the database.
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
