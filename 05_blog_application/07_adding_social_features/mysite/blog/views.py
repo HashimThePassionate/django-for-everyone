@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.http import require_POST 
+from django.views.decorators.http import require_POST
 from .models import Post
 from django.http import Http404
 from django.views.generic import ListView
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
+
 
 def post_list(request):
     post_list = Post.published.all()
@@ -19,21 +20,23 @@ def post_list(request):
     except EmptyPage:
         # If requested page is out of range, return the last page
         posts = paginator.page(paginator.num_pages)
-    
+
     return render(
         request,
         'blog/post/list.html',
         {'posts': posts}
     )
 
+
 class PostListView(ListView):
     """
     Alternative post list view
     """
-    queryset = Post.published.all()  
-    context_object_name = 'posts'  
-    paginate_by = 3 
-    template_name = 'blog/post/list.html' 
+    queryset = Post.published.all()
+    context_object_name = 'posts'
+    paginate_by = 3
+    template_name = 'blog/post/list.html'
+
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(
@@ -44,11 +47,14 @@ def post_detail(request, year, month, day, post):
         publish__month=month,
         publish__day=day
     )
+    comments = post.comments.filter(active=True)
+    form = CommentForm()
     return render(
         request,
         'blog/post/detail.html',
-        {'post': post}
+        {'post': post, "comments": comments, "form": form}
     )
+
 
 def post_share(request, post_id):
     # Retrieve post by id
@@ -57,8 +63,8 @@ def post_share(request, post_id):
         id=post_id,
         status=Post.Status.PUBLISHED
     )
-    sent = False 
-    
+    sent = False
+
     if request.method == 'POST':
         # Form was submitted
         form = EmailPostForm(request.POST)
@@ -82,16 +88,16 @@ def post_share(request, post_id):
                 from_email=None,  # Uses DEFAULT_FROM_EMAIL
                 recipient_list=[cd['to']]
             )
-            
+
             sent = True
             # ... send email functionality will be added later
     else:
         form = EmailPostForm()
-    
+
     return render(
         request,
         'blog/post/share.html',
-        {'post': post, 'form': form,'sent': sent }
+        {'post': post, 'form': form, 'sent': sent}
     )
 
 

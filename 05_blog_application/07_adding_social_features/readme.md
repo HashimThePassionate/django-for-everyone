@@ -2799,9 +2799,478 @@ urlpatterns = [
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Templates for comment Form`
 
 </div>
 
+# **Creating Templates for the Comment Form** 🎨📝
+
+We will create a **comment form template** to be used in two places:
+1. **Post Detail Page** (associated with `post_detail` view) – Allows users to publish comments.
+2. **Post Comment Page** (associated with `post_comment` view) – Displays the form again if there are any validation errors.
+
+## Step 1: Create the Form Template 📄
+To ensure reusability, we will create a **separate template** for the comment form and include it in the other templates using `{% include %}`.
+
+### 🔹 File Structure
+Inside the `templates/blog/post/` directory, create an `includes/` subdirectory and add a new file named `comment_form.html`:
+```
+templates/
+  blog/
+    post/
+      includes/
+        comment_form.html
+      detail.html
+      list.html
+      share.html
+```
+
+### ✏️ Edit `comment_form.html`
+Create and edit `templates/blog/post/includes/comment_form.html` with the following content:
+
+```html
+<h2>Add a new comment</h2>
+<form action="{% url 'blog:post_comment' post.id %}" method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Add comment"></p>
+</form>
+```
+
+### 🧐 Explanation
+- **`{% url 'blog:post_comment' post.id %}`** dynamically generates the form's action URL.
+- **`{{ form.as_p }}`** renders form fields inside `<p>` tags for simple styling.
+- **`{% csrf_token %}`** ensures **CSRF protection** since the form uses the `POST` method.
+
+## Step 2: Create the Post Comment Template 📑
+Now, we create another template to handle comment submissions.
+
+### 🔹 Updated File Structure
+```
+templates/
+  blog/
+    post/
+      includes/
+        comment_form.html
+      comment.html
+      detail.html
+      list.html
+      share.html
+```
+
+### ✏️ Edit `comment.html`
+Create and edit `templates/blog/post/comment.html` with the following content:
+
+```html
+{% extends "blog/base.html" %}
+{% block title %}Add a comment{% endblock %}
+
+{% block content %}
+    {% if comment %}
+        <h2>Your comment has been added.</h2>
+        <p><a href="{{ post.get_absolute_url }}">Back to the post</a></p>
+    {% else %}
+        {% include "blog/post/includes/comment_form.html" %}
+    {% endif %}
+{% endblock %}
+```
+
+### 🧐 Explanation
+- **Extends** the base template: `{% extends "blog/base.html" %}`.
+- **Handles two scenarios:**
+  1. If the **form is valid**, the `comment` variable contains the saved comment, and a success message is shown.
+  2. If the **form is invalid**, the `comment` variable is `None`, and we **include** the `comment_form.html` template using `{% include %}`.
+
+
+## **Adding Comments to the Post Detail View** 📝💬
+
+To complete the **comment functionality**, we will add:
+
+- The **list of comments**
+- The **comment form**
+
+## Step 1: Update the `post_detail` View 🏗️
+
+Edit the `views.py` file of your **blog application** and modify the `post_detail` view:
+
+```python
+def post_detail(request, year, month, day, post):
+    post = get_object_or_404(
+        Post,
+        status=Post.Status.PUBLISHED,
+        slug=post,
+        publish__year=year,
+        publish__month=month,
+        publish__day=day
+    )
+    # List of active comments for this post
+    comments = post.comments.filter(active=True)  # ➕ Added
+    # Form for users to comment
+    form = CommentForm()  # ➕ Added
+
+    return render(
+        request,
+        'blog/post/detail.html',
+        {
+            'post': post,
+            'comments': comments,  # ➕ Pass comments
+            'form': form  # ➕ Pass form
+        }
+    )
+```
+
+## Explanation 🧐
+
+- **Fetching Active Comments**:
+
+  ```python
+  comments = post.comments.filter(active=True)
+  ```
+
+  - Retrieves only **active comments** related to the post.
+  - Uses the `related_name='comments'` set in the **Comment model**.
+  - Avoids unnecessary database queries by **leveraging the ORM relationship**.
+
+- **Creating a Blank Comment Form**:
+
+  ```python
+  form = CommentForm()
+  ```
+
+  - Generates a blank form for users to submit comments.
+
+## Step 2: Update the `detail.html` Template 🎨
+
+We need to **display**:
+
+1. **Total number of comments** 🏆
+2. **List of comments** 📜
+3. **Comment submission form** 📝
+
+Edit `templates/blog/post/detail.html` and modify it as follows:
+
+```html
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|linebreaks }}
+    
+    <p>
+        <a href="{% url "blog:post_share" post.id %}">
+            Share this post
+        </a>
+    </p>
+    
+    {% with comments.count as total_comments %}  <!-- 📝 Display total comments -->
+        <h2>
+            {{ total_comments }} comment{{ total_comments|pluralize }}
+        </h2>
+    {% endwith %}
+{% endblock %}
+```
+
+## Explanation 🧐
+
+- **Counting Comments**:
+
+  ```html
+  {% with comments.count as total_comments %}
+  ```
+
+  - Retrieves the total number of **active** comments.
+  - Uses `{% with %}` to store the count in `total_comments`.
+
+- **Using ****`pluralize`**:
+
+  ```html
+  {{ total_comments }} comment{{ total_comments|pluralize }}
+  ```
+
+  - **Automatically adds 's'** if `total_comments > 1`.
+  - Displays: `0 comments`, `1 comment`, or `N comments`.
+
+## Why Use `{% with %}`? 🔄
+
+- Avoids **redundant database queries**.
+- **Optimizes performance** when accessing expensive methods.
+
+
+# **Enhancing the Post Detail Template with Comments** 📝💬
+
+We will now update the **`blog/post/detail.html`** template to:
+- **Loop through comments** and display them.
+- **Show a message** if no comments are available.
+- **Display comment metadata** (author, date, and content).
+
+## Step 1: Edit `detail.html` 📄
+Modify the `templates/blog/post/detail.html` template as follows:
+
+```html
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|linebreaks }}
+    
+    <p>
+        <a href="{% url "blog:post_share" post.id %}">
+            Share this post
+        </a>
+    </p>
+    
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} comment{{ total_comments|pluralize }}
+        </h2>
+    {% endwith %}
+    
+    {% for comment in comments %}  <!-- 📝 Loop through comments -->
+        <div class="comment">
+            <p class="info">
+                Comment {{ forloop.counter }} by {{ comment.name }}
+                {{ comment.created }}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+    {% empty %}
+        <p>There are no comments.</p>
+    {% endfor %}
+{% endblock %}
+```
+
+## Explanation 🧐
+### 🔄 Looping Through Comments
+- `{% for comment in comments %}`: Loops through **all comments** associated with the post.
+- `{% empty %}`: Displays a **fallback message** if there are **no comments**.
+- `{% endfor %}`: Closes the loop.
+
+### 🏷️ Displaying Comment Information
+- **`forloop.counter`**: Provides the **comment number** (1, 2, 3, etc.).
+- **`comment.name`**: Shows the **name of the commenter**.
+- **`comment.created`**: Displays the **timestamp** of when the comment was made.
+
+## **Adding the Comment Form to the Post Detail Template** 📝💬
+
+We will now **include the comment form** in the `post_detail.html` template to allow users to submit comments directly on the **post detail page**. 🚀
+
+## Step 1: Update `detail.html` 📄
+Modify `templates/blog/post/detail.html` to include the comment form:
+
+```html
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|linebreaks }}
+    
+    <p>
+        <a href="{% url "blog:post_share" post.id %}">
+            Share this post
+        </a>
+    </p>
+    
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} comment{{ total_comments|pluralize }}
+        </h2>
+    {% endwith %}
+    
+    {% for comment in comments %}  <!-- 📝 Loop through comments -->
+        <div class="comment">
+            <p class="info">
+                Comment {{ forloop.counter }} by {{ comment.name }}
+                {{ comment.created }}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+    {% empty %}
+        <p>There are no comments.</p>
+    {% endfor %}
+    
+    {% include "blog/post/includes/comment_form.html" %}  <!-- 📩 Include comment form -->
+{% endblock %}
+```
+
+## Explanation 🧐
+### ✅ **Including the Comment Form**
+- `{% include "blog/post/includes/comment_form.html" %}` is used to **insert the comment form template** directly into the post detail page.
+- This allows users to submit comments **without navigating away**.
+
+### 🔄 **Maintaining Readability**
+- The **comment form appears after the comments section**, keeping the **flow intuitive**.
+
+### 🛠 **Why Use `{% include %}`?**
+- Ensures **reusability** of the comment form in different templates.
+- Keeps the **post detail template clean and organized**.
+
+## **Testing the Comment System** 📝✅
+
+After implementing the comment system, we will now **test its functionality** by:
+1. **Adding a comment** via the post detail page.
+2. **Viewing comments** on a post.
+3. **Managing comments** via the **Django admin panel**.
+4. **Deactivating comments** and checking their behavior on the site.
+
+---
+
+## Step 1: Open the Blog in the Browser 🌐
+Navigate to:
+```
+http://127.0.0.1:8000/blog/
+```
+- Click on a **post title** to open its detail page.
+- You will see the **post content, existing comments, and a comment form**.
+
+<div align="center">
+  <img src="./images/01_form.jpg" alt="" width="600px"/>
+
+  **Figure2.25**: Post detail page, including the **comment form**
+
+</div>
+---
+
+## Step 2: Submit a Comment ✍️
+- Fill in the comment form with **valid data**.
+- Click **Add Comment**.
+
+🎉 **Result:** The comment should be added successfully, and you should be redirected to a confirmation page.
+
+- Click **Back to the post** to return to the **post detail page**.
+- You should now see your **newly added comment**.
+
+<div align="center">
+  <img src="./images/02_form.jpg" alt="" width="600px"/>
+
+  **Figure2.26**: The comment list on the post detail page*
+
+</div>
+---
+
+## Step 3: Add Another Comment 📝
+- Submit **one more comment**.
+- Both comments should now be **displayed below the post** in **chronological order**.
+
+---
+
+## Step 4: Manage Comments in Django Admin ⚙️
+Navigate to:
+```
+http://127.0.0.1:8000/admin/blog/comment/
+```
+- You will see a **list of comments** in the Django admin panel.
+- Click on a comment to **edit** it.
+- **Uncheck the 'Active' checkbox**.
+- Click **Save**.
+
+<div align="center">
+  <img src="./images/03_form.jpg" alt="" width="600px"/>
+
+  **Figure 2.27**: The comment list now shows the **inactive status** for the deactivated comment.
+
+</div>
+
+---
+
+## Step 5: Verify Deactivated Comments ❌
+- Return to the **post detail view**.
+- The **inactive comment** should **no longer be displayed**.
+- The **total count of comments** should exclude the **inactive one**.
+
+<div align="center">
+  <img src="./images/06_form.jpg" alt="" width="600px"/>
+
+  **Figure 2.28**: A single active comment displayed on the post detail page
+
+</div>
+
+# **Using Simplified Templates for Form Rendering** 🎨📝
+
+By default, Django forms can be rendered using:
+```html
+{{ form.as_p }}
+```
+This method wraps form fields in **HTML `<p>` tags**, which is simple but not flexible for custom layouts. Instead, we will use **custom HTML** for more control over the form’s appearance. 🚀
+
+---
+
+## Step 1: Customizing Form Rendering 🛠️
+We can **iterate over form fields** and apply **custom HTML markup**:
+
+```html
+{% for field in form %}
+    <div class="my-div">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        <div class="help-text">{{ field.help_text|safe }}</div>
+    </div>
+{% endfor %}
+```
+
+### Explanation 🧐
+- **`{{ field.errors }}`** → Displays field-specific validation errors.
+- **`{{ field.label_tag }}`** → Renders the `<label>` associated with the field.
+- **`{{ field }}`** → Displays the actual form field input.
+- **`{{ field.help_text|safe }}`** → Shows help text for the field.
+
+Using this method allows **custom styling** and **better control** over the form layout.
+
+---
+
+## Step 2: Leveraging Field Groups in Django 5.0 
+Django **5.0** introduces **field groups** to simplify the rendering of labels, widgets, help texts, and errors.
+
+We will modify the **`comment_form.html`** template to use `as_field_group` for better structuring.
+
+### 📝 Update `blog/post/includes/comment_form.html`
+
+```html
+<h2>Add a new comment</h2>
+<form action="{% url "blog:post_comment" post.id %}" method="post">
+    <div class="left">
+        {{ form.name.as_field_group }}
+    </div>
+    <div class="left">
+        {{ form.email.as_field_group }}
+    </div>
+    {{ form.body.as_field_group }}
+    {% csrf_token %}
+    <p><input type="submit" value="Add comment"></p>
+</form>
+```
+
+---
+
+## Step 3: Explanation of `as_field_group` 🧐
+- **`as_field_group`** ensures each form field is wrapped properly with:
+  - **Label**
+  - **Widget (input box, textarea, etc.)**
+  - **Help text**
+  - **Errors (if any)**
+- The method uses Django’s built-in template: [`django/forms/field.html`](https://github.com/django/django/blob/stable/5.0.x/django/forms/templates/django/forms/field.html).
+
+<div align="center">
+  <img src="./images/07_form.jpg" alt="" width="600px"/>
+
+  **Figure 2.31**:The comment form with the new HTML markup
+
+</div>
+
+### 🔹 Why Use Field Groups?
+✅ **Cleaner HTML** </br>
+✅ **Better structure for forms** </br>
+✅ **Easier styling using CSS** </br>
 
 
