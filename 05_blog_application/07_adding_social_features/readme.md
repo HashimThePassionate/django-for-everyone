@@ -2669,6 +2669,87 @@ For more details on `ModelForm`, visit:
 
 <div align="center">
 
+# `New Section ModelFrom From Views`
+
+</div>
+
+# **Handling ModelForms in Views** 🎭📝
+
+For sharing posts via email, we used the **same view** to both display the form and handle its submission by differentiating between **GET** (displaying the form) and **POST** (processing the form). In this case, however, we will create a **separate view** to process comment submissions while keeping the comment form on the **post detail page**. 🚀
+
+## Step 1: Define the View for Handling Comments 🏗️
+Edit the `views.py` file in your **blog application** and add the following code:
+
+```python
+from django.core.mail import send_mail
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST  # Import require_POST
+from django.views.generic import ListView
+from .forms import EmailPostForm, CommentForm  # Import CommentForm
+from .models import Post
+
+@require_POST  # Restricts this view to only handle POST requests
+def post_comment(request, post_id):
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        status=Post.Status.PUBLISHED
+    )
+    comment = None
+    # A comment was posted
+    form = CommentForm(data=request.POST)
+    if form.is_valid():
+        # Create a Comment object without saving it to the database
+        comment = form.save(commit=False)
+        # Assign the post to the comment
+        comment.post = post
+        # Save the comment to the database
+        comment.save()
+    return render(
+        request,
+        'blog/post/comment.html',
+        {
+            'post': post,
+            'form': form,
+            'comment': comment
+        }
+    )
+```
+
+## Explanation 🧐
+
+### 🛠️ **Key Features of `post_comment` View**
+1. **Restricting HTTP Methods**: The `@require_POST` decorator ensures that this view can only be accessed via a **POST request**. If accessed via GET, Django returns an HTTP **405 (Method Not Allowed)** error.
+2. **Retrieving the Post**:
+   - We fetch a **published post** using `get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)`.
+   - This ensures that comments can only be made on published posts.
+3. **Processing the Form**:
+   - The form is instantiated with `request.POST` data.
+   - `form.is_valid()` checks for **validation errors**.
+4. **Saving the Comment**:
+   - `form.save(commit=False)`: Creates a **Comment instance** without saving it to the database yet.
+   - We assign the **post** to the new comment (`comment.post = post`).
+   - `comment.save()`: Finally, the comment is saved into the **database**.
+5. **Rendering the Template**:
+   - After processing, the `blog/post/comment.html` template is rendered with:
+     - `post`: The blog post
+     - `form`: The form (to display errors if validation fails)
+     - `comment`: The newly created comment
+
+### 🔍 Why Use `commit=False`?
+- `form.save(commit=False)` prevents **immediate saving**, allowing us to modify the object before final storage.
+- This is necessary to **assign the post** to the comment before saving.
+
+### ⚡ Important Note
+- The `save()` method is **only available** in `ModelForm`, as it is directly linked to a model.
+- Regular `Form` instances do **not** have a `save()` method.
+
+## Next Steps 🔄
+- The **`blog/post/comment.html`** template does not exist yet. We will create it in the next step! 🎨✨
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
