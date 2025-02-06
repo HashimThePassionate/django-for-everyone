@@ -2427,7 +2427,7 @@ To test **Django’s validation**, bypass **browser-based validation** by modify
 
 </div>
 
-# **Creating a Comment System**📝💬
+# **Creating a Comment System** 📝💬
 
 We will continue extending our **blog application** by adding a **comment system** that allows users to comment on posts. This feature will enable interaction and engagement within the blog. 🚀
 
@@ -2470,6 +2470,90 @@ To enhance the user experience, we will:
 4. **Update the Post Detail Template** to include the comment list and form
 5. **Style the Comments Section** with CSS for better readability
 
+
+<div align="center">
+
+# `New Section Model For Comment`
+
+</div>
+
+# **Creating a Model for Comments** 📝💬
+
+Let's start by building a **model** to store user comments on posts. This will allow users to interact with blog posts by adding their thoughts and feedback. 🚀
+
+## Step 1: Define the Comment Model 🛠️
+Open the `models.py` file of your **blog application** and add the following code:
+
+```python
+from django.db import models
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['created']
+        indexes = [
+            models.Index(fields=['created']),
+        ]
+
+    def __str__(self):
+        return f'Comment by {self.name} on {self.post}'
+```
+
+## Explanation 🧐
+
+### 🔗 **ForeignKey Relationship**
+- The `post` field establishes a **many-to-one relationship** between **comments** and **posts**.
+- A **single post** can have **multiple comments**, but each **comment** belongs to **only one post**.
+- The `related_name='comments'` attribute allows us to retrieve comments of a post using `post.comments.all()`.
+- If `related_name` is not specified, Django automatically names it as `comment_set` (i.e., `post.comment_set.all()`).
+
+### 📌 **Fields Overview**
+- `name`: Stores the name of the commenter.
+- `email`: Stores the commenter's email.
+- `body`: Contains the comment text.
+- `created`: Saves the timestamp when the comment was created (**auto_now_add=True** ensures it is stored automatically).
+- `updated`: Stores the timestamp of the last update (**auto_now=True** updates it on every modification).
+- `active`: A boolean field to manage visibility (defaults to `True`).
+
+### 🔄 **Ordering and Indexing**
+- The `ordering = ['created']` in the `Meta` class ensures comments are retrieved in **chronological order**.
+- Indexing the `created` field improves **database query performance**.
+
+## Step 2: Generate and Apply Migrations 🏗️
+Once the model is defined, we need to **synchronize** it with the database by generating and applying migrations.
+
+### 🛠️ **Create Migration**
+Run the following command in the terminal:
+```bash
+python manage.py makemigrations blog
+```
+Expected output:
+```bash
+Migrations for 'blog':
+  blog/migrations/0003_comment.py
+    - Create model Comment
+```
+
+### 📦 **Apply Migration**
+To create the database table for comments, run:
+```bash
+python manage.py migrate
+```
+Expected output:
+```bash
+Applying blog.0003_comment... OK
+```
 
 <div align="center">
 
