@@ -362,6 +362,97 @@ You should now see the **list of tags under each post title**.
 
 <div align="center">
 
+# `New Section enhancing post_list with tag`
+
+</div>
+
+# 📌 **Enhancing the `post_list` View with Tag Filtering in Django**
+
+## 📝 Overview
+In this update, we modify the `post_list` view in Django to **filter posts by a tag** using the `django-taggit` package. This enhancement allows users to filter blog posts based on specific tags. 🏷️📌
+
+## 🔧 Implementation
+We modify the `views.py` file in our **blog application** as follows:
+
+### ✍️ Updated `views.py`
+```python
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.shortcuts import render, get_object_or_404
+from taggit.models import Tag  # ✅ Import the Tag model from django-taggit
+from .models import Post  # ✅ Import the Post model
+
+
+def post_list(request, tag_slug=None):  # ✅ Add an optional 'tag_slug' parameter
+    post_list = Post.published.all()  # ✅ Retrieve all published posts
+    tag = None  # ✅ Initialize 'tag' as None
+
+    if tag_slug:  # ✅ If 'tag_slug' is provided in the URL
+        tag = get_object_or_404(Tag, slug=tag_slug)  # ✅ Retrieve the corresponding Tag object
+        post_list = post_list.filter(tags__in=[tag])  # ✅ Filter posts containing the specified tag
+
+    # 📌 Pagination: Display 3 posts per page
+    paginator = Paginator(post_list, 3)
+    page_number = request.GET.get('page', 1)  # ✅ Get the requested page number
+    try:
+        posts = paginator.page(page_number)  # ✅ Fetch the requested page
+    except PageNotAnInteger:
+        posts = paginator.page(1)  # ✅ If page number is not an integer, display the first page
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)  # ✅ If page number exceeds range, display the last page
+
+    return render(
+        request,
+        'blog/post/list.html',
+        {
+            'posts': posts,  # ✅ Pass the paginated posts
+            'tag': tag  # ✅ Pass the selected tag
+        }
+    )
+```
+
+---
+
+## 🎯 **How It Works**
+
+### 1️⃣ Accepting an Optional `tag_slug` Parameter
+- The function now accepts an **optional parameter `tag_slug`**, which defaults to `None`.
+- This **parameter is passed via the URL** when filtering posts by tag.
+
+### 2️⃣ Retrieving All Published Posts
+- Initially, **all published posts** are retrieved using:
+  ```python
+  post_list = Post.published.all()
+  ```
+
+### 3️⃣ Filtering Posts Based on the Provided Tag
+- If `tag_slug` is provided:
+  - The **corresponding `Tag` object** is fetched using:
+    ```python
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    ```
+  - Posts are then **filtered** using Django’s Many-to-Many field lookup:
+    ```python
+    post_list = post_list.filter(tags__in=[tag])
+    ```
+- This ensures that **only posts containing the specified tag** are displayed.
+
+## 🔍 **Understanding Many-to-Many Relationships**
+
+- The **`Post` model has a Many-to-Many relationship** with the `Tag` model.
+- A **single post** can have **multiple tags**, and a **single tag** can be linked to **multiple posts**.
+- When filtering, we use:
+  ```python
+  post_list.filter(tags__in=[tag])
+  ```
+  - This ensures that **only posts associated with the specified tag** are retrieved.
+- More details on **Many-to-Many relationships** can be found in Django's official documentation: 📖 [Django Many-to-Many Relationships](https://docs.djangoproject.com/en/5.0/topics/db/examples/many_to_many/)
+
+---
+
+</div>
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
