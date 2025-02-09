@@ -191,6 +191,113 @@ Applying blog.0004_post_tags... OK
 
 <div align="center">
 
+# `New Section Accessing Shell`
+
+</div>
+
+# 🏷️ **Using the Tags Manager in Django**
+
+## 📌 Overview
+In this section, we will explore how to **use the tags manager** provided by `django-taggit` to add, retrieve, and remove tags dynamically in a Django application. 🎯
+
+## 🚀 Accessing the Django Shell
+To interact with your Django models and apply tag operations, open the **Django shell** by running the following command:
+```bash
+python manage.py shell
+```
+This command launches an interactive environment where you can execute Python code related to your Django project.
+
+## 📂 Retrieving a Post Object
+Once inside the shell, retrieve a post object (with an ID of `1` in this example):
+```python
+from blog.models import Post
+post = Post.objects.get(id=1)
+```
+This fetches the post from the database, allowing us to manipulate its tags.
+
+## 🏷️ Adding Tags to a Post
+To add **multiple tags** to the retrieved post, use the `add` method of the `tags` manager:
+```python
+post.tags.add('music', 'jazz', 'django')
+```
+This assigns the **tags: 'music', 'jazz', and 'django'** to the post.
+
+To confirm the tags were successfully added, retrieve them using:
+```python
+post.tags.all()
+```
+Expected output:
+```
+<QuerySet [<Tag: jazz>, <Tag: music>, <Tag: django>]>
+```
+This confirms that the post has been tagged correctly. ✅
+
+## ❌ Removing a Tag from a Post
+To remove a specific tag, such as `'django'`, use the `remove` method:
+```python
+post.tags.remove('django')
+```
+To verify the change, retrieve the updated tag list:
+```python
+post.tags.all()
+```
+Expected output:
+```
+<QuerySet [<Tag: jazz>, <Tag: music>]>
+```
+This confirms that the **'django'** tag has been successfully removed. 🔥
+
+## 🌍 Running the Development Server
+To view and manage tags via the Django admin panel, start the development server:
+```bash
+python manage.py runserver
+```
+Now, open the **Django admin interface** by visiting:
+```
+http://127.0.0.1:8000/admin/taggit/tag/
+```
+This will display the **list of tags** managed by `django-taggit`.
+
+### 🖥️ Viewing and Editing Tags in Django Admin
+#### 🔹 **Tag List View**
+You will see a **list of all available tags**. Click on any tag (e.g., `jazz`) to edit it.
+
+<div align="center">
+  <img src="./images/03_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.3**: The tag change list view on the Django administration site
+
+</div>
+
+#### 🔹 **Editing a Tag**
+- The tag details will appear, showing:
+  - **Tag Name** (e.g., `jazz`)
+  - **Slug** (e.g., `jazz`)
+  - **Tagged Items** (posts associated with this tag)
+- You can modify or delete the tag as needed.
+
+<div align="center">
+  <img src="./images/04_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.4**: The tag edit view on the Django administration site
+
+</div>
+
+### 📌 Editing Tags for a Specific Post
+Navigate to:
+```
+http://127.0.0.1:8000/admin/blog/post/1/change/
+```
+<div align="center">
+  <img src="./images/05_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.5**: The related Tags field of a Post objec
+
+</div>
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
