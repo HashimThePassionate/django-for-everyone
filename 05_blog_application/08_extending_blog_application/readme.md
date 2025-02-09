@@ -335,7 +335,7 @@ Open the `blog/post/list.html` template and modify it to include **tag display f
 
 ### 🔍 How This Works
 - The **`post.tags.all`** retrieves all tags associated with a post.
-- The **`join:", "`** filter converts the list of tags into a comma-separated string.
+- The **`join:", "`** The join template filter works analogously to Python’s string join() method. You can concatenate a list of items into one string, using a specific character or string to separate each item.
 - Example:
   ```python
   ['music', 'jazz', 'piano'] → 'music, jazz, piano'
