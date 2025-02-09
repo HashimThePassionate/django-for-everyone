@@ -453,6 +453,87 @@ def post_list(request, tag_slug=None):  # ✅ Add an optional 'tag_slug' paramet
 
 <div align="center">
 
+# `New Section update urls`
+
+</div>
+
+# 📌 **Updating `urls.py` to Support Tag-Based Filtering in Django**
+
+## 📝 Overview
+In this update, we modify the `urls.py` file in our **blog application** to:
+1. **Comment out the class-based view (`PostListView`)** and use the `post_list` function-based view instead.
+2. **Add a new URL pattern** that allows filtering posts by tags.
+
+This ensures better control over how posts are displayed and filtered based on tags. 🏷️✨
+
+## 🔧 Updated `urls.py`
+
+```python
+from django.urls import path  # ✅ Import path for URL routing
+from . import views  # ✅ Import views from the current app
+
+app_name = 'blog'  # ✅ Define app namespace
+
+urlpatterns = [
+    # 📌 Post listing views
+    path('', views.post_list, name='post_list'),  # ✅ Use function-based view for listing posts
+    
+    # path('', views.PostListView.as_view(), name='post_list'),  # ❌ Commented-out class-based view
+    
+    # 📌 New URL pattern for filtering posts by tag
+    path(
+        'tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'
+    ),  # ✅ Allows filtering posts based on tag
+    
+    # 📌 URL pattern for displaying a single post
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:post>/',
+        views.post_detail,
+        name='post_detail'
+    ),
+    
+    # 📌 URL pattern for sharing a post
+    path('<int:post_id>/share/', views.post_share, name='post_share'),
+    
+    # 📌 URL pattern for adding a comment to a post
+    path('<int:post_id>/comment/', views.post_comment, name='post_comment'),
+]
+```
+
+---
+
+## 🎯 **Key Changes and Explanations**
+
+### 1️⃣ **Switching from Class-Based View to Function-Based View**
+- We **commented out** the existing **class-based view (`PostListView`)**:
+  ```python
+  # path('', views.PostListView.as_view(), name='post_list'),
+  ```
+- Instead, we are now using the **function-based view (`post_list`)**:
+  ```python
+  path('', views.post_list, name='post_list'),
+  ```
+- This allows us to **modify the view logic more easily** and integrate tag filtering efficiently.
+
+### 2️⃣ **Adding Tag-Based Filtering to the URL Patterns**
+- We introduce a new **URL pattern**:
+  ```python
+  path(
+      'tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'
+  ),
+  ```
+- This pattern:
+  - **Calls the same `post_list` view** but with an optional `tag_slug` parameter.
+  - Allows posts to be **filtered based on tags**.
+
+### 3️⃣ **Using the `slug` Path Converter** 🏷️
+- The `slug` converter ensures:
+  - The **tag slug** is matched as a lowercase string.
+  - It can contain **ASCII letters, numbers, hyphens (`-`), and underscores (`_`)**.
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
