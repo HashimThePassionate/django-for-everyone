@@ -8,6 +8,7 @@
                 {{ post.title }}
             </a>
         </h2>
+        <p class="tags">Tags: {{ post.tags.all|join:", " }}</p> <!-- add tags here -->
         <p class="date">
             Published {{ post.publish }} by {{ post.author }}
         </p>

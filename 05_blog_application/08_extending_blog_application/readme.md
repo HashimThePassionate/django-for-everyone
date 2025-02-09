@@ -298,6 +298,70 @@ http://127.0.0.1:8000/admin/blog/post/1/change/
 
 <div align="center">
 
+# `New Section Displaying tags`
+
+</div>
+
+#  **Displaying Tags in Blog Posts** 🏷️
+
+## 📌 Overview
+To enhance the functionality of your blog, you need to **display tags** for each post. Tags allow readers to explore related content easily. In this section, we will modify the **blog post list template** to display the associated tags dynamically. 🚀
+
+## 🖥️ Editing the `post/list.html` Template
+Open the `blog/post/list.html` template and modify it to include **tag display functionality**:
+
+```html
+{% extends "blog/base.html" %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+    <h1>My Blog</h1>
+    {% for post in posts %}
+    <h2>
+        <a href="{{ post.get_absolute_url }}">
+            {{ post.title }}
+        </a>
+    </h2>
+    <p class="tags">Tags: {{ post.tags.all|join:", " }}</p> <!-- Add tags here -->
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|truncatewords:30|linebreaks }}
+    {% endfor %}
+    {% include "pagination.html" with page=page_obj %}
+{% endblock %}
+```
+
+### 🔍 How This Works
+- The **`post.tags.all`** retrieves all tags associated with a post.
+- The **`join:", "`** filter converts the list of tags into a comma-separated string.
+- Example:
+  ```python
+  ['music', 'jazz', 'piano'] → 'music, jazz, piano'
+  ```
+- This ensures that the **tags are displayed neatly under each post title**. 🎯
+
+## 🌍 Viewing Tags in the Browser
+After saving the changes, start your Django development server:
+```bash
+python manage.py runserver
+```
+Then, open the following URL in your browser:
+```
+http://127.0.0.1:8000/blog/
+```
+You should now see the **list of tags under each post title**.
+
+<div align="center">
+  <img src="./images/06_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.6**: The Post list item, including related tags
+
+</div>
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
