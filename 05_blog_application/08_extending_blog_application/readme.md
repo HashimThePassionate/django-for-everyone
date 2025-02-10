@@ -719,6 +719,87 @@ To find and recommend similar posts for a given post, follow these steps:
 5. **Handle ties**: If multiple posts have the same number of shared tags, recommend the **most recent** post first. 🕒
 6. **Limit the results** to the number of posts you want to recommend. 🎯
 
+<div align="center">
+
+# `New Section Similarity-Based Post Suggestions`
+
+</div>
+
+# **Implementing Similarity-Based Post Suggestions in Django** 📝
+
+In this section, we will modify the **post_detail** view to incorporate similarity-based post suggestions using Django's **QuerySet**. This allows us to recommend posts based on shared tags, enhancing user engagement and navigation. 🚀
+
+## 📌 Steps to Implement Similar Posts Retrieval
+These steps are translated into a **complex QuerySet** to find similar posts. Follow the instructions below to integrate this feature:
+
+### 1️⃣ Import Required Function
+Open the **views.py** file of your blog application and add the following import at the top:
+
+```python
+from django.db.models import Count
+```
+
+The `Count` function is an **aggregation function** in Django ORM that allows us to perform aggregated counts of tags.
+
+### 2️⃣ Aggregation Functions in `django.db.models`
+Django provides the following aggregation functions:
+- **Avg**: The mean value
+- **Max**: The maximum value
+- **Min**: The minimum value
+- **Count**: The total number of objects
+
+### 3️⃣ Modify the `post_detail` View
+Now, edit the **post_detail** view in `views.py` and add the following lines:
+
+```python
+def post_detail(request, year, month, day, post):
+    post = get_object_or_404(
+        Post,
+        status=Post.Status.PUBLISHED,
+        slug=post,
+        publish__year=year,
+        publish__month=month,
+        publish__day=day
+    )
+    comments = post.comments.filter(active=True)
+    form = CommentForm()
+    
+    # List of similar posts
+    post_tags_ids = post.tags.values_list('id', flat=True)
+    similar_posts = Post.published.filter(
+        tags__in=post_tags_ids
+    ).exclude(id=post.id)
+    
+    similar_posts = similar_posts.annotate(
+        same_tags=Count('tags')
+    ).order_by('-same_tags', '-publish')[:4]
+    
+    return render(
+        request,
+        'blog/post/detail.html',
+        {
+            'post': post,
+            'comments': comments,
+            'form': form,
+            'similar_posts': similar_posts  # Similar posts dictionary
+        }
+    )
+```
+
+## 🔍 Explanation of the Code
+
+1️⃣ **Retrieve Tag IDs:** The `values_list()` QuerySet extracts a **list of IDs** for the current post's tags. Using `flat=True`, we get a list like `[1, 2, 3, ...]` instead of tuples like `[(1,), (2,), (3,) ...]`.
+
+2️⃣ **Filter Similar Posts:** We fetch all posts **containing any of these tags**, excluding the **current post**.
+
+3️⃣ **Count Shared Tags:** Using the `Count` function, we **generate a calculated field** `same_tags` that represents the number of shared tags.
+
+4️⃣ **Sort Posts by Relevance:** The results are sorted by **the number of shared tags (descending order)** and **publication date** (most recent posts appear first if tags are shared equally). The query is **limited to 4 posts**.
+
+5️⃣ **Pass to Template Context:** The `similar_posts` object is added to the **context dictionary** so that the template can display the recommendations.
+
+By following these steps, you enhance your blog with a **recommendation system** that improves content discovery and engagement! 🚀📚
+
 
 
 <div align="center">
