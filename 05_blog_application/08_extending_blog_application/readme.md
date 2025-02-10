@@ -696,6 +696,30 @@ This improves the **user experience** by making tags interactive and enabling qu
   - It prevents unnecessary commas at the end of the tag list.
 
 
+<div align="center">
+
+# `New Section Retrieving Posts by Similarity`
+
+</div>
+
+# **Retrieving Posts by Similarity** 📌
+
+Now that we have implemented **tagging** for blog posts, we can unlock several interesting functionalities with tags. 🏷️ Tags help categorize posts in a **non-hierarchical** manner, meaning that posts about similar topics will naturally have common tags. 🔄
+
+## 🌟 Purpose
+We will build a functionality that **displays similar posts** based on the number of shared tags. This means that when a user reads a post, we can suggest other related posts to enhance engagement and discovery. 📚✨
+
+## 🛠️ Steps to Retrieve Similar Posts
+To find and recommend similar posts for a given post, follow these steps:
+
+1. **Retrieve all tags** associated with the current post. 🏷️
+2. **Find all posts** that share **any** of these tags. 📌
+3. **Exclude the current post** from the results to avoid self-recommendations. 🚫
+4. **Sort the results** based on the number of shared tags (more shared tags = higher relevance). 📊
+5. **Handle ties**: If multiple posts have the same number of shared tags, recommend the **most recent** post first. 🕒
+6. **Limit the results** to the number of posts you want to recommend. 🎯
+
+
 
 <div align="center">
 
