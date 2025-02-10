@@ -798,9 +798,123 @@ def post_detail(request, year, month, day, post):
 
 5️⃣ **Pass to Template Context:** The `similar_posts` object is added to the **context dictionary** so that the template can display the recommendations.
 
-By following these steps, you enhance your blog with a **recommendation system** that improves content discovery and engagement! 🚀📚
+<div align="center">
 
+# `New Section Starts here`
 
+</div>
+
+# Updating the Blog Post Template for Similar Post Suggestions 📝
+
+In this section, we will edit the **blog/post/detail.html** template to include a **list of similar posts** and improve the comment section. This will enhance user engagement by suggesting relevant posts and displaying comments in an organized manner. 🚀
+
+## 📌 Steps to Update the Template
+
+Follow these steps to modify your **blog post detail page** and display similar post suggestions.
+
+### 1️⃣ Open `blog/post/detail.html` and Add the Following Code
+
+```django
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|linebreaks }}
+    
+    <p>
+        <a href="{% url "blog:post_share" post.id %}">
+            Share this post
+        </a>
+    </p>
+    
+    <h2>Similar posts</h2>    <!--  Similar Post Start here -->
+    {% for post in similar_posts %} <!-- Loop similar posts -->
+        <p>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </p>
+    {% empty %}
+        <p>There are no similar posts yet.</p>
+    {% endfor %}
+    
+    <!-- End of Similar Posts Section -->
+
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} comment{{ total_comments|pluralize }}
+        </h2>
+    {% endwith %}
+    
+    {% for comment in comments %}
+        <div class="comment">
+            <p class="info">
+                Comment {{ forloop.counter }} by {{ comment.name }}
+                {{ comment.created }}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+    {% empty %}
+        <p>There are no comments yet.</p>
+    {% endfor %}
+    
+    {% include "blog/post/includes/comment_form.html" %}
+{% endblock %}
+```
+
+## 🔍 Explanation of the Code
+
+1️⃣ Add Similar Posts Section:
+
+- A new `<h2>` section is introduced to display similar posts.
+- A loop iterates over `similar_posts` to display links to them.
+- If no similar posts exist, a fallback message **"There are no similar posts yet."** is displayed.
+
+The post detail page should look like this:
+
+<div align="center">
+  <img src="./images/08_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.8**: The post detail page, including a list of similar posts
+
+</div>
+
+Open http://127.0.0.1:8000/admin/blog/post/ in your browser, edit a post that has no tags, and
+add the music and jazz tags, as follows:
+
+<div align="center">
+  <img src="./images/09_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.9**: Adding the “jazz” and “music” tags to a post
+
+</div>
+
+Edit another post and add the jazz tag, as follows:
+
+<div align="center">
+  <img src="./images/10_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.10**: Adding the “jazz” tag to a post
+
+</div>
+
+The post detail page for the first post should now look like this:
+
+<div align="center">
+  <img src="./images/11_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.11**: The post detail page, including a list of similar posts
+
+</div>
+
+The posts recommended in the Similar posts section of the page appear in descending order based
+on the number of shared tags with the original post.
+We are now able to successfully recommend similar posts to readers. django-taggit also includes a
+similar_objects() manager that you can use to retrieve objects by shared tags. You can take a look
+at all django-taggit managers at [django-taggit](https://django-taggit.readthedocs.io/en/latest/api.html).
+You can also add the list of tags to your post detail template in the same way as you did in the `blog/post/list.html` template.
 
 <div align="center">
 
