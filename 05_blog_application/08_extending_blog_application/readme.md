@@ -1183,6 +1183,98 @@ Next, return to your browser and refresh the page. The sidebar should now look l
 
 </div>
 
+# 📌 **Creating a Template Tag That Returns a QuerySe**t
+
+## 📝 Overview
+In this section, we will create a **Django template tag** that returns a **QuerySet** instead of rendering output directly. The QuerySet will contain the **most commented posts**, and we will store the result in a **variable** for later use in the template.
+
+---
+
+## 🏗️ Step 1: Creating the Template Tag Function
+
+📌 **Edit the `templatetags/blog_tags.py` file and add the following import and template tag:**
+
+```python
+from django.db.models import Count
+from django import template
+from ..models import Post
+
+register = template.Library()
+
+@register.simple_tag
+def get_most_commented_posts(count=5):
+    return Post.published.annotate(
+        total_comments=Count('comments')
+    ).order_by('-total_comments')[:count]
+```
+
+### 🔍 Explanation:
+- The `@register.simple_tag` decorator registers the function as a **simple template tag**.
+- `annotate(total_comments=Count('comments'))` adds an **aggregated field** that counts comments for each post.
+- The QuerySet is **ordered** by the `total_comments` field in **descending order**.
+- The `count` parameter (default **5**) determines the **number of results** returned.
+- Unlike **inclusion tags**, this tag **does not render a template** but instead **returns data**.
+
+🛠 **Django also provides other aggregation functions:** `Avg`, `Max`, `Min`, and `Sum`. You can read more about them [here](https://docs.djangoproject.com/en/5.0/topics/db/aggregation/).
+
+---
+
+## 🏗️ Step 2: Adding the Template Tag to the Sidebar
+
+📌 **Edit the `blog/base.html` file and add the following lines:**
+
+```html
+{% load blog_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "css/blog.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div id="sidebar">
+        <h2>My blog</h2>
+        <p>
+            This is my blog.<br>
+            I've written {% total_posts %} posts so far.
+        </p>
+        <h3>Latest posts</h3>
+        {% show_latest_posts 3 %}
+        
+        <h3>Most commented posts</h3> <!-- Added heading for most commented posts -->
+        {% get_most_commented_posts as most_commented_posts %} <!-- Store result in a variable -->
+        <ul> <!-- Unordered list for displaying posts -->
+            {% for post in most_commented_posts %} <!-- Loop through retrieved posts -->
+            <li>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+```
+
+### 🔍 Explanation:
+- `{% get_most_commented_posts as most_commented_posts %}` **stores the result** of the tag into a variable `most_commented_posts`.
+- A **`<h3>` heading** is added to **highlight** the most commented posts.
+- The **`for` loop** iterates over `most_commented_posts` to **display the post titles** as clickable links.
+- This setup ensures that the **most commented posts are dynamically displayed** in the sidebar.
+
+Now open your browser and refresh the page to see the final result. It should look like the following:
+<div align="center">
+  <img src="./images/15_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.15**: The post list view, including the complete sidebar with the latest and most commented
+posts
+
+</div>
+
 
 <div align="center">
 
