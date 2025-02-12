@@ -1077,6 +1077,113 @@ If you see the following error message, it’s very likely you didn’t restart 
 
 </div>
 
+# 📌 **Creating an Inclusion Template Tag**
+
+## 📝 Overview
+We will create a **Django template tag** that displays the latest posts in the blog's sidebar. This tag will be implemented as an **inclusion tag**, which means it will render a template with **context variables** returned by the template tag function.
+
+---
+
+## 🏗️ Step 1: Creating the Template Tag Function
+
+📌 **Edit the `templatetags/blog_tags.py` file and add the following code:**
+
+```python
+from django import template
+from ..models import Post
+
+register = template.Library()
+
+#..
+
+@register.inclusion_tag('blog/post/latest_posts.html')
+def show_latest_posts(count=5):
+    latest_posts = Post.published.order_by('-publish')[:count]
+    return {'latest_posts': latest_posts}
+```
+
+### 🔍 Explanation:
+- The `@register.inclusion_tag` decorator registers the function as an **inclusion tag**.
+- The function renders the template **blog/post/latest_posts.html** with the returned context.
+- The `count` parameter (default **5**) allows specifying the number of latest posts to display.
+- The query `Post.published.order_by('-publish')[:count]` retrieves the latest published posts.
+- The function returns a **dictionary**, as required by inclusion tags, which will be used as the template context.
+- The template tag can now be used as `{% show_latest_posts 3 %}` in templates to display the latest three posts.
+
+---
+
+## 🏗️ Step 2: Creating the Template for Latest Posts
+
+📌 **Create a new file `blog/post/latest_posts.html` and add the following code:**
+
+```html
+<ul>
+    {% for post in latest_posts %}
+    <li>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+```
+
+### 🔍 Explanation:
+- The **`latest_posts` variable** is passed to the template from the template tag function.
+- An **unordered list (`<ul>`)** is used to display each post title as a clickable link.
+- The `{% for post in latest_posts %}` loop iterates through the returned posts.
+- `{{ post.get_absolute_url }}` generates the link to the post.
+
+---
+
+## 🏗️ Step 3: Adding the Template Tag to the Base Template
+
+📌 **Edit the `blog/base.html` file and add the following lines in the sidebar:**
+
+```html
+{% load blog_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "css/blog.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div id="sidebar">
+        <h2>My blog</h2>
+        <p>
+            This is my blog.<br>
+            I've written {% total_posts %} posts so far.
+        </p>
+        <h3>Latest posts</h3>  <!-- Added heading for latest posts -->
+        {% show_latest_posts 3 %}  <!-- Render latest posts here -->
+    </div>
+</body>
+</html>
+```
+
+### 🔍 Explanation:
+- The `{% load blog_tags %}` **loads the custom template tags** defined in `blog_tags.py`.
+- The `<h3>` heading **introduces the latest posts section** in the sidebar.
+- `{% show_latest_posts 3 %}` calls the template tag, **passing `3` as the number of posts to display**.
+- The inclusion tag renders the `latest_posts.html` **inside the sidebar**, displaying the latest blog posts dynamically.
+
+The template tag is called, passing the number of posts to display, and the template is rendered in
+place with the given context.
+
+Next, return to your browser and refresh the page. The sidebar should now look like this:
+
+<div align="center">
+  <img src="./images/14_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.14**: The blog sidebar, including the latest published posts
+
+</div>
+
+
 <div align="center">
 
 # `New Section Starts here`
