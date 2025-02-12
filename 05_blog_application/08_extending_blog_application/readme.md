@@ -942,7 +942,140 @@ Django also allows developers to **create their own custom template tags** to ad
 
 Imagine you want to display a list of **the latest blog posts** in the sidebar. Since this should be **available across all templates**, a **custom template tag** can help.
 
+# Implementing Custom Template Tags in Django 🚀
 
+Django provides built-in helper functions that allow you to easily create **custom template tags**. These tags enhance the functionality of Django templates by enabling the use of dynamic data.
+
+## 🔹 Available Template Tag Helpers
+Django offers the following helper functions:
+
+- **`simple_tag`**: Processes the given data and returns a string.
+- **`inclusion_tag`**: Processes the given data and returns a rendered template.
+
+📌 **Note:** All template tags must reside inside a Django application.
+
+---
+
+## 📂 **Setting Up the Template Tags Directory**
+To create custom template tags, follow these steps inside your **blog** application:
+
+1. Navigate to your blog app directory.
+2. Create a new directory called **`templatetags`**.
+3. Add an empty `__init__.py` file inside `templatetags`.
+4. Create a new Python file inside `templatetags` and name it **`blog_tags.py`**.
+
+The directory structure should look like this:
+
+```
+blog/
+ ├── __init__.py
+ ├── models.py
+ ├── ...
+ ├── templatetags/
+ │   ├── __init__.py
+ │   ├── blog_tags.py
+```
+
+📌 **Important:** The filename of your template tag module is crucial as it will be used to load the tags in templates.
+
+---
+
+## 🛠 Creating a Simple Template Tag
+Let's create a simple tag that retrieves the total number of published posts on the blog.
+
+### 1️⃣ Define the Template Tag
+Edit the `templatetags/blog_tags.py` file and add the following code:
+
+```python
+from django import template
+from ..models import Post
+
+register = template.Library()
+
+@register.simple_tag
+def total_posts():
+    return Post.published.count()
+```
+
+### 🔍 Understanding the Code
+- We define a `register` variable as an instance of `template.Library()`. This is required to register our template tags.
+- We create a function `total_posts()` that returns the total number of published posts.
+- The `@register.simple_tag` decorator registers the function as a Django template tag.
+- The function name (`total_posts`) is used as the tag name inside templates.
+
+📌 **Custom Naming:** You can register the tag with a different name using:
+```python
+@register.simple_tag(name='my_tag')
+```
+
+---
+
+## 🔄 Restart Django Server
+After adding a new template tag, **restart the Django development server** to apply the changes:
+```bash
+python manage.py runserver
+```
+
+---
+
+## 🔗 Loading the Custom Template Tag in Templates
+Before using a custom template tag, **load it in the template** using `{% load %}`.
+
+### 1️⃣ Load the Template Tag
+Edit `blog/templates/base.html` and add `{% load blog_tags %}` at the top:
+
+```html
+{% load blog_tags %} <!-- Load here -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div id="sidebar">
+        <h2>My Blog</h2>
+        <p>
+            This is my blog.<br>
+            I've written {% total_posts %} posts so far. <!-- Used here -->
+        </p>
+    </div>
+</body>
+</html>
+```
+
+📌 **Key Steps:**
+- Load the `blog_tags` module using `{% load blog_tags %}`.
+- Use `{% total_posts %}` inside the template to display the total number of posts.
+
+---
+
+## 🎯 Verifying the Output
+1. Open your Django project in the browser:
+   ```
+   http://127.0.0.1:8000/blog/
+   ```
+2. The sidebar should now display the total number of published blog posts.
+
+<div align="center">
+  <img src="./images/12_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.12**: The total posts published included in the sidebar
+
+</div>
+
+If you see the following error message, it’s very likely you didn’t restart the development server:
+
+<div align="center">
+  <img src="./images/13_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.13**: The error message when a template tag library is not registered
+
+</div>
 
 <div align="center">
 
