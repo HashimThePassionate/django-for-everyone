@@ -918,6 +918,34 @@ You can also add the list of tags to your post detail template in the same way a
 
 <div align="center">
 
+# `New Section Custom Template Tags and Filters`
+
+</div>
+
+# **Creating Custom Template Tags and Filters**🛠️
+
+Django provides a variety of **built-in template tags**, such as `{% if %}` and `{% block %}`. These tags help in structuring and rendering templates efficiently. You might have already encountered some of these tags while working on section **(Building a Blog Application)** and **(Enhancing Your Blog with Advanced Features)**. 📖
+
+For a complete reference of Django's **built-in template tags and filters**, visit the official Django documentation: 🔗 [Django Built-in Template Tags and Filters](https://docs.djangoproject.com/en/5.0/ref/templates/builtins/)
+
+## Why Create Custom Template Tags? 🤔
+
+Django also allows developers to **create their own custom template tags** to add specific functionalities that are **not covered by Django's default template tags**.
+
+### Benefits of Custom Template Tags 🚀
+
+- **Reusability**: Use the same logic across multiple templates.
+- **Efficiency**: Perform **server-side processing** within templates.
+- **Improved Readability**: Simplifies complex logic in templates.
+
+## Example Use Case 📌
+
+Imagine you want to display a list of **the latest blog posts** in the sidebar. Since this should be **available across all templates**, a **custom template tag** can help.
+
+
+
+<div align="center">
+
 # `New Section Starts here`
 
 </div>
