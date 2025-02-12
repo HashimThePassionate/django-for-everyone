@@ -1275,6 +1275,302 @@ posts
 
 </div>
 
+# 🎨 **Implementing Custom Template Filters**
+
+## 📝 Overview
+Django provides a variety of **built-in template filters** that allow you to manipulate variables directly in templates. These filters are essentially **Python functions** that take one or two parameters:
+
+- **The value of the variable** the filter is applied to.
+- **An optional argument** (if required by the filter).
+
+Filters return a **processed value** that can be displayed or further manipulated by additional filters.
+
+---
+
+## 🔹 Syntax of Template Filters
+
+- A **basic filter** is applied using the following syntax:
+  
+  ```django
+  {{ variable|my_filter }}
+  ```
+  
+- Filters with arguments use the syntax:
+  
+  ```django
+  {{ variable|my_filter:"foo" }}
+  ```
+  
+- **Multiple filters** can be chained together:
+  
+  ```django
+  {{ variable|filter1|filter2 }}
+  ```
+  Each filter is applied sequentially to the output of the previous one.
+
+---
+
+## 🔹 Example: Using Built-in Filters
+
+### **1️⃣ Capitalizing the First Letter**
+```django
+{{ value|capfirst }}
+```
+📌 If `value = "django"`, the output will be:
+```
+Django
+```
+
+### **2️⃣ Converting to Lowercase**
+```django
+{{ value|lower }}
+```
+📌 If `value = "HELLO WORLD"`, the output will be:
+```
+hello world
+```
+
+### **3️⃣ Applying Multiple Filters**
+```django
+{{ value|capfirst|lower }}
+```
+📌 If `value = "DJANGO FRAMEWORK"`, the output will be:
+```
+django framework
+```
+
+Django offers **many built-in template filters** that help with text manipulation, formatting, and data transformation. You can explore the complete list of filters in the Django documentation:
+🔗 [Django’s Built-in Template Filters](https://docs.djangoproject.com/en/5.0/ref/templates/builtins/#built-in-filter-reference)
+
+# 📝 **Creating a Template Filter to Support Markdown Syntax**
+
+## 🎯 Overview
+
+Markdown is a **lightweight plain-text formatting syntax** that allows users to write formatted content easily, which is then converted into **HTML**. In this guide, we will **create a custom Django template filter** that enables Markdown support for blog posts. This allows non-technical contributors to write posts without needing to learn HTML.
+
+---
+
+## 🔧 Step 1: Installing the Markdown Library
+
+Before implementing the template filter, install the **Python Markdown module** using the following command:
+
+```sh
+python -m pip install markdown==3.6
+```
+
+This will ensure that Markdown syntax is properly converted into **HTML**.
+
+---
+
+## 🏗️ Step 2: Creating the Custom Template Filter
+
+📌 **Edit the ************`templatetags/blog_tags.py`************ file and add the following code:**
+
+```python
+import markdown
+from django.utils.safestring import mark_safe
+
+#..
+
+@register.filter(name='markdown')
+def markdown_format(text):
+    return mark_safe(markdown.markdown(text))
+```
+
+### 🔍 Explanation:
+
+- The `@register.filter(name='markdown')` registers `markdown_format` as a **template filter**.
+- The function **converts Markdown text into HTML** using `markdown.markdown(text)`.
+- The `mark_safe()` function ensures the **HTML output is not escaped** by Django’s template engine.
+- **To prevent naming conflicts**, the function is named `markdown_format`, but the filter itself is called `markdown` in templates.
+
+---
+
+## 🎨 Step 3: Using the Markdown Filter in Templates
+
+Once the custom filter is registered, you can use it in Django templates like this:
+
+```django
+{{ post.body|markdown }}
+```
+
+📌 This will **convert the Markdown content** in `post.body` into properly formatted HTML.
+
+---
+
+## 🔐 Security Considerations
+
+🔴 **Django escapes all HTML content by default** to prevent security vulnerabilities, such as XSS (Cross-Site Scripting).
+
+✅ **mark\_safe() is used to allow safe HTML rendering**. However, be cautious:
+
+- **Only use ************`mark_safe`************ on content you trust** (e.g., staff-generated content).
+- **Do not apply ************`mark_safe`************ to user-submitted content** to avoid potential security risks.
+
+
+# 📝 **Enhancing Templates with Markdown Support**
+
+## 🎯 Overview
+In this guide, we will modify our Django templates to support **Markdown formatting**. This will allow blog posts to be written in **Markdown syntax** while being automatically converted into **HTML** when rendered in templates.
+
+---
+
+## 🏗️ Step 1: Updating `blog/post/detail.html`
+
+📌 **Modify the `blog/post/detail.html` template and add the following code:**
+
+```django
+{% extends "blog/base.html" %}
+{% load blog_tags %}  <!-- Load template tag -->
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<p class="date">
+    Published {{ post.publish }} by {{ post.author }}
+</p>
+{{ post.body|markdown }} <!-- Markdown Filter -->
+<p>
+    <a href="{% url "blog:post_share" post.id %}">
+        Share this post
+    </a>
+</p>
+<h2>Similar posts</h2>
+{% for post in similar_posts %}
+    <p>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+    </p>
+{% empty %}
+    There are no similar posts yet.
+{% endfor %}
+{% with comments.count as total_comments %}
+    <h2>
+        {{ total_comments }} comment{{ total_comments|pluralize }}
+    </h2>
+{% endwith %}
+{% for comment in comments %}
+    <div class="comment">
+        <p class="info">
+            Comment {{ forloop.counter }} by {{ comment.name }}
+            {{ comment.created }}
+        </p>
+        {{ comment.body|linebreaks }}
+    </div>
+{% empty %}
+    <p>There are no comments yet.</p>
+{% endfor %}
+{% include "blog/post/includes/comment_form.html" %}
+{% endblock %}
+```
+
+### 🔍 Explanation:
+- The **`markdown` filter** is now applied to `{{ post.body }}`, replacing `linebreaks`.
+- This allows Markdown content to be transformed into **HTML**.
+- Markdown formatting, such as **bold text**, *italic text*, lists, and links, will now be rendered correctly in the template.
+
+💡 **Pro Tip:** Storing text in **Markdown format** in the database is a **secure strategy**, as it reduces the risk of injecting malicious HTML while maintaining text formatting.
+
+---
+
+## 🏗️ Step 2: Updating `blog/post/list.html`
+
+📌 **Modify the `blog/post/list.html` template and add the following:**
+
+```django
+{% extends "blog/base.html" %}
+{% load blog_tags %} <!-- Load template tag -->
+{% block title %}My Blog{% endblock %}
+{% block content %}
+<h1>My Blog</h1>
+{% if tag %}
+    <h2>Posts tagged with "{{ tag.name }}"</h2>
+{% endif %}
+{% for post in posts %}
+    <h2>
+        <a href="{{ post.get_absolute_url }}">
+            {{ post.title }}
+        </a>
+    </h2>
+    <p class="tags">
+        Tags:
+        {% for tag in post.tags.all %}
+            <a href="{% url "blog:post_list_by_tag" tag.slug %}">
+                {{ tag.name }}
+            </a>
+            {% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {{ post.body|markdown|truncatewords_html:30 }}  <!-- Add markdown filter -->
+{% endfor %}
+{% include "pagination.html" with page=posts %}
+{% endblock %}
+```
+
+### 🔍 Explanation:
+- The **`markdown` filter** is applied to `post.body`.
+- The **`truncatewords` filter** is replaced with **`truncatewords_html`**.
+- `truncatewords_html` ensures that HTML tags remain properly closed when truncating content.
+
+---
+
+## 📝 Step 3: Creating a Markdown-formatted Blog Post
+
+To test the Markdown support, open the Django admin panel and **create a new post** at:
+
+🔗 **http://127.0.0.1:8000/admin/blog/post/add/**
+
+<div align="center">
+  <img src="./images/16_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.16**: The post with Markdown content rendered as HTML
+
+</div>
+
+📌 **Example Markdown Content:**
+
+```
+This is a post formatted with markdown
+--------------------------------------
+*This is emphasized* and **this is more emphasized**.
+
+Here is a list:
+* One
+* Two
+* Three
+
+And a [link to the Django website](https://www.djangoproject.com/).
+```
+Open http://127.0.0.1:8000/blog/ in your browser and take a look at how the new post is rendered.
+You should see the following output:
+
+<div align="center">
+  <img src="./images/17-img.jpg" alt="" width="600px"/>
+
+  **Figure 3.17**: The post with Markdown content rendered as HTML
+
+</div>
+
+As you can see in Figure 3.17, custom template filters are very useful for customizing formatting. You
+can find more information about custom filters at [Filters](https://docs.djangoproject.com/en/5.0/howto/custom-template-tags/#writing-custom-template-filters).
+
+### 🔍 Expected Output (Rendered HTML):
+
+```html
+<h2>This is a post formatted with markdown</h2>
+<p><em>This is emphasized</em> and <strong>this is more emphasized</strong>.</p>
+<ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+</ul>
+<p>And a <a href="https://www.djangoproject.com/">link to the Django website</a>.</p>
+```
+
+
+
+
 
 <div align="center">
 
