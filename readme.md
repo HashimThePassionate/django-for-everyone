@@ -1,4 +1,4 @@
-# 🌟 Django for Everyone
+# **Django for Everyone 💎** 
 
 Welcome to **Django for Everyone**! 🎉 This repository is your one-stop resource for learning Django, whether you're a beginner looking to build your first web app or a professional seeking to master advanced features. Let’s dive into Django with two learning paths designed to suit your style and goals! 🌟
 
@@ -29,7 +29,7 @@ If you love learning by doing, this is the path for you! In the **Projects Direc
   - Advanced user registration and authentication.
   - Adding **search** and **permissions** functionalities.
   - Deploying a production-ready app on **Heroku**.
-  - 
+
 #### 👉 [03_django_rest_framework](./projects/03_django_rest_framework/)
 - **Best for**: Developers looking to build RESTful APIs with Django.
 - **What you'll build**: A full-featured REST API using Django and Django REST Framework (DRF).
