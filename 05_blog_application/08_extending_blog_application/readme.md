@@ -2364,7 +2364,7 @@ If you are using **Docker Desktop**, follow these steps:
 To allow Django to communicate with PostgreSQL, install the **`psycopg`** adapter:
 
 ```sh
-python -m pip install psycopg==3.1.18
+python -m pip install psycopg2-binary
 ```
 
 🔹 `psycopg` is the **official PostgreSQL adapter** for Python.
