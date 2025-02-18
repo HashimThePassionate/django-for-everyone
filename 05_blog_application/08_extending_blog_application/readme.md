@@ -2253,3 +2253,127 @@ For **production environments**, PostgreSQL is recommended.
 
 - **Better text search performance**.
 - **Supports Django’s full-text search features** via `django.contrib.postgres`.
+
+# 🐳 Installing PostgreSQL with Docker
+
+PostgreSQL provides a **Docker image** that makes it **easy to deploy a PostgreSQL server** with a **standard configuration**. In this guide, we will install **Docker**, set up a PostgreSQL container, and configure it for use with Django. 🚀
+
+---
+
+## 📦 **Installing Docker**
+
+**Docker** is an open-source **containerization platform** that simplifies building, running, managing, and distributing applications.
+
+### ✅ Steps to Install Docker
+
+1️⃣ Visit the **official Docker website**:
+
+- 🔗 [Get Docker](https://docs.docker.com/get-docker/)
+
+- 2️⃣ Download and install Docker for **Linux, macOS, or Windows**.
+
+- 3️⃣ The installation includes:
+
+  - **Docker Desktop** (GUI management tool)
+  - **Docker CLI** (Command-line interface tools)
+
+- 4️⃣ Verify Docker installation by running:
+
+```sh
+docker --version
+```
+
+---
+
+## 🛠 Installing PostgreSQL with Docker
+
+Once Docker is installed, you can **pull and run** a PostgreSQL instance.
+
+### 1️⃣ **Pull the PostgreSQL Docker Image**
+
+Run the following command to download the **PostgreSQL 16.2 image**:
+
+```sh
+docker pull postgres:16.2
+```
+
+- This downloads the **official PostgreSQL image**.
+- Find more details about the image at:
+  - 🔗 [PostgreSQL Docker Hub](https://hub.docker.com/_/postgres)
+  - 🔗 [PostgreSQL Download](https://www.postgresql.org/download/)
+
+### 2️⃣ **Start a PostgreSQL Container**
+
+Run the following command to start a PostgreSQL instance:
+
+```sh
+docker run --name=blog_db \
+    -e POSTGRES_DB=blog \
+    -e POSTGRES_USER=blog \
+    -e POSTGRES_PASSWORD=xxxxx \
+    -p 5432:5432 \
+    -d postgres:16.2
+```
+
+🔹 **Explanation of Parameters:**
+
+| Option                       | Description                                          |
+| ---------------------------- | ---------------------------------------------------- |
+| `--name=blog_db`             | Assigns a **name** to the container (blog\_db)       |
+| `-e POSTGRES_DB=blog`        | Defines the **database name** (blog)                 |
+| `-e POSTGRES_USER=blog`      | Sets the **database username** (blog)                |
+| `-e POSTGRES_PASSWORD=xxxxx` | Sets the **database password** (**replace xxxxx**)   |
+| `-p 5432:5432`               | Maps **PostgreSQL port (5432)** to the host machine  |
+| `-d`                         | Runs the container in **detached mode** (background) |
+
+🔹 **Important Notes:**
+
+- **Changing the password** → Replace `xxxxx` with your **desired password**.
+- **Persisting Data** → By default, **container data is temporary**. Later, we’ll discuss **how to persist it**.
+
+---
+
+## 🖥 Managing PostgreSQL with Docker Desktop
+
+If you are using **Docker Desktop**, follow these steps:
+
+1️⃣ Open **Docker Desktop**.
+
+2️⃣ Look for the **blog\_db container** in the **Containers tab**.
+
+3️⃣ You should see its status as **Running**.
+
+<div align="center">
+  <img src="./images/27_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.27**: PostgreSQL instance running in Docker Desktop
+
+</div>
+
+
+4️⃣ Under **Actions**, you can:
+
+- **Start/Stop** the container
+- **Restart the service**
+- **Delete the container** (⚠ Warning: This **deletes all data**!)
+
+---
+
+## 🔗 Installing PostgreSQL Adapter for Python
+
+To allow Django to communicate with PostgreSQL, install the **`psycopg`** adapter:
+
+```sh
+python -m pip install psycopg==3.1.18
+```
+
+🔹 `psycopg` is the **official PostgreSQL adapter** for Python.
+
+---
+
+## 🔄 Next Steps: Migrating from SQLite to PostgreSQL
+
+Now that we have **PostgreSQL running**, the next step is to **migrate existing data** from **SQLite** to **PostgreSQL**.
+
+Stay tuned for the migration process in the next section! 🚀
+
