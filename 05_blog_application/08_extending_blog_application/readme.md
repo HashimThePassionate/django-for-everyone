@@ -2176,6 +2176,80 @@ To view the feed in a **user-friendly format**, install an RSS reader like **Flu
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Full-Text Search`
 
 </div>
+
+# 🔍 **Adding Full-Text Search to Your Django Blog**
+
+Searching for data in a database is a **common requirement** for web applications. While Django’s ORM allows for simple searches using filters like `contains` and `icontains`, **complex queries** require a more advanced approach. In this section, we will enhance our blog by implementing **full-text search** using PostgreSQL. 
+
+---
+
+## 📌 Basic Searching with Django ORM
+
+Django’s ORM provides **basic filtering options** using the `contains` filter. For example, to find posts that contain the word `framework` in their body:
+
+```python
+from blog.models import Post
+
+Post.objects.filter(body__contains='framework')
+```
+
+- `contains` → Performs a **case-sensitive** match.
+- `icontains` → Performs a **case-insensitive** match.
+- These methods work well for **small datasets**, but they are **not efficient** for complex searches.
+
+---
+
+## 🌍 Why Use Full-Text Search?
+
+When dealing with **large text data**, basic filtering is **not sufficient**. Full-text search provides:
+
+✅ **Advanced search capabilities** – Retrieves results by **similarity** rather than exact matches.
+
+✅ **Ranking & weighting** – Assigns importance to search terms based on **relevance**.
+
+✅ **Performance optimization** – Efficiently processes large text fields.
+
+✅ **Better accuracy** – Matches words based on **meaning** rather than character sequences.
+
+---
+
+## &#x20;PostgreSQL and Full-Text Search 🚀
+
+Django provides **full-text search** capabilities through **PostgreSQL**, which is far more powerful than SQLite for handling text-based queries.
+
+🔹 **Why PostgreSQL?**
+
+- It supports **full-text search** natively.
+- Offers **ranking-based search**.
+- Optimized for handling **large datasets**.
+
+🔹 **PostgreSQL’s Full-Text Search Features:**
+
+- Tokenization & normalization
+- Stop-word filtering (removing unnecessary words like "the", "and")
+- Stemming (reducing words to their base form, e.g., "running" → "run")
+
+### 🔗 Official PostgreSQL Full-Text Search Documentation
+
+You can explore PostgreSQL’s full-text search capabilities in detail:
+🔗 [PostgreSQL Full-Text Search](https://www.postgresql.org/docs/16/textsearch.html)
+
+---
+
+## ⚠️ SQLite vs PostgreSQL
+
+**SQLite** is lightweight and ideal for **development**, but it lacks proper full-text search support.
+For **production environments**, PostgreSQL is recommended.
+
+🔹 **Limitations of SQLite**:
+
+- Does **not** support full-text search out of the box.
+- Lacks built-in ranking and relevancy features.
+
+🔹 **Why Migrate to PostgreSQL?**
+
+- **Better text search performance**.
+- **Supports Django’s full-text search features** via `django.contrib.postgres`.
