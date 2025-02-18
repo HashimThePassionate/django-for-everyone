@@ -2444,5 +2444,87 @@ If you encounter **UTF-8 encoding issues**, run the command with Python’s UTF-
 ```sh
 python -Xutf8 manage.py dumpdata --indent=2 --output=mysite_data.json
 ```
-
 This ensures proper encoding for non-ASCII characters, avoiding **Unicode errors**
+
+# 🔄 **Switching the Database in Your Django Project**
+
+To enhance performance and support **full-text search** and **scalability**, we will switch our Django project from **SQLite** to **PostgreSQL**. This guide will walk you through **configuring PostgreSQL**, **migrating data**, and **ensuring a seamless transition**. 🚀
+
+---
+
+## 📌 Step 1: Update Database Configuration
+
+Modify the `DATABASES` setting in your `settings.py` file to use PostgreSQL. We will **load credentials from environment variables** using `python-decouple`.
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  # Use PostgreSQL database backend
+        'NAME': config('DB_NAME'),  # Load database name from environment variables
+        'USER': config('DB_USER'),  # Load database user
+        'PASSWORD': config('DB_PASSWORD'),  # Load database password
+        'HOST': config('DB_HOST'),  # Load database host
+         }
+}
+```
+
+### 🔹 Why Use `python-decouple`?
+
+- Keeps **sensitive credentials** out of the code.
+- Makes environment-specific **configuration easier**.
+
+Install `python-decouple` if you haven’t already:
+
+```sh
+pip install python-decouple
+```
+
+---
+
+## 🛠 Step 2: Configure Environment Variables
+
+Edit the **`.env`** file in your project root and add the following database credentials:
+
+```ini
+EMAIL_HOST_USER=your_account@gmail.com
+EMAIL_HOST_PASSWORD=xxxxxxxxxxxx
+DEFAULT_FROM_EMAIL=My Blog <your_account@gmail.com>
+
+DB_NAME=blog  # PostgreSQL database name
+DB_USER=blog  # PostgreSQL username
+DB_PASSWORD=xxxxx  # PostgreSQL password (replace xxxxx with your actual password)
+DB_HOST=localhost  # Database host
+```
+
+🔹 **Important Notes:**
+
+- Ensure **`.env`** is added to **`.gitignore`** to prevent exposing credentials.
+- Use **strong passwords** for security.
+
+---
+
+## 🚀 Step 3: Apply Database Migrations
+
+After updating the database configuration, run the following command to **apply all migrations** to PostgreSQL:
+
+```sh
+python manage.py migrate
+```
+
+### ✅ Expected Output
+
+You should see a series of migration applications, confirming that PostgreSQL is **now in sync** with your Django models:
+
+```sh
+Operations to perform:
+  Apply all migrations: admin, auth, blog, contenttypes, sessions, sites, taggit
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying blog.0001_initial... OK
+  Applying sessions.0001_initial... OK
+  Applying sites.0001_initial... OK
+```
+
+At this point, your **PostgreSQL database is fully set up and synchronized**. 🎉
