@@ -2528,3 +2528,58 @@ Running migrations:
 ```
 
 At this point, your **PostgreSQL database is fully set up and synchronized**. 🎉
+
+# 🔄 **Loading Data into the New PostgreSQL Database**
+
+Now that we have successfully switched our **Django project to PostgreSQL**, the next step is to **load the previously exported data** back into the new database. 🚀
+
+---
+
+## 📌 Step 1: Load Data Fixtures
+We will use the **`loaddata`** command to import the JSON fixture file (`mysite_data.json`) that we created earlier.
+
+### ✅ Run the following command: iif you any error than follow this [Fix Error](./error.md)
+```sh
+python manage.py loaddata mysite_data.json
+```
+
+### 🔹 Expected Output:
+```sh
+Installed 104 object(s) from 1 fixture(s)
+```
+- The exact number of objects installed may **differ** depending on the number of **users, posts, comments**, and other database objects.
+- If you encounter **errors**, ensure that **all migrations** have been applied using `python manage.py migrate`.
+
+---
+
+## 🛠 Step 2: Start the Django Development Server
+After loading the data, restart your Django project by running:
+
+```sh
+python manage.py runserver
+```
+
+This starts the development server, allowing us to verify that the data has been successfully imported.
+
+---
+
+## 🔍 Step 3: Verify Data in the Django Admin Panel
+
+Open your browser and navigate to the **Django Admin Panel**:
+
+🔗 [http://127.0.0.1:8000/admin/blog/post/](http://127.0.0.1:8000/admin/blog/post/)
+
+You should see **all your posts** successfully loaded into the new PostgreSQL database. 🎉
+
+<div align="center">
+  <img src="./images/28_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.28**: The list of posts on the administration site
+
+</div>
+
+<div align="center">
+
+# `New Section Starts here`
+
+</div>
