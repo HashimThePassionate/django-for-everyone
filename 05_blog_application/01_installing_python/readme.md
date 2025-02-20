@@ -10,9 +10,13 @@ If you’re using **Linux** or **macOS**, Python might already be installed. If 
    - **macOS**: Press **Command + Spacebar**, type `Terminal`, and open **Terminal.app**.
    - **Windows**: Open the **Start menu**, search for `bash`, and open **Git Bash** or another Bash terminal.
 
-2. Check if Python 3 is installed by typing:
+2. Check if Python 3 is installed by typing for linux or mac users:
    ```bash
    python3 --version
+   ```
+   For windows users
+    ```bash
+   python --version
    ```
    If installed, you’ll see something like:
    ```
