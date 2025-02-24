@@ -3194,3 +3194,84 @@ python manage.py runserver
 
 If you search for **"Django"**, the ranking system will prioritize posts **where "Django" appears most frequently** in the **title and body**.
 
+---
+
+# 🔍 **Stemming and Removing Stop Words in Different Languages**
+
+We can configure **`SearchVector`** and **`SearchQuery`** to execute **stemming and remove stop words** in different languages. PostgreSQL allows setting a **language-specific search configuration**, enabling the use of **different language parsers and dictionaries**. 🚀
+
+---
+
+## 📌 Step 1: Setting Up Language-Specific Stemming and Stop Word Removal
+
+By default, PostgreSQL uses **English** for full-text search, but we can specify another language using the `config` attribute in **`SearchVector`** and **`SearchQuery`**.
+
+### 🔹 Example: Using Spanish for Search Queries
+
+Modify the `post_search` view to execute **stemming and stop word removal** in Spanish:
+
+```python
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+
+search_vector = SearchVector('title', 'body', config='spanish')  # Set Spanish language config
+search_query = SearchQuery(query, config='spanish')  # Use Spanish search configuration
+
+results = (
+    Post.published.annotate(
+        search=search_vector,
+        rank=SearchRank(search_vector, search_query)  # Rank results based on relevance
+    )
+    .filter(search=search_query)
+    .order_by('-rank')  # Order results by rank (highest relevance first)
+)
+```
+
+---
+
+## 🔍 Step 2: Understanding the Code
+
+### ✅ **Setting Up a Language-Specific Search Vector**
+
+```python
+search_vector = SearchVector('title', 'body', config='spanish')
+```
+
+- This tells PostgreSQL to use **Spanish language rules** for **stemming** and **stop word removal**.
+- **Stemming** reduces words to their root form (e.g., "caminando" → "caminar").
+- **Stop words** (e.g., "el", "la", "de") are removed to improve search relevance.
+
+### ✅ **Defining the Search Query with a Specific Language**
+
+```python
+search_query = SearchQuery(query, config='spanish')
+```
+
+- This converts the **user input** into a **search query** using **Spanish language processing**.
+
+### ✅ **Filtering and Ranking Results**
+
+```python
+results = (
+    Post.published.annotate(
+        search=search_vector,
+        rank=SearchRank(search_vector, search_query)
+    )
+    .filter(search=search_query)
+    .order_by('-rank')
+)
+```
+
+- **`SearchRank(search_vector, search_query)`** computes a **ranking score**.
+- The `.filter(search=search_query)` ensures results match the **processed search terms**.
+- `.order_by('-rank')` sorts results **by relevance**, displaying the most important matches first.
+
+---
+
+## 📂 Step 3: Finding Stop Words for Other Languages
+
+PostgreSQL maintains **stop words dictionaries** for multiple languages. You can find the **Spanish stop words list** here:
+🔗 [PostgreSQL Spanish Stop Words](https://github.com/postgres/postgres/blob/master/src/backend/snowball/stopwords/spanish.stop)
+
+For other languages, visit the official PostgreSQL repository:
+🔗 [PostgreSQL Stop Words List](https://github.com/postgres/postgres/tree/master/src/backend/snowball/stopwords)
+
