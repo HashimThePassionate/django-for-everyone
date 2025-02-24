@@ -3275,3 +3275,128 @@ PostgreSQL maintains **stop words dictionaries** for multiple languages. You can
 For other languages, visit the official PostgreSQL repository:
 🔗 [PostgreSQL Stop Words List](https://github.com/postgres/postgres/tree/master/src/backend/snowball/stopwords)
 
+---
+
+# 🔍 **Weighting Queries for More Relevant Search Results**
+
+To improve search accuracy, we can **boost specific fields** so that more importance is given to certain parts of the content. For instance, we may want to prioritize **matches in the title** over **matches in the body** when ordering search results. 🚀
+
+---
+
+## 📌 Step 1: Updating the Search View
+
+Modify the `post_search` view in `views.py` to apply **weighting to search vectors**.
+
+```python
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.shortcuts import render
+from .models import Post
+from .forms import SearchForm
+
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            
+            # Applying different weights to title and body
+            search_vector = (
+                SearchVector('title', weight='A') +  # Title has highest weight
+                SearchVector('body', weight='B')   # Body has lower weight
+            )
+            
+            search_query = SearchQuery(query)
+            
+            results = (
+                Post.published.annotate(
+                    search=search_vector,
+                    rank=SearchRank(search_vector, search_query)
+                )
+                .filter(rank__gte=0.3)  # Only show results with a rank above 0.3
+                .order_by('-rank')  # Order by highest rank first
+            )
+    
+    return render(
+        request,
+        'blog/post/search.html',
+        {
+            'form': form,
+            'query': query,
+            'results': results
+        }
+    )
+```
+
+---
+
+## 🔍 Step 2: Understanding the Code
+
+### ✅ **Assigning Weights to Search Fields**
+
+```python
+search_vector = (
+    SearchVector('title', weight='A') +  # Highest priority
+    SearchVector('body', weight='B')    # Lower priority
+)
+```
+
+- **`weight='A'`** (1.0) → Gives **high priority** to matches in the `title` field.
+- **`weight='B'`**(0.4) → Gives **lower priority** to matches in the `body` field.
+
+### ✅ **How Weights Work**
+
+PostgreSQL defines default **weights** as:
+
+- **A → 1.0** (highest priority)
+- **B → 0.4**
+- **C → 0.2**
+- **D → 0.1** (lowest priority)
+
+### ✅ **Ranking Search Results**
+
+```python
+.rank=SearchRank(search_vector, search_query)
+```
+
+- Computes a **ranking score** for each result.
+- **Higher ranked results** are considered **more relevant**.
+
+### ✅ **Filtering Out Low-Ranked Results**
+
+```python
+.filter(rank__gte=0.3)  # Only show results with rank ≥ 0.3
+```
+
+- Ensures that **only relevant results** (rank **above 0.3**) are displayed.
+- This prevents **low-quality matches** from appearing in search results.
+
+### ✅ **Ordering Results by Relevance**
+
+```python
+.order_by('-rank')
+```
+
+- Orders **most relevant** results **first**.
+- Results with the **highest rank score** appear at the **top**.
+
+---
+
+## 🛠 Step 3: Testing Weighted Search Queries
+
+1️⃣ Start the Django server:
+
+```sh
+python manage.py runserver
+```
+
+2️⃣ Open the search page:
+🔗 [http://127.0.0.1:8000/blog/search/](http://127.0.0.1:8000/blog/search/)
+
+3️⃣ **Enter a search term** (e.g., "Django").
+
+- Posts with **Django in the title** appear **above** posts that only contain it in the body.
+- Posts with **higher keyword density** rank **higher**.
