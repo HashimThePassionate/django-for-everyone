@@ -3008,3 +3008,64 @@ If **matching posts** are found, they will be displayed with **links** to their 
 
 > "There are no results for your query."
 > will appear.
+
+<div align="center">
+
+# `New Section Stemming and ranking results`
+
+</div>
+
+# 🔍 **Stemming and Ranking Search Results**&#x20;
+
+**Stemming** is a powerful technique used by search engines to improve the accuracy of search results. It works by reducing words to their root or base form, allowing **inflected or derived words** to be considered equivalent. This improves **search relevance** and ensures users can find content even if they use variations of a word. 🚀
+
+---
+
+## 📌 What is Stemming?
+
+**Stemming** normalizes search tokens by converting them into their **lexeme**—a base unit of meaning. For example:
+
+🔹 **"music," "musical," and "musicality"** are all converted to **"music"** during indexing and search queries.
+🔹 This allows **more accurate matches** when users perform searches with different variations of a word.
+
+### ✅ Benefits of Stemming:
+
+- **Improves search accuracy** by grouping related words.
+- **Reduces redundant search terms** for better indexing.
+- **Enhances user experience** by providing **more relevant results**.
+
+---
+
+## 🛠 Step 1: Using `SearchQuery` for Stemming in Django
+
+Django provides the `class` which translates user input into a **search query object**.
+By default, **stemming is automatically applied** to improve result matching.
+
+---
+
+## 🛠 Step 2: Stop Words in PostgreSQL
+
+PostgreSQL automatically **removes common words** (stop words) from search queries.
+
+### 🔹 What are Stop Words?
+
+Stop words are **frequently used words** that **do not provide meaningful search value**, such as:
+
+🚫 **"a," "the," "on," "of," "in," "to"**
+
+### 🔹 Why Remove Stop Words?
+
+- They appear **too frequently** in text to be useful.
+- Their removal **enhances search efficiency** by focusing on **meaningful words**.
+
+### ✅ Example: Search Query With Stop Words
+
+```python
+query = SearchQuery('the music of life')
+results = Post.published.annotate(search=SearchVector('title', 'body')).filter(search=query)
+```
+
+🔹 **Stop words like "the" and "of" will be ignored**, and the query will focus on **"music life"**.
+
+You can view PostgreSQL’s **English stop words list** here:
+🔗 [PostgreSQL Stop Words List](https://github.com/postgres/postgres/blob/master/src/backend/snowball/stopwords/english.stop)
