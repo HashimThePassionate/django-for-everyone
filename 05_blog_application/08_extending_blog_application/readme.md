@@ -3400,3 +3400,170 @@ python manage.py runserver
 
 - Posts with **Django in the title** appear **above** posts that only contain it in the body.
 - Posts with **higher keyword density** rank **higher**.
+
+---
+
+# 🔍 **Searching with Trigram Similarity**&#x20;
+
+Trigram similarity is another powerful search approach that measures the similarity between strings by comparing **groups of three consecutive characters (trigrams)**. This method is particularly useful for **handling typos** and **approximate string matching** in multiple languages. 🚀
+
+---
+
+## 📌 Step 1: Installing the `pg_trgm` Extension
+
+To use **trigram similarity** in PostgreSQL, we first need to install the `pg_trgm` database extension. Django provides migration operations to enable PostgreSQL extensions easily.
+
+### ✅ Create a New Database Migration
+
+Run the following command to generate an **empty migration**:
+
+```sh
+python manage.py makemigrations --name=trigram_ext --empty blog
+```
+
+### ✅ Expected Output
+
+```sh
+Migrations for 'blog':
+  blog/migrations/0005_trigram_ext.py
+```
+
+---
+
+## 📌 Step 2: Updating the Migration File
+
+Edit **`blog/migrations/0005_trigram_ext.py`** and add the `TrigramExtension` operation:
+
+```python
+from django.contrib.postgres.operations import TrigramExtension  # Add TrigramExtension
+from django.db import migrations
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ('blog', '0004_post_tags'),  # Adjust based on your latest migration
+    ]
+    operations = [
+        TrigramExtension()  # Enable pg_trgm extension
+    ]
+```
+
+### 🔹 Explanation:
+
+- **`TrigramExtension()`** executes the SQL statement: `CREATE EXTENSION pg_trgm;`
+- This enables trigram similarity operations in **PostgreSQL**.
+
+### ✅ Apply the Migration
+
+```sh
+python manage.py migrate blog
+```
+
+### ✅ Expected Output
+
+```sh
+Running migrations:
+  Applying blog.0005_trigram_ext... OK
+```
+
+Now, **trigram-based search capabilities** are available in the PostgreSQL database. 🎉
+
+---
+
+## 📌 Step 3: Modifying the Search View to Use Trigram Similarity
+
+Edit `views.py` and **import the ************`TrigramSimilarity`************ function**:
+
+```python
+from django.contrib.postgres.search import TrigramSimilarity  # Import TrigramSimilarity
+```
+
+Then, update the `post_search` view to apply **trigram-based similarity ranking**:
+
+```python
+from django.shortcuts import render
+from .models import Post
+from .forms import SearchForm
+from django.contrib.postgres.search import TrigramSimilarity
+
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            
+            results = (
+                Post.published.annotate(
+                    similarity=TrigramSimilarity('title', query),  # Compute similarity
+                )
+                .filter(similarity__gt=0.1)  # Filter results above similarity threshold
+                .order_by('-similarity')  # Order by highest similarity first
+            )
+    
+    return render(
+        request,
+        'blog/post/search.html',
+        {
+            'form': form,
+            'query': query,
+            'results': results
+        }
+    )
+```
+
+---
+
+## 🔍 Step 4: Understanding the Code
+
+### ✅ **Computing Similarity Between Query and Titles**
+
+```python
+similarity=TrigramSimilarity('title', query)
+```
+
+- **`TrigramSimilarity('title', query)`** calculates the similarity **between the search term and post titles**.
+- Trigrams are extracted and compared, assigning a **similarity score**.
+
+### ✅ **Filtering Out Low-Similarity Matches**
+
+```python
+.filter(similarity__gt=0.1)
+```
+
+- Removes results with **similarity scores below 0.1**, ensuring only **reasonably similar** matches are shown.
+
+### ✅ **Ordering Results by Relevance**
+
+```python
+.order_by('-similarity')
+```
+
+- **Most similar results** appear **first**, ensuring users see the best matches.
+
+---
+
+## 🛠 Step 5: Testing Trigram Search
+
+1️⃣ Start the Django development server:
+
+```sh
+python manage.py runserver
+```
+
+2️⃣ Open the search page:
+🔗 [http://127.0.0.1:8000/blog/search/](http://127.0.0.1:8000/blog/search/)
+
+3️⃣ **Try searching for typos or similar words!**
+
+- If you search for **"yango"**, it should return results related to **"Django"**!
+- This helps improve **fuzzy search accuracy**.
+
+<div align="center">
+  <img src="./images/32_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.32**: Search results for the term “yango”
+
+</div>
