@@ -2921,3 +2921,90 @@ Add the following code to **`search.html`**:
   - Allow users to **share search results**.
 - `{{ form.as_p }}` ensures the **form fields are properly styled**.
 
+---
+
+# 🌐 **Adding a Search URL Pattern in Django**
+
+The final step in integrating search functionality into your Django blog is to **update the URL patterns** to include a search endpoint. This will allow users to access the search form and retrieve relevant blog posts. 🚀
+
+---
+
+## 📌 Step 1: Modify `urls.py`
+
+Edit the `urls.py` file inside the **blog application** and add the following URL pattern:
+
+```python
+from django.urls import path
+from . import views
+from .feeds import LatestPostsFeed
+
+urlpatterns = [
+    # Post views
+    path('', views.post_list, name='post_list'),
+    # path('', views.PostListView.as_view(), name='post_list'),
+    path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
+    path('<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
+    path('<int:post_id>/share/', views.post_share, name='post_share'),
+    path('<int:post_id>/comment/', views.post_comment, name='post_comment'),
+    path('feed/', LatestPostsFeed(), name='post_feed'),
+    path('search/', views.post_search, name='post_search'),  # 🔍 Search URL
+]
+```
+
+---
+
+## 🔍 Step 2: Understanding the Code
+
+### ✅ **Adding the Search URL Pattern**
+
+```python
+path('search/', views.post_search, name='post_search'),  # 🔍 Search URL
+```
+
+- This URL pattern maps the **search page** to the `post_search` view.
+- The **name parameter (********`post_search`********\*\*\*\*\*\*\*\*\*\*\*\*)** allows us to reference this URL dynamically in templates.
+- This means users can visit:\
+  🔗 [http://127.0.0.1:8000/blog/searc](http://127.0.0.1:8000/blog/search/)h
+
+---
+
+## 🛠 Step 3: Testing the Search Functionality
+
+After modifying `urls.py`, restart the Django development server:
+
+```sh
+python manage.py runserver
+```
+
+Now, **open your browser** and visit:
+
+🔗 [http://127.0.0.1:8000/blog/search/](http://127.0.0.1:8000/blog/search/)
+
+<div align="center">
+  <img src="./images/29_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.29**: The form with the query field to search for posts
+
+</div>
+
+
+You should see the **search form**, ready to accept user queries.
+
+---
+
+## 🔎 Step 4: Performing a Search
+
+1️⃣ **Enter a search query** (e.g., "jazz").\
+2️⃣ Click the **SEARCH** button.\
+3️⃣ View the **search results** dynamically listed on the page.
+<div align="center">
+  <img src="./images/30_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.30**: Search results for the term “jazz”
+
+</div>
+
+If **matching posts** are found, they will be displayed with **links** to their full content. If no results are found, the message:
+
+> "There are no results for your query."
+> will appear.
