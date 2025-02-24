@@ -8,7 +8,11 @@ from django.core.mail import send_mail
 from taggit.models import Tag
 from django.db.models import Count
 from .forms import EmailPostForm, CommentForm, SearchForm  # Import SearchForm
-from django.contrib.postgres.search import SearchVector  # SearchVectore
+from django.contrib.postgres.search import (
+    SearchVector,
+    SearchQuery,
+    SearchRank
+)
 
 
 def post_list(request, tag_slug=None):
@@ -157,15 +161,25 @@ def post_search(request):
     form = SearchForm()
     query = None
     results = []
+
     if 'query' in request.GET:
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
+            search_vector = SearchVector(
+                'title', 'body')  # Create search vector
+            search_query = SearchQuery(query)  # Create search query
+
             results = (
                 Post.published.annotate(
-                    search=SearchVector('title', 'body'),
-                ).filter(search=query)
+                    search=search_vector,  # Annotate search vector
+                    # Compute rank
+                    rank=SearchRank(search_vector, search_query)
+                )
+                .filter(search=search_query)  # Filter results based on query
+                .order_by('-rank')  # Order by highest rank first
             )
+
     return render(
         request,
         'blog/post/search.html',

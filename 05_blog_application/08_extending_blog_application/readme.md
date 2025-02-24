@@ -3069,3 +3069,128 @@ results = Post.published.annotate(search=SearchVector('title', 'body')).filter(s
 
 You can view PostgreSQL’s **English stop words list** here:
 🔗 [PostgreSQL Stop Words List](https://github.com/postgres/postgres/blob/master/src/backend/snowball/stopwords/english.stop)
+
+# 🔍 **Implementing Search Ranking**&#x20;
+
+To improve search accuracy and user experience, we need to **order search results by relevancy**. PostgreSQL provides a **ranking function** that determines relevance based on **how often the query terms appear** and **how close they are to each other** in the text. 🚀
+
+---
+
+## 📌 Step 1: Import Required Functions
+
+Edit the `views.py` file inside the **blog application** and add the following imports:
+
+```python
+from django.contrib.postgres.search import (
+    SearchVector,
+    SearchQuery,
+    SearchRank
+)
+```
+
+### 🔹 Explanation:
+
+- **`SearchVector`** → Used to create a search vector across multiple fields.
+- **`SearchQuery`** → Translates a query into a format used for full-text searching.
+- **`SearchRank`** → Assigns a ranking score based on the relevance of the search results.
+
+---
+
+## 🛠 Step 2: Updating the Search View
+
+Modify the `post_search` view in `views.py` to include **ranking-based ordering**:
+
+```python
+from django.shortcuts import render
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from .models import Post
+from .forms import SearchForm
+
+# ...
+
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            search_vector = SearchVector('title', 'body')  # Create search vector
+            search_query = SearchQuery(query)  # Create search query
+            
+            results = (
+                Post.published.annotate(
+                    search=search_vector,  # Annotate search vector
+                    rank=SearchRank(search_vector, search_query)  # Compute rank
+                )
+                .filter(search=search_query)  # Filter results based on query
+                .order_by('-rank')  # Order by highest rank first
+            )
+    
+    return render(
+        request,
+        'blog/post/search.html',
+        {
+            'form': form,
+            'query': query,
+            'results': results
+        }
+    )
+```
+
+---
+
+## 🔍 Step 3: Understanding the Code
+
+### ✅ **Creating Search Query & Vector**
+
+```python
+search_vector = SearchVector('title', 'body')  # Create search vector
+search_query = SearchQuery(query)  # Create search query
+```
+
+- **`SearchVector('title', 'body')`** allows searching across multiple fields.
+- **`SearchQuery(query)`** converts the user’s input into a search query.
+
+### ✅ **Filtering and Ranking Results**
+
+```python
+Post.published.annotate(
+    search=search_vector,  # Annotate search vector
+    rank=SearchRank(search_vector, search_query)  # Compute rank
+)
+.filter(search=search_query)  # Filter results
+.order_by('-rank')  # Order by highest rank
+```
+
+- **`SearchRank(search_vector, search_query)`** assigns a **ranking score**.
+- **Results are ordered by ****************`rank`**************** in descending order (**\`\`**)** to show the **most relevant posts first**.
+
+---
+
+## 🛠 Step 4: Testing Search Ranking
+
+1️⃣ Start the Django server:
+
+```sh
+python manage.py runserver
+```
+
+2️⃣ Open the search page in your browser:
+🔗 [http://127.0.0.1:8000/blog/search/](http://127.0.0.1:8000/blog/search/)
+
+<div align="center">
+  <img src="./images/31_img.jpg" alt="" width="600px"/>
+
+  **Figure 3.31**: Search results for the term “django”
+
+</div>
+
+3️⃣ **Enter a search term (e.g., "Django")** and observe the ranking of results.
+
+### ✅ Example:
+
+If you search for **"Django"**, the ranking system will prioritize posts **where "Django" appears most frequently** in the **title and body**.
+
