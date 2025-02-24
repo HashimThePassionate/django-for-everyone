@@ -2779,3 +2779,145 @@ def post_search(request):
 
 - The search results are passed to `search.html` for display.
 - The `query` is included in the context to show what the user searched for.
+
+# 🖥️ **Creating a Search Template in Django**
+
+To allow users to view search results, we need to **create a template** that will display both the **search form** and the **results** dynamically. This template will be used to render the search page where users can enter queries and see matching posts. 🚀
+
+---
+
+## 📌 Step 1: Create the Template File
+
+Navigate to the **`templates/blog/post/`** directory and create a new file named **`search.html`**.
+
+Add the following code to **`search.html`**:
+
+```html
+{% extends "blog/base.html" %}  
+{% load blog_tags %}  
+
+{% block title %}Search{% endblock %}  
+
+{% block content %}  
+    {% if query %}  
+        <h1>Posts containing "{{ query }}"</h1>  
+        <h3>  
+            {% with results.count as total_results %}  
+                Found {{ total_results }} result{{ total_results|pluralize }}  
+            {% endwith %}  
+        </h3>  
+        
+        {% for post in results %}  
+            <h4>  
+                <a href="{{ post.get_absolute_url }}">  
+                    {{ post.title }}  
+                </a>  
+            </h4>  
+            {{ post.body|markdown|truncatewords_html:12 }}  
+        {% empty %}  
+            <p>There are no results for your query.</p>  
+        {% endfor %}  
+        
+        <p><a href="{% url "blog:post_search" %}">Search again</a></p>  
+    {% else %}  
+        <h1>Search for posts</h1>  
+        <form method="get">  
+            {{ form.as_p }}  
+            <input type="submit" value="Search">  
+        </form>  
+    {% endif %}  
+{% endblock %}  
+```
+
+---
+
+## 🔍 Step 2: Understanding the Code
+
+### ✅ **Extending the Base Template**
+
+```html
+{% extends "blog/base.html" %}  
+```
+
+- This ensures that the search template **inherits the layout** from `base.html`.
+- The search page will have the same **header, footer, and styles** as the rest of the blog.
+
+### ✅ **Setting the Page Title**
+
+```html
+{% block title %}Search{% endblock %}  
+```
+
+- This defines the **title** of the search page.
+- The title will be **displayed in the browser tab**.
+
+### ✅ **Checking if a Search Query Exists**
+
+```html
+{% if query %}  
+```
+
+- If the user has submitted a search, we display the results.
+- Otherwise, we show the **search form**.
+
+### ✅ **Displaying Search Results**
+
+```html
+<h1>Posts containing "{{ query }}"</h1>  
+<h3>  
+    {% with results.count as total_results %}  
+        Found {{ total_results }} result{{ total_results|pluralize }}  
+    {% endwith %}  
+</h3>  
+```
+
+- Displays the **search term** entered by the user.
+- Counts and displays the **number of matching results**.
+- The `pluralize` filter ensures correct **grammar** (e.g., "1 result" vs. "2 results").
+
+### ✅ **Looping Through Matching Posts**
+
+```html
+{% for post in results %}  
+    <h4>  
+        <a href="{{ post.get_absolute_url }}">  
+            {{ post.title }}  
+        </a>  
+    </h4>  
+    {{ post.body|markdown|truncatewords_html:12 }}  
+{% empty %}  
+    <p>There are no results for your query.</p>  
+{% endfor %}  
+```
+
+- \*\*Iterates through \*\***`results`** (posts matching the search query).
+- Displays each **post title** as a clickable link.
+- Shows a **shortened version** of the post content using:
+  - `markdown` → Converts Markdown content to **HTML**.
+  - `truncatewords_html:12` → Displays only **12 words** for preview.
+- If no results exist, it shows: `There are no results for your query.`
+
+### ✅ **Adding a Search Again Link**
+
+```html
+<p><a href="{% url "blog:post_search" %}">Search again</a></p>  
+```
+
+- Allows users to **perform another search** easily.
+
+### ✅ **Displaying the Search Form**
+
+```html
+<h1>Search for posts</h1>  
+<form method="get">  
+    {{ form.as_p }}  
+    <input type="submit" value="Search">  
+</form>  
+```
+
+- Shows the **search input field** if no query has been submitted.
+- The form uses **`method="get"`** to:
+  - Keep search queries **visible in the URL**.
+  - Allow users to **share search results**.
+- `{{ form.as_p }}` ensures the **form fields are properly styled**.
+
