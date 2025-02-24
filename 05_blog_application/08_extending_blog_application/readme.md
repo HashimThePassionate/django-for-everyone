@@ -2684,3 +2684,98 @@ class Post(models.Model):
 For more details, visit Django’s official documentation:
 🔗 [Django Full-Text Search Performance Guide](https://docs.djangoproject.com/en/5.0/ref/contrib/postgres/search/#performance) 📑🔗
 
+
+# 🔍 **Building a Search View in Django**
+
+To enhance user experience, we will create a **custom search view** to allow users to search for blog posts. This involves creating a **search form**, modifying the **views.py** file, and utilizing **PostgreSQL full-text search** capabilities. 🚀
+
+---
+
+## 📌 Step 1: Creating the Search Form
+
+First, we need a **search form** that allows users to input their queries. Edit the `forms.py` file in the **blog application** and add the following code:
+
+```python
+from django import forms
+
+class SearchForm(forms.Form):
+    query = forms.CharField()
+```
+
+### 🔹 Explanation:
+
+- **`forms.Form`** → Defines a basic form.
+- **`query = forms.CharField()`** → Creates a text input field where users can enter search terms.
+- The `query` field will be used in our **search logic** later.
+
+---
+
+## 🔹 Step 2: Implementing the Search View
+
+Edit the `views.py` file in the **blog application** and add the following search view:
+
+```python
+from django.shortcuts import render
+from django.contrib.postgres.search import SearchVector # SearchVector
+from .forms import CommentForm, EmailPostForm, SearchForm # SearchForm
+
+# ...
+
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    
+    if 'query' in request.GET:  # Check if search is submitted
+        form = SearchForm(request.GET)
+        if form.is_valid():  # Validate form input
+            query = form.cleaned_data['query']
+            results = (
+                Post.published.annotate(
+                    search=SearchVector('title', 'body'),  # Search across title and body
+                ).filter(search=query)
+            )
+    
+    return render(
+        request,
+        'blog/post/search.html',
+        {
+            'form': form,
+            'query': query,
+            'results': results
+        }
+    )
+```
+
+---
+
+## 🔍 Step 3: Understanding the Search Logic
+
+### ✅ **Form Initialization**
+
+- **`form = SearchForm()`** → Creates an empty search form.
+- **`query = None`** → Stores the user input (default is `None`).
+- **`results = []`** → Holds search results (default is an empty list).
+
+### ✅ **Handling User Input**
+
+- \*\*Checking if ****`query`**** exists in \*\***`request.GET`**
+
+  - Ensures the search form has been submitted.
+  - Uses `GET` instead of `POST` to **allow URL sharing** with search parameters.
+
+- **Validating the form**
+
+  - **`form.is_valid()`** checks if the input is correct.
+  - **`query = form.cleaned_data['query']`** extracts the sanitized search term.
+
+### ✅ **Executing the Search Query**
+
+- **Using ********************************`SearchVector`******************************** to search across multiple fields**
+  - `SearchVector('title', 'body')` enables searching in both the `title` and `body` fields.
+  - **Filtering** → `.filter(search=query)` finds posts that match the search term.
+
+### ✅ **Rendering the Search Results**
+
+- The search results are passed to `search.html` for display.
+- The `query` is included in the context to show what the user searched for.
