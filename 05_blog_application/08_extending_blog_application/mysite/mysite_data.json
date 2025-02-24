@@ -299,409 +299,6 @@
   }
 },
 {
-  "model": "admin.logentry",
-  "pk": 24,
-  "fields": {
-    "action_time": "2025-02-09T20:25:35.996Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "1",
-    "object_repr": "Python Deep Dive",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 25,
-  "fields": {
-    "action_time": "2025-02-10T07:17:16.469Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "11",
-    "object_repr": "Hello world",
-    "action_flag": 1,
-    "change_message": "[{\"added\": {}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 26,
-  "fields": {
-    "action_time": "2025-02-10T07:17:54.096Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "11",
-    "object_repr": "Hello world",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 27,
-  "fields": {
-    "action_time": "2025-02-10T07:18:36.232Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "11",
-    "object_repr": "Hello world",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 28,
-  "fields": {
-    "action_time": "2025-02-10T07:18:50.344Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "1",
-    "object_repr": "Python Deep Dive",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 29,
-  "fields": {
-    "action_time": "2025-02-10T07:19:43.597Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "4",
-    "object_repr": "Muhammad Hashim",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 30,
-  "fields": {
-    "action_time": "2025-02-10T07:19:43.599Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "5",
-    "object_repr": "Javascript for everyone",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 31,
-  "fields": {
-    "action_time": "2025-02-10T07:19:43.604Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "7",
-    "object_repr": "git mastery",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 32,
-  "fields": {
-    "action_time": "2025-02-10T07:19:56.440Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "8",
-    "object_repr": "TypeScript For Everyone",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 33,
-  "fields": {
-    "action_time": "2025-02-10T07:19:56.443Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "10",
-    "object_repr": "Mysql Series",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 34,
-  "fields": {
-    "action_time": "2025-02-10T11:10:47.143Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "3",
-    "object_repr": "Django For Everyone",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 35,
-  "fields": {
-    "action_time": "2025-02-10T11:11:24.410Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "9",
-    "object_repr": "Computer Network",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 36,
-  "fields": {
-    "action_time": "2025-02-10T11:14:53.308Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "1",
-    "object_repr": "Python Deep Dive",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 37,
-  "fields": {
-    "action_time": "2025-02-10T11:15:02.282Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "1",
-    "object_repr": "Python Deep Dive",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 38,
-  "fields": {
-    "action_time": "2025-02-10T11:17:08.446Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "5",
-    "object_repr": "Javascript for everyone",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 39,
-  "fields": {
-    "action_time": "2025-02-10T11:17:19.747Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "3",
-    "object_repr": "Django For Everyone",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 40,
-  "fields": {
-    "action_time": "2025-02-10T11:18:22.114Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "10",
-    "object_repr": "Mysql Series",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 41,
-  "fields": {
-    "action_time": "2025-02-10T11:18:35.199Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "5",
-    "object_repr": "Javascript for everyone",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 42,
-  "fields": {
-    "action_time": "2025-02-10T11:18:43.065Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "10",
-    "object_repr": "Mysql Series",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 43,
-  "fields": {
-    "action_time": "2025-02-12T15:47:28.493Z",
-    "user": 1,
-    "content_type": 8,
-    "object_id": "5",
-    "object_repr": "Comment by Muhammad Hashim on Computer Network",
-    "action_flag": 1,
-    "change_message": "[{\"added\": {}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 44,
-  "fields": {
-    "action_time": "2025-02-12T15:49:06.496Z",
-    "user": 1,
-    "content_type": 8,
-    "object_id": "6",
-    "object_repr": "Comment by Mustamin Aman on Javascript for everyone",
-    "action_flag": 1,
-    "change_message": "[{\"added\": {}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 45,
-  "fields": {
-    "action_time": "2025-02-12T15:49:33.088Z",
-    "user": 1,
-    "content_type": 8,
-    "object_id": "7",
-    "object_repr": "Comment by Muhammad Hashim on Javascript for everyone",
-    "action_flag": 1,
-    "change_message": "[{\"added\": {}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 46,
-  "fields": {
-    "action_time": "2025-02-12T16:36:55.420Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "12",
-    "object_repr": "Markdown Syntax",
-    "action_flag": 1,
-    "change_message": "[{\"added\": {}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 47,
-  "fields": {
-    "action_time": "2025-02-12T16:38:19.193Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "12",
-    "object_repr": "Markdown Syntax",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Body\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 48,
-  "fields": {
-    "action_time": "2025-02-12T16:38:54.167Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "12",
-    "object_repr": "Markdown Syntax",
-    "action_flag": 2,
-    "change_message": "[]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 49,
-  "fields": {
-    "action_time": "2025-02-13T06:56:29.130Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "9",
-    "object_repr": "Computer Network",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 50,
-  "fields": {
-    "action_time": "2025-02-13T06:56:41.740Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "9",
-    "object_repr": "Computer Network",
-    "action_flag": 2,
-    "change_message": "[]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 51,
-  "fields": {
-    "action_time": "2025-02-13T06:58:23.400Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "12",
-    "object_repr": "Markdown Syntax",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Body\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 52,
-  "fields": {
-    "action_time": "2025-02-13T06:59:38.719Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "12",
-    "object_repr": "Markdown Syntax",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Body\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 53,
-  "fields": {
-    "action_time": "2025-02-13T06:59:54.654Z",
-    "user": 1,
-    "content_type": 7,
-    "object_id": "12",
-    "object_repr": "Markdown Syntax",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Body\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 54,
-  "fields": {
-    "action_time": "2025-02-17T12:29:10.905Z",
-    "user": 1,
-    "content_type": 11,
-    "object_id": "1",
-    "object_repr": "localhost:8000",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Domain name\", \"Display name\"]}}]"
-  }
-},
-{
   "model": "auth.permission",
   "pk": 1,
   "fields": {
@@ -993,108 +590,108 @@
   "model": "auth.permission",
   "pk": 33,
   "fields": {
-    "name": "Can add tag",
+    "name": "Can add site",
     "content_type": 9,
-    "codename": "add_tag"
+    "codename": "add_site"
   }
 },
 {
   "model": "auth.permission",
   "pk": 34,
   "fields": {
-    "name": "Can change tag",
+    "name": "Can change site",
     "content_type": 9,
-    "codename": "change_tag"
+    "codename": "change_site"
   }
 },
 {
   "model": "auth.permission",
   "pk": 35,
   "fields": {
-    "name": "Can delete tag",
+    "name": "Can delete site",
     "content_type": 9,
-    "codename": "delete_tag"
+    "codename": "delete_site"
   }
 },
 {
   "model": "auth.permission",
   "pk": 36,
   "fields": {
-    "name": "Can view tag",
+    "name": "Can view site",
     "content_type": 9,
-    "codename": "view_tag"
+    "codename": "view_site"
   }
 },
 {
   "model": "auth.permission",
   "pk": 37,
   "fields": {
-    "name": "Can add tagged item",
+    "name": "Can add tag",
     "content_type": 10,
-    "codename": "add_taggeditem"
+    "codename": "add_tag"
   }
 },
 {
   "model": "auth.permission",
   "pk": 38,
   "fields": {
-    "name": "Can change tagged item",
+    "name": "Can change tag",
     "content_type": 10,
-    "codename": "change_taggeditem"
+    "codename": "change_tag"
   }
 },
 {
   "model": "auth.permission",
   "pk": 39,
   "fields": {
-    "name": "Can delete tagged item",
+    "name": "Can delete tag",
     "content_type": 10,
-    "codename": "delete_taggeditem"
+    "codename": "delete_tag"
   }
 },
 {
   "model": "auth.permission",
   "pk": 40,
   "fields": {
-    "name": "Can view tagged item",
+    "name": "Can view tag",
     "content_type": 10,
-    "codename": "view_taggeditem"
+    "codename": "view_tag"
   }
 },
 {
   "model": "auth.permission",
   "pk": 41,
   "fields": {
-    "name": "Can add site",
+    "name": "Can add tagged item",
     "content_type": 11,
-    "codename": "add_site"
+    "codename": "add_taggeditem"
   }
 },
 {
   "model": "auth.permission",
   "pk": 42,
   "fields": {
-    "name": "Can change site",
+    "name": "Can change tagged item",
     "content_type": 11,
-    "codename": "change_site"
+    "codename": "change_taggeditem"
   }
 },
 {
   "model": "auth.permission",
   "pk": 43,
   "fields": {
-    "name": "Can delete site",
+    "name": "Can delete tagged item",
     "content_type": 11,
-    "codename": "delete_site"
+    "codename": "delete_taggeditem"
   }
 },
 {
   "model": "auth.permission",
   "pk": 44,
   "fields": {
-    "name": "Can view site",
+    "name": "Can view tagged item",
     "content_type": 11,
-    "codename": "view_site"
+    "codename": "view_taggeditem"
   }
 },
 {
@@ -1102,7 +699,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$870000$qklMxLDHcp8pR1uoLaEiHH$uELdqKrJzh0mcGmNkglvnXNZR3fA0wPmmRAJek4ThhA=",
-    "last_login": "2025-02-10T07:15:21.395Z",
+    "last_login": "2025-02-20T12:15:59.467Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -1201,8 +798,8 @@
   "model": "contenttypes.contenttype",
   "pk": 9,
   "fields": {
-    "app_label": "taggit",
-    "model": "tag"
+    "app_label": "sites",
+    "model": "site"
   }
 },
 {
@@ -1210,15 +807,15 @@
   "pk": 10,
   "fields": {
     "app_label": "taggit",
-    "model": "taggeditem"
+    "model": "tag"
   }
 },
 {
   "model": "contenttypes.contenttype",
   "pk": 11,
   "fields": {
-    "app_label": "sites",
-    "model": "site"
+    "app_label": "taggit",
+    "model": "taggeditem"
   }
 },
 {
@@ -1231,250 +828,18 @@
 },
 {
   "model": "sessions.session",
-  "pk": "rsfw4qb3d8igkumyugbebvjvoz9ijar8",
+  "pk": "nn0l9ggvoob20rcyd999jx2br8z3jfxb",
   "fields": {
-    "session_data": ".eJxVjEEOwiAQRe_C2pAOLQy4dO8ZyDAMtmpoUtqV8e7apAvd_vfef6lI2zrGrckSp6zOCtTpd0vED6k7yHeqt1nzXNdlSnpX9EGbvs5ZnpfD_TsYqY3funS9eAZyicUgE8LgEpZhQMmup2ShMIIlNhBMAd95ZwhtCoKh9yGo9wfzcTex:1thO0n:UNskEp-JHANhv4S_Mzfz5GzZPuYCIVWorCy314rFHhM",
-    "expire_date": "2025-02-24T07:15:21.409Z"
+    "session_data": ".eJxVjEEOwiAQRe_C2pAOLQy4dO8ZyDAMtmpoUtqV8e7apAvd_vfef6lI2zrGrckSp6zOCtTpd0vED6k7yHeqt1nzXNdlSnpX9EGbvs5ZnpfD_TsYqY3funS9eAZyicUgE8LgEpZhQMmup2ShMIIlNhBMAd95ZwhtCoKh9yGo9wfzcTex:1tl5TD:_AlC8eEfrBar-TER4_H--Elkk5u7QnORYzaFDXCDvmo",
+    "expire_date": "2025-03-06T12:15:59.477Z"
   }
 },
 {
   "model": "sites.site",
   "pk": 1,
   "fields": {
-    "domain": "localhost:8000",
-    "name": "localhost:8000"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 1,
-  "fields": {
-    "name": "music",
-    "slug": "music"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 2,
-  "fields": {
-    "name": "jazz",
-    "slug": "jazz"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 3,
-  "fields": {
-    "name": "django",
-    "slug": "django"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 4,
-  "fields": {
-    "name": "admin",
-    "slug": "admin"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 5,
-  "fields": {
-    "name": "viewerss",
-    "slug": "viewerss"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 6,
-  "fields": {
-    "name": "django-rest-framework",
-    "slug": "django-rest-framework"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 7,
-  "fields": {
-    "name": "tcp",
-    "slug": "tcp"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 8,
-  "fields": {
-    "name": "networking",
-    "slug": "networking"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 9,
-  "fields": {
-    "name": "computer-networks",
-    "slug": "computer-networks"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 10,
-  "fields": {
-    "name": "python",
-    "slug": "python"
-  }
-},
-{
-  "model": "taggit.tag",
-  "pk": 11,
-  "fields": {
-    "name": "markdown",
-    "slug": "markdown"
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 4,
-  "fields": {
-    "tag": 3,
-    "content_type": 7,
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 5,
-  "fields": {
-    "tag": 4,
-    "content_type": 7,
-    "object_id": 11
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 6,
-  "fields": {
-    "tag": 5,
-    "content_type": 7,
-    "object_id": 11
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 7,
-  "fields": {
-    "tag": 3,
-    "content_type": 7,
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 8,
-  "fields": {
-    "tag": 6,
-    "content_type": 7,
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 9,
-  "fields": {
-    "tag": 8,
-    "content_type": 7,
-    "object_id": 9
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 10,
-  "fields": {
-    "tag": 9,
-    "content_type": 7,
-    "object_id": 9
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 11,
-  "fields": {
-    "tag": 7,
-    "content_type": 7,
-    "object_id": 9
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 12,
-  "fields": {
-    "tag": 10,
-    "content_type": 7,
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 13,
-  "fields": {
-    "tag": 6,
-    "content_type": 7,
-    "object_id": 1
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 14,
-  "fields": {
-    "tag": 10,
-    "content_type": 7,
-    "object_id": 5
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 15,
-  "fields": {
-    "tag": 10,
-    "content_type": 7,
-    "object_id": 3
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 16,
-  "fields": {
-    "tag": 10,
-    "content_type": 7,
-    "object_id": 10
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 17,
-  "fields": {
-    "tag": 3,
-    "content_type": 7,
-    "object_id": 10
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 18,
-  "fields": {
-    "tag": 6,
-    "content_type": 7,
-    "object_id": 10
-  }
-},
-{
-  "model": "taggit.taggeditem",
-  "pk": 19,
-  "fields": {
-    "tag": 11,
-    "content_type": 7,
-    "object_id": 12
+    "domain": "example.com",
+    "name": "example.com"
   }
 },
 {
@@ -1487,7 +852,7 @@
     "body": "Dive deep into Python, covering its fundamentals, OOP, data structures, algorithms, and design patterns. You'll learn advanced Python techniques, CPython compilation, and become proficient in sophisticated data structures and algorithms. By mastering these concepts, you will be well-prepared to handle complex programming challenges.",
     "publish": "2025-01-27T01:54:52Z",
     "created": "2025-01-27T01:55:55.422Z",
-    "updated": "2025-02-10T11:15:02.274Z",
+    "updated": "2025-01-29T02:16:26.153Z",
     "status": "PB"
   }
 },
@@ -1501,7 +866,7 @@
     "body": "Welcome to Django for Everyone! 🎉 This repository is your one-stop resource for learning Django, whether you're a beginner looking to build your first web app or a professional seeking to master advanced features. Let’s dive into Django with two learning paths designed to suit your style and goals! 🌟",
     "publish": "2025-01-28T05:46:43Z",
     "created": "2025-01-28T05:46:51.915Z",
-    "updated": "2025-02-10T11:17:19.740Z",
+    "updated": "2025-01-30T04:45:36.127Z",
     "status": "PB"
   }
 },
@@ -1515,8 +880,8 @@
     "body": "hashim body",
     "publish": "2025-01-28T23:52:34Z",
     "created": "2025-01-28T23:52:51.283Z",
-    "updated": "2025-02-10T07:19:43.594Z",
-    "status": "DF"
+    "updated": "2025-02-04T10:51:49.195Z",
+    "status": "PB"
   }
 },
 {
@@ -1529,7 +894,7 @@
     "body": "Hey there! Welcome to JavaScript Mastery 🌟 — your ultimate guide to becoming a JavaScript Ninja 🥷. Whether you're starting out or looking to deepen your knowledge, this repository is packed with all you need to master JavaScript. Let’s dive in and make your journey amazing! 💻⚡",
     "publish": "2025-01-29T01:24:45Z",
     "created": "2025-01-29T01:25:22.676Z",
-    "updated": "2025-02-10T11:18:35.195Z",
+    "updated": "2025-01-30T01:29:35.450Z",
     "status": "PB"
   }
 },
@@ -1543,8 +908,8 @@
     "body": "Welcome to the Git Version Control Tutorial! 🚀 In this guide, we'll delve into the powerful features of Git, a widely-used version control system that empowers developers to manage and track changes in their codebase effectively. Whether you're new to version control or aiming to strengthen your understanding, this tutorial will walk you through the essential concepts and best practices of using Git..",
     "publish": "2025-01-30T06:15:26Z",
     "created": "2025-01-30T06:16:20.575Z",
-    "updated": "2025-02-10T07:19:43.600Z",
-    "status": "DF"
+    "updated": "2025-01-30T06:20:48.316Z",
+    "status": "PB"
   }
 },
 {
@@ -1557,8 +922,8 @@
     "body": "Welcome to the Ultimate TypeScript Course! 🎉 This course is your all-in-one guide to mastering TypeScript—a powerful language for building scalable, maintainable, and robust applications. By the end of this course, you'll be ready to develop large-scale applications confidently using TypeScript. Let’s get started! 🚀",
     "publish": "2025-02-04T10:52:03Z",
     "created": "2025-02-04T10:52:44.320Z",
-    "updated": "2025-02-10T07:19:56.435Z",
-    "status": "DF"
+    "updated": "2025-02-04T10:52:44.320Z",
+    "status": "PB"
   }
 },
 {
@@ -1571,8 +936,8 @@
     "body": "Welcome to the latest insights into networking technologies! This README highlights the key advancements, protocols, and trends shaping the future of networking. Each topic has been detailed in its specific folder for an organized and in-depth understanding. Dive in to explore cutting-edge concepts and practical applications.",
     "publish": "2025-02-04T10:52:45Z",
     "created": "2025-02-04T10:53:17.453Z",
-    "updated": "2025-02-13T06:56:41.726Z",
-    "status": "DF"
+    "updated": "2025-02-04T10:53:17.453Z",
+    "status": "PB"
   }
 },
 {
@@ -1585,35 +950,7 @@
     "body": "🎉 Welcome to the Ultimate MySQL Bootcamp, your ultimate guide to mastering MySQL! Whether you're a beginner or looking to sharpen your advanced skills, this repository is designed to make you a MySQL expert. Dive into SQL syntax, database design, optimization strategies, and much more. 🚀",
     "publish": "2025-02-04T10:53:31Z",
     "created": "2025-02-04T10:53:48.594Z",
-    "updated": "2025-02-10T11:18:43.058Z",
-    "status": "PB"
-  }
-},
-{
-  "model": "blog.post",
-  "pk": 11,
-  "fields": {
-    "title": "Hello world",
-    "slug": "hello-world",
-    "author": 1,
-    "body": "Hello world post from admin",
-    "publish": "2025-02-10T07:16:28Z",
-    "created": "2025-02-10T07:17:16.444Z",
-    "updated": "2025-02-10T07:18:36.218Z",
-    "status": "DF"
-  }
-},
-{
-  "model": "blog.post",
-  "pk": 12,
-  "fields": {
-    "title": "Markdown Syntax",
-    "slug": "markdown-syntax",
-    "author": 1,
-    "body": "# 🌟 Beautiful README Template\r\n\r\nWelcome to this beautifully structured README template! This document will help you create an engaging, professional, and visually appealing README file using Markdown syntax. Let's dive in! 🚀\r\n\r\n---\r\n\r\n## 📌 Table of Contents\r\n\r\n- [Introduction](#introduction-)\r\n- [Features](#features-)\r\n- [Installation](#installation-)\r\n- [Usage](#usage-)\r\n- [Screenshots](#screenshots-)\r\n- [Contributing](#contributing-)\r\n- [License](#license-)\r\n- [Contact](#contact-)\r\n\r\n---\r\n\r\n## 🎯 Introduction\r\n\r\nWelcome to **Your Project Name**! This project is designed to **briefly describe the purpose** and functionality of the project.\r\n\r\n> \"A well-documented project is a successful project!\" 🏆\r\n\r\n---\r\n\r\n## ✨ Features\r\n\r\n✅ Feature 1 - Explanation of feature 1 🔥  \r\n✅ Feature 2 - Explanation of feature 2 🚀  \r\n✅ Feature 3 - Explanation of feature 3 🌍  \r\n✅ Feature 4 - Explanation of feature 4 💡  \r\n\r\n---\r\n\r\n## 📥 Installation\r\n\r\nFollow these steps to install the project on your system:\r\n\r\n```bash\r\n# Clone the repository\r\ngit clone https://github.com/your-repo/project.git\r\n\r\n# Navigate to the project directory\r\ncd project\r\n\r\n# Install dependencies\r\nnpm install\r\n```\r\n\r\n---\r\n\r\n## 🚀 Usage\r\n\r\nTo start using the project, run the following command:\r\n\r\n```bash\r\nnpm start\r\n```\r\n\r\nOnce started, access it via: [http://localhost:3000](http://localhost:3000) 🌐\r\n\r\n---\r\n\r\n## 📸 Screenshots\r\n\r\nHere's a preview of the project in action:\r\n\r\n![Project Screenshot](https://via.placeholder.com/800x400.png?text=Project+Screenshot)\r\n\r\n---\r\n\r\n## 🤝 Contributing\r\n\r\nWe welcome contributions from the community! To contribute:\r\n\r\n1. Fork the repository.\r\n2. Create a new branch (`git checkout -b feature-branch`).\r\n3. Commit your changes (`git commit -m 'Add new feature'`).\r\n4. Push to the branch (`git push origin feature-branch`).\r\n5. Open a Pull Request.\r\n\r\n---\r\n\r\n## 🛡 License\r\n\r\nThis project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.\r\n\r\n---\r\n\r\n## 📧 Contact\r\n\r\n📌 **Your Name** - [LinkedIn](https://linkedin.com/in/yourprofile)  \r\n📌 **Email** - [your-email@example.com](mailto:your-email@example.com)  \r\n📌 **GitHub** - [your-github](https://github.com/your-github)  \r\n\r\nFeel free to reach out for any queries or collaborations! 🚀\r\n\r\n---",
-    "publish": "2025-02-12T16:36:07Z",
-    "created": "2025-02-12T16:36:55.404Z",
-    "updated": "2025-02-13T06:59:54.640Z",
+    "updated": "2025-02-04T10:53:48.594Z",
     "status": "PB"
   }
 },
@@ -1666,45 +1003,6 @@
     "body": "Yes really this is an awesome repository",
     "created": "2025-02-06T12:48:11.132Z",
     "updated": "2025-02-06T12:48:11.133Z",
-    "active": true
-  }
-},
-{
-  "model": "blog.comment",
-  "pk": 5,
-  "fields": {
-    "post": 9,
-    "name": "Muhammad Hashim",
-    "email": "hashiimtahir@gmail.com",
-    "body": "Just to see its show or not",
-    "created": "2025-02-12T15:47:28.490Z",
-    "updated": "2025-02-12T15:47:28.490Z",
-    "active": true
-  }
-},
-{
-  "model": "blog.comment",
-  "pk": 6,
-  "fields": {
-    "post": 5,
-    "name": "Mustamin Aman",
-    "email": "mustamin@gmaol.com",
-    "body": "Comment from Mustamin",
-    "created": "2025-02-12T15:49:06.494Z",
-    "updated": "2025-02-12T15:49:06.494Z",
-    "active": true
-  }
-},
-{
-  "model": "blog.comment",
-  "pk": 7,
-  "fields": {
-    "post": 5,
-    "name": "Muhammad Hashim",
-    "email": "hashiimtahir@gmail.com",
-    "body": "Comment from Hashim",
-    "created": "2025-02-12T15:49:33.086Z",
-    "updated": "2025-02-12T15:49:33.086Z",
     "active": true
   }
 }

@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'taggit',
-    'blog.apps.BlogConfig', # Add the blog app to the installed apps
+    'blog.apps.BlogConfig',  # Add the blog app to the installed apps
 ]
 
 MIDDLEWARE = [
@@ -73,11 +74,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-EMAIL_HOST = 'smtp.gmail.com' 
-EMAIL_HOST_USER = config('EMAIL_HOST_USER') 
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
-EMAIL_PORT = 587  
-EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 # Database
@@ -85,12 +86,13 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',  
+        'ENGINE': 'django.db.backends.postgresql',  # Use PostgreSQL database backend
+        # Load database name from environment variables
         'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'), 
-        'PASSWORD': config('DB_PASSWORD'), 
-        'HOST': config('DB_HOST'), 
-         }
+        'USER': config('DB_USER'),  # Load database user
+        'PASSWORD': config('DB_PASSWORD'),  # Load database password
+        'HOST': config('DB_HOST'),  # Load database host
+    }
 }
 
 
