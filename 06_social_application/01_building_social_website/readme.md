@@ -412,3 +412,115 @@ class LoginForm(forms.Form):
 
 ---
 
+# 🔐 Implementing the Login View in views.py
+
+Now that we have created a login form, we need to build a **login view** that processes authentication requests. This view will:
+
+1️⃣ Display the login form for **GET requests**.
+
+2️⃣ Validate user credentials for **POST requests**.
+
+3️⃣ Authenticate users against the **database**.
+
+4️⃣ Log in the user if authentication is successful.
+
+---
+
+## 📌 Step 1: Edit `views.py` to Add the Login View
+
+Modify the `views.py` file inside the `account` application and add the following code:
+
+```python
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from django.shortcuts import render
+from .forms import LoginForm
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(
+                request,
+                username=cd['username'],
+                password=cd['password']
+            )
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Authenticated successfully')
+                else:
+                    return HttpResponse('Disabled account')
+            else:
+                return HttpResponse('Invalid login')
+    else:
+        form = LoginForm()
+    return render(request, 'account/login.html', {'form': form})
+```
+
+---
+
+## 🔍 Step 2: Understanding the Code
+
+### ✅ Handling GET Requests
+
+```python
+if request.method == 'POST':
+```
+
+- If the **request method is GET**, an **empty login form** is instantiated and rendered in the template.
+- The form is then passed to `login.html` so the user can enter credentials.
+
+### ✅ Processing POST Requests
+
+```python
+form = LoginForm(request.POST)
+if form.is_valid():
+```
+
+- The form is instantiated with **submitted user data**.
+- **`form.is_valid()`** checks whether the required fields (username & password) are correctly filled.
+
+### ✅ Authenticating Users
+
+```python
+user = authenticate(
+    request,
+    username=cd['username'],
+    password=cd['password']
+)
+```
+
+- **`authenticate()`** checks the **username** and **password** against the database.
+- If credentials are **valid**, it returns a **User object**; otherwise, it returns `None`.
+
+### ✅ Checking User Status
+
+```python
+if user is not None:
+    if user.is_active:
+```
+
+- If authentication succeeds, the `is_active` attribute is checked.
+- If the **account is disabled**, an `HttpResponse` is returned with the message **Disabled account**.
+
+### ✅ Logging in the User
+
+```python
+login(request, user)
+return HttpResponse('Authenticated successfully')
+```
+
+- If authentication is successful and the user is **active**, `login()` is called.
+- This **creates a session** for the user, keeping them logged in.
+
+### ❗ Difference Between `authenticate()` and `login()`
+
+| Method               | Purpose                                                                   |
+| -------------------- | ------------------------------------------------------------------------- |
+| **`authenticate()`** | Validates user credentials and returns a **User object** if valid.        |
+| **`login()`**        | Stores the **authenticated user** in the session, keeping them logged in. |
+
+---
+
