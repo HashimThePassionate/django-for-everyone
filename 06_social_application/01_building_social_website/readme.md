@@ -189,7 +189,7 @@ account/
 
 ## 📌 Step 5: Register the New App in `settings.py`
 
-Django needs to know about the new app. Open **`settings.py`** and **add it to \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*****`INSTALLED_APPS`**:
+Django needs to know about the new app. Open **`settings.py`** and **add it to `INSTALLED_APPS`**:
 
 ```python
 INSTALLED_APPS = [
@@ -234,10 +234,140 @@ Running migrations:
 ### ✅ Explanation:
 
 - **Django applies the initial database migrations** to create necessary tables for user authentication, session management, and permissions.
-- **Each app in ****************************`INSTALLED_APPS`**************************** is checked**, and its database models are added if necessary.
+- **Each app in **`INSTALLED_APPS`** is checked**, and its database models are added if necessary.
 
 <div align="center">
 
-# `New Section `
+# `New Section Authentication Framework`
+
+</div>
+
+# 🔐 **Using the Django Authentication Framework**
+
+Django provides a **built-in authentication framework** that handles **user authentication, sessions, permissions, and user groups**. This system includes views for common user actions such as **logging in, logging out, password changes, and password resets**. 🚀
+
+---
+
+## 📌 Key Features of Django’s Authentication Framework
+
+Django’s authentication system is part of `django.contrib.auth` and is used by various **Django contrib applications**. This framework provides:
+
+- **User authentication** (login/logout)
+- **Session management**
+- **User permission**s and **group manage*****ment***
+- **Pre-built authentication views and forms**
+
+🔹 **Previously Used in the Blog Application**
+We used this authentication framework earlier while **building a blog application**, where we created a **superuser** to access the Django **admin panel**.
+
+---
+
+## 📌 Authentication Framework in a New Django Project
+
+When we create a new Django project using:
+
+```sh
+django-admin startproject account
+```
+
+The authentication framework is **included by default** in `INSTALLED_APPS`.
+
+```python
+INSTALLED_APPS = [
+    'django.contrib.auth',  # Authentication framework
+    'django.contrib.sessions',  # Session management
+    'django.contrib.contenttypes',
+    'django.contrib.admin',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+```
+
+Django also includes **two essential middleware classes** in `MIDDLEWARE`:
+
+```python
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Handles sessions
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Associates users with requests
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+```
+
+### ✅ Explanation of Middleware
+
+- **`AuthenticationMiddleware`** → Associates **users with requests** using **sessions**.
+- **`SessionMiddleware`** → Manages user **sessions** across multiple requests.
+- Middleware executes **globally** during **request and response processing**.
+
+You will encounter **middleware classes** on various occasions throughout development, and you will also learn how to **create custom middleware** later.
+
+---
+
+## 📌 Models in the Authentication Framework
+
+Django’s authentication system includes **pre-built models** in `django.contrib.auth.models`, such as:
+
+### ✅ **User Model**
+
+Django provides a built-in **User model**, which contains essential fields:
+
+```python
+from django.contrib.auth.models import User
+
+user = User.objects.create_user(username='john', password='securepassword')
+```
+
+| Field        | Description                        |
+| ------------ | ---------------------------------- |
+| `username`   | Unique username for authentication |
+| `password`   | Hashed password stored securely    |
+| `email`      | User’s email address               |
+| `first_name` | User’s first name                  |
+| `last_name`  | User’s last name                   |
+| `is_active`  | Determines if the user is active   |
+
+### ✅ **Group Model**
+
+Django provides a **Group model** to categorize users:
+
+```python
+from django.contrib.auth.models import Group
+
+admin_group = Group.objects.create(name='Admin')
+```
+
+- Groups allow assigning **permissions** to multiple users at once.
+
+### ✅ **Permission Model**
+
+Permissions are used to **restrict access to certain actions**:
+
+```python
+from django.contrib.auth.models import Permission
+
+permission = Permission.objects.get(codename='add_user')
+```
+
+- Permissions can be assigned to **users** or **groups**.
+
+---
+
+## 📌 Built-in Authentication Views & Forms
+
+Django includes **pre-built authentication views and forms** for:
+
+- **Login/logout**
+- **Password reset**
+- **User authentication & session management**
+
+You will use these **authentication views and forms** in later sections to build **secure login systems**.
+
+<div align="center">
+
+# `New Section Starts here`
 
 </div>
