@@ -585,3 +585,192 @@ urlpatterns = [
 | **Login Page**  | `/account/login/` |
 
 ---
+
+# 🎨 **Creating the Login Template**
+
+To make the login view functional, we need to create a **template** that renders the login form. Since this is our first template, we will also create a **base template (`base.html`**) that can be extended across multiple pages.
+
+---
+
+## 📌 Step 1: Creating Template Directories
+
+Inside the `account` application directory, create the following structure:
+
+```
+account/
+│── templates/
+│   ├── account/
+│   │   ├── login.html
+│   ├── base.html
+```
+
+This structure ensures that Django can find the **login.html** template when rendering the login page.
+
+---
+
+## 📌 Step 2: Creating `base.html`
+
+Edit `base.html` and add the following code:
+
+```html
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+        <span class="logo">Bookmarks</span>
+    </div>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
+```
+
+### ✅ Explanation:
+
+- **`{% load static %}`** → Loads Django's **static files** (CSS, JS, etc.).
+- **Defines a `<title>` block** → This allows pages extending `base.html` to customize their title.
+- Defines a **`{% block content %}`** → Pages extending `base.html` will **inject their content** here.
+
+---
+
+## 📌 Step 3: Creating `login.html`
+
+Edit `account/login.html` and add the following code:
+
+```html
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+    <h1>Log-in</h1>
+    <p>Please, use the following form to log in:</p>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Log in"></p>
+    </form>
+{% endblock %}
+```
+
+### ✅ Explanation:
+
+- **`{% extends "base.html" %}`** → Inherits from the base template.
+- **Renders the form** using `{{ form.as_p }}`.
+- Includes **`{% csrf_token %}`** → Provides **CSRF protection** for the form.
+- **Adds a submit button** to send the login request.
+
+---
+
+## 📌 Step 4: Creating a Superuser
+
+Before logging in, we need at least one user in the database. Run the following command to create a **superuser**:
+
+```sh
+python manage.py createsuperuser
+```
+
+### ✅ Example Input:
+
+```sh
+Username (leave blank to use 'admin'): admin
+Email address: admin@admin.com
+Password: ********
+Password (again): ********
+```
+
+### ✅ Expected Output:
+
+```sh
+Superuser created successfully.
+```
+
+---
+
+## 📌 Step 5: Running the Development Server
+
+Start the Django server using:
+
+```sh
+python manage.py runserver
+```
+
+Now, open **[http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)** in your browser and log in with the **superuser credentials**.
+
+<div align="center">
+  <img src="./images/02.jpg" alt="" width="600px"/>
+
+  **Figure 4.2**: The Django administration site index page including Users and Groups
+
+</div>
+
+You can also create a **regular user** through the **Django admin panel**:
+
+1. Go to **Users** → **Add User**.
+
+<div align="center">
+  <img src="./images/03.jpg" alt="" width="600px"/>
+
+  **Figure 4.3**: The Add user form on the Django administration site
+
+</div>
+
+1. Fill in the username and password.
+
+<div align="center">
+  <img src="./images/04.jpg" alt="" width="600px"/>
+
+  **Figure 4.4**: The user editing form on the Django administration site
+
+</div>
+
+2. Click **Save** to create the user.
+3. Update the **first name, last name, and email address**.
+4. Click **Save** again.
+
+
+---
+
+## 📌 Step 6: Testing the Login Page
+
+Navigate to **[http://127.0.0.1:8000/account/login/](http://127.0.0.1:8000/account/login/)** in your browser. You should see the **login form rendered**.
+
+<div align="center">
+  <img src="./images/05.jpg" alt="" width="600px"/>
+
+  **Figure 4.5**: The user Log-in page
+
+</div>
+
+### ✅ Testing Scenarios:
+
+1️⃣ **Enter invalid credentials** → You should see an **Invalid login** message.
+
+<div align="center">
+  <img src="./images/06.jpg" alt="" width="600px"/>
+
+  **Figure 4.6**: The invalid login plain text response
+
+</div>
+
+
+2️⃣ **Enter valid credentials** → You should see **Authenticated successfully**.
+
+<div align="center">
+  <img src="./images/07.jpg" alt="" width="600px"/>
+
+  **Figure 4.7**: The successful authentication plain text response
+
+</div>
+
+<div align="center">
+
+# `New Section Starts here`
+
+</div>
+

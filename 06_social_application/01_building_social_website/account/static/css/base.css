@@ -1,0 +1,204 @@
+@import url(//fonts.googleapis.com/css?family=Muli);
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Muli', sans-serif;
+    background-color: #f8f9fa;
+}
+
+p {
+    line-height: 1.8;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Muli', sans-serif;
+    font-weight: normal;
+    color: #0056b3;
+}
+
+h1 {
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin: 30px 0 20px;
+}
+
+ol {
+    line-height: 1.5;
+}
+
+#header {
+    padding: 15px 100px;
+    font-size: 14px;
+    background: #007bff;
+    color: #fff;
+    border-bottom: 4px solid #0056b3;
+    overflow: auto;
+}
+
+#header .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#header ul.menu {
+    list-style: none;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+#header ul.menu li {
+    float: left;
+    padding: 6px 15px;
+}
+
+#header ul.menu li.selected a, #header ul.menu li.selected a:hover {
+    color: #cce5ff;
+    font-weight: bold;
+}
+
+#header a {
+    color: #ffffff;
+}
+
+#header a:hover {
+    color: #cce5ff;
+}
+
+#header .user {
+    float: right;
+    padding-top: 4px;
+}
+
+#content {
+    padding: 30px 100px;
+}
+
+/* Forms */
+form {
+    overflow: auto;
+}
+
+label {
+    color: #0056b3;
+    font-weight: bold;
+}
+
+input, textarea {
+    background: #e9ecef;
+    border: 1px solid #007bff;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+input[type=submit], a.button {
+    font-weight: bold;
+    background: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Messages */
+ul.messages {
+    margin: 10px 100px;
+    padding: 0;
+    list-style-type: none;
+}
+
+ul.messages li {
+    margin: 0;
+    padding: 14px 20px;
+    list-style: none;
+    color: #fff;
+    border-radius: 5px;
+}
+
+ul.messages li.success {
+    background: #28a745;
+}
+
+ul.messages li.error {
+    background: #dc3545;
+}
+
+ul.messages li.info {
+    background: #17a2b8;
+}
+
+ul.messages li.warning {
+    background: #ffc107;
+}
+
+ul.messages li a.close {
+    float: right;
+    opacity: 1;
+    border: 0;
+}
+
+/* Social Auth */
+.social {
+    float: right;
+}
+.social li {
+    list-style: none;
+    padding: 10px 20px;
+    background: #007bff;
+    border-radius: 5px;
+}
+.social li a {
+    color: #fff;
+}
+
+/* Images */
+.image-preview, .image-detail {
+    max-width: 300px;
+    float: left;
+    margin: 0 20px 20px 0;
+}
+.image-detail {
+    margin-top: 20px;
+}
+
+/* Users */
+#people-list img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.profile-info {
+    float: left;
+    overflow: auto;
+    margin-right: 20px;
+}
+
+/* Actions */
+.action {
+    clear: both;
+    overflow: auto;
+}
+.action .date {
+    font-style: italic;
+    color: #6c757d;
+}
