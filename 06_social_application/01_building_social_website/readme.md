@@ -524,3 +524,64 @@ return HttpResponse('Authenticated successfully')
 
 ---
 
+# 🔗 **Setting Up URL Routing**
+
+Now that we have implemented the **login view**, we need to **define URL routes** to access it. This involves:
+
+1️⃣ Creating a **URL configuration** inside the `account` app.
+
+2️⃣ Including `account.urls` in the **main project’s URL patterns**.
+
+3️⃣ Ensuring the login page is accessible via a URL like **`/account/login/`**.
+
+---
+
+## 📌 Step 1: Create `urls.py` in the `account` Application
+
+Inside the `account` application directory, create a new **`urls.py`** file and add the following code:
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('login/', views.user_login, name='login'),  # Login URL
+]
+```
+
+### ✅ Explanation:
+
+- **`path('login/', views.user_login, name='login')`** → Defines a route for the login view.
+- **`name='login'`** → Assigns a name to the URL pattern for easy referencing.
+
+Now, visiting **`http://127.0.0.1:8000/account/login/`** will trigger the `user_login` view. 🚀
+
+---
+
+## 📌 Step 2: Include `account.urls` in the Main `urls.py`
+
+Edit the **main ****************`urls.py`**************** file** in the **bookmarks project directory** and modify it as follows:
+
+```python
+from django.contrib import admin
+from django.urls import path, include  # Import include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('account/', include('account.urls')),  # Include account app
+]
+```
+
+### ✅ Explanation:
+
+- **`include('account.urls')`** → Includes all URL patterns from the `account` app.
+- Now, all routes inside `account.urls.py` will be prefixed with `/account/`.
+
+🔹 Example URLs:
+
+| Feature         | URL               |
+| --------------- | ----------------- |
+| **Admin Panel** | `/admin/`         |
+| **Login Page**  | `/account/login/` |
+
+---
