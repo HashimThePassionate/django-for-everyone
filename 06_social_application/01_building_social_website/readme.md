@@ -368,6 +368,47 @@ You will use these **authentication views and forms** in later sections to build
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section login view`
 
 </div>
+
+# 🔐 **Creating a Login View in Django**
+
+We will use Django's built-in **authentication framework** to allow users to log in to our website. This process involves:
+
+1️⃣ **Displaying a login form** to users. <br>
+2️⃣ **Capturing user credentials** (username and password). <br>
+3️⃣ **Authenticating the user** against stored database records. <br>
+4️⃣ **Verifying if the user is active** before allowing access. <br>
+5️⃣ **Logging in the user** and starting an authenticated session. <br>
+
+This guide will walk through implementing a **login form** and **view logic** for authentication. 🚀
+
+---
+
+## 📌 Step 1: Creating the Login Form
+
+First, create a `forms.py` file inside the **account application** directory and define a login form:
+
+```python
+from django import forms
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+```
+
+### ✅ Explanation:
+
+- **`forms.Form`** → This defines a standard Django form.
+- **`username = forms.CharField()`** → Creates a text input field for the username.
+- **`password = forms.CharField(widget=forms.PasswordInput)`** → Uses **`PasswordInput`** to hide password characters in the HTML form.
+
+🔹 When rendered in HTML, the password input field will look like this:
+
+```html
+<input type="password" name="password">
+```
+
+---
+
