@@ -37,6 +37,14 @@ We will implement user authentication using **Django’s built-in authentication
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Functional Overview`
 
 </div>
+
+<div align="center">
+  <img src="./images/01.jpg" alt="" width="600px"/>
+
+  **Figure 4.1**: Diagram of functionalities built in this section
+
+</div>
+
