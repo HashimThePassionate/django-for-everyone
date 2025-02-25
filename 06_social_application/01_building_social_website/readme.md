@@ -770,7 +770,57 @@ Navigate to **[http://127.0.0.1:8000/account/login/](http://127.0.0.1:8000/accou
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Built-in Authentication Views`
 
 </div>
+
+# 🔐 **Using Django’s Built-in Authentication Views**
+
+Django provides **ready-to-use authentication views** in `django.contrib.auth.views` that can save time when building web applications with user authentication. These built-in views handle **user login, logout, password changes, and password resets**. 🚀
+
+---
+
+## 📌 Why Use Django’s Built-in Authentication Views?
+
+Instead of manually creating login and logout views, Django offers **pre-built authentication views** that:
+
+✅ Provide a **secure** authentication system.
+
+✅ Follow **best security practices** (e.g., password hashing, session handling).
+
+✅ Are **customizable** (templates, forms, redirection, etc.).
+
+✅ Save **development time** when building user account functionality.
+
+---
+
+## 📌 Authentication Views in `django.contrib.auth.views`
+
+### 🔑 **Login & Logout Views**
+
+| View             | Purpose                                             |
+| ---------------- | --------------------------------------------------- |
+| **`LoginView`**  | Handles login form submission and logs in the user. |
+| **`LogoutView`** | Logs out the user and clears the session.           |
+
+### 🔐 **Password Change Views**
+
+| View                         | Purpose                                                  |
+| ---------------------------- | -------------------------------------------------------- |
+| **`PasswordChangeView`**     | Displays a form to allow users to change their password. |
+| **`PasswordChangeDoneView`** | Redirects the user after a successful password change.   |
+
+### 🔄 **Password Reset Views**
+
+| View                            | Purpose                                                           |
+| ------------------------------- | ----------------------------------------------------------------- |
+| **`PasswordResetView`**         | Sends an email with a password reset link.                        |
+| **`PasswordResetDoneView`**     | Informs the user that an email has been sent.                     |
+| **`PasswordResetConfirmView`**  | Allows users to set a new password after clicking the reset link. |
+| **`PasswordResetCompleteView`** | Redirects the user after successfully resetting their password.   |
+
+💡 These views work **out of the box** but can be **customized** (e.g., changing templates, modifying form fields).
+
+---
+
 
