@@ -1272,5 +1272,102 @@ urlpatterns = [
   - Maps to `/account/password-change/done/`.
 
 ---
+# 🔐 **Django Password Change Templates**
+
+## 🚀 Overview
+
+To allow users to change their password, we use Django's built-in **PasswordChangeView** and **PasswordChangeDoneView**.
+
+- `PasswordChangeView` handles the password change form.
+- `PasswordChangeDoneView` displays a success message after the password is changed.
+
+This guide covers creating the required templates inside the `templates/registration/` directory.
+
+---
+
+## 📂 Step 1: Creating `password_change_form.html`
+
+Create a new file inside the `templates/registration/` directory and name it `password_change_form.html`. Add the following code:
+
+```html
+{% extends "base.html" %}
+{% block title %}Change your password{% endblock %}
+
+{% block content %}
+    <h1>Change your password</h1>
+    <p>Use the form below to change your password.</p>
+    
+    <form method="post">
+        {{ form.as_p }}
+        <p><input type="submit" value="Change"></p>
+        {% csrf_token %} <!-- Prevents Cross-Site Request Forgery attacks -->
+    </form>
+{% endblock %}
+```
+
+### 📌 Code Explanation:
+
+- **`{% extends "base.html" %}`**:
+  - Inherits the base template for consistency in design.
+- **`{% block title %}`**:
+  - Sets the page title to **"Change your password"**.
+- **`{% block content %}`**:
+  - Displays an `<h1>` header with **"Change your password"**.
+  - Includes a `<p>` tag explaining the purpose of the form.
+  - Uses **`{{ form.as_p }}`** to render Django’s password change form.
+  - Includes an **input button** to submit the form.
+  - Uses **`{% csrf_token %}`** to protect against CSRF attacks.
+
+---
+
+## 📂 Step 2: Creating `password_change_done.html`
+
+Create another file in the `templates/registration/` directory and name it `password_change_done.html`. Add the following code:
+
+```html
+{% extends "base.html" %}
+{% block title %}Password changed{% endblock %}
+
+{% block content %}
+    <h1>Password changed</h1>
+    <p>Your password has been successfully changed.</p>
+{% endblock %}
+```
+
+### 📌 Code Explanation:
+
+- **`{% extends "base.html" %}`**:
+  - Ensures the page follows the structure of the base template.
+- **`{% block title %}`**:
+  - Sets the page title to **"Password changed"**.
+- **`{% block content %}`**:
+  - Displays an `<h1>` header with **"Password changed"**.
+  - Includes a `<p>` tag with a success message.
+
+---
+
+
+## 🖥️ Step 3: Testing the Password Change Flow
+
+1. **Open `/account/password-change/` in your browser.**
+   - If not logged in, Django redirects you to the login page.
+
+<div align="center">
+  <img src="./images/10.jpg" alt="" width="600px"/>
+
+  **Figure 4.10**: The change password form
+
+</div>
+
+1. **Authenticate yourself and access the change password form.**
+2. **Fill in your current password and new password, then click CHANGE.**
+3. **You will be redirected to `/account/password-change/done/` with a success message.**
+
+<div align="center">
+  <img src="./images/11.jpg" alt="" width="600px"/>
+
+  **Figure 4.11**: The successful change password page
+
+---
 
 
