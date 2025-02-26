@@ -1093,5 +1093,107 @@ LOGOUT_URL = 'logout'
 
 ---
 
+# &#x20;**Django Authentication and Navigation Setup 📌**
 
+## 🚀 Overview
+
+In this guide, we have:
+
+- Added Django's built-in authentication **login and logout views**.
+- Created **custom templates** for both views and set up a simple **dashboard view** to redirect users after login.
+- Configured **Django settings** to use these authentication URLs by default.
+
+Now, we will modify the `base.html` template to include:
+
+- A **login link** for unauthenticated users.
+- A **logout button** and **menu navigation** for authenticated users.
+
+---
+
+## 📂 Step 1: Editing `base.html`
+
+Edit the `templates/base.html` file and add the following code:
+
+```html
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+        <span class="logo">Bookmarks</span>
+        {% if request.user.is_authenticated %} <!-- Check if user is logged in -->
+        <ul class="menu">
+            <li {% if section == "dashboard" %}class="selected"{% endif %}>
+                <a href="{% url "dashboard" %}">My dashboard</a>
+            </li>
+            <li {% if section == "images" %}class="selected"{% endif %}>
+                <a href="#">Images</a>
+            </li>
+            <li {% if section == "people" %}class="selected"{% endif %}>
+                <a href="#">People</a>
+            </li>
+        </ul>
+        {% endif %}
+
+        <span class="user">
+            {% if request.user.is_authenticated %}
+                Hello {{ request.user.first_name|default:request.user.username }},
+                <form action="{% url "logout" %}" method="post">
+                    <button type="submit">Logout</button>
+                    {% csrf_token %} <!-- Security token required for POST requests -->
+                </form>
+            {% else %}
+                <a href="{% url "login" %}">Log-in</a>
+            {% endif %}
+        </span> <!-- End user section -->
+    </div>
+
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
+```
+
+### 📌 Code Explanation:
+
+- **`{% if request.user.is_authenticated %}`**:
+  - Checks if a user is logged in.
+  - Displays the **navigation menu** and **logout button** only if authenticated.
+- **`<li {% if section == "dashboard" %}class="selected"{% endif %}>`**:
+  - Adds a `selected` CSS class to highlight the active menu item.
+- **`{{ request.user.first_name|default:request.user.username }}`**:
+  - Displays the user's **first name** if available.
+  - If the **first name is empty**, it defaults to displaying the **username**.
+- **Logout Mechanism:**
+  - Uses a **POST request** because `LogoutView` requires POST.
+  - The **CSRF token** (`{% csrf_token %}`) is required for security.
+- **Login Link:**
+  - If the user is not logged in, a **"Log-in"** link is displayed.
+
+---
+
+## 🖥️ Step 2: Testing Authentication Flow
+
+1. Open **[http://127.0.0.1:8000/account/login/](http://127.0.0.1:8000/account/login/)** in the browser.
+2. Enter **valid login credentials** and click **Log-in**.
+3. You should now see the **Dashboard** page with the menu displayed.
+4. The **My dashboard** menu item is **highlighted** using CSS.
+5. The **user's name** appears on the right side of the header.
+6. Click the **Logout** button:
+   - You will be redirected to the logout page.
+   - The **menu disappears**, and the **Log-in link** is displayed instead.
+
+---
+
+<div align="center">
+
+# `New Section Starts here`
+
+</div>
 
