@@ -823,4 +823,157 @@ Instead of manually creating login and logout views, Django offers **pre-built a
 
 ---
 
+# 🔐 **Implementing Django’s Built-in Login and Logout Views**
+
+In this section, we will replace our **custom login view** with Django’s **built-in authentication views** and integrate a **logout view**. Using Django’s pre-built views helps maintain security and reduces the need for custom authentication logic.
+
+---
+
+## 📌 Step 1: Updating `urls.py` in the `account` Application
+
+Edit the `urls.py` file inside the `account` application and modify it as follows:
+
+```python
+from django.contrib.auth import views as auth_views  # Import Django auth views
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # Previous custom login URL (commented out)
+    # path('login/', views.user_login, name='login'),
+    
+    # ✅ Using Django's built-in authentication views
+    path('login/', auth_views.LoginView.as_view(), name='login'),  # Built-in login view
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Built-in logout view
+]
+```
+
+### ✅ Explanation:
+
+- **`auth_views.LoginView.as_view()`** → Uses Django’s built-in login view instead of a custom function.
+- **`auth_views.LogoutView.as_view()`** → Handles user logout securely.
+- The **previous custom login URL is commented out** because Django’s built-in views are more secure and efficient.
+
+---
+
+# &#x20;**Setting Up Authentication Templates 🎨**
+
+To ensure our authentication system works correctly, we need to create **login and logout templates**. Django’s authentication views expect these templates to be inside the **`templates/registration/`** directory by default.
+
+---
+
+## 📌 Step 1: Create the Required Template Directory
+
+Inside the `account` application, create the following directory structure:
+
+```
+account/
+│── templates/
+│   ├── registration/
+│   │   ├── login.html
+│   │   ├── logged_out.html
+```
+
+By default, Django’s authentication views look for templates in `templates/registration/`, so we must store our authentication templates there.
+
+---
+
+## 📌 Step 2: Understanding Template Priority
+
+Django's **`django.contrib.admin`** module includes default authentication templates for the **admin login page**.
+
+Since we want to use **our own authentication templates**, we need to **place the ************************************************************************`account`************************************************************************ app at the top** of the `INSTALLED_APPS` list in `settings.py`:
+
+```python
+INSTALLED_APPS = [
+    'account.apps.AccountConfig',  # Ensure this is listed first
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+```
+
+### ✅ Explanation:
+
+- Django loads apps **in the order they appear** in `INSTALLED_APPS`.
+- Placing `account` first ensures that **Django uses our authentication templates** instead of the ones from `django.contrib.admin`.
+
+---
+
+## 📌 Step 3: Creating the `login.html` Template
+
+Create `templates/registration/login.html` and add the following code:
+
+```html
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+    <h1>Log-in</h1>
+    {% if form.errors %}
+        <p>
+            Your username and password didn't match.
+            Please try again.
+        </p>
+    {% else %}
+        <p>Please, use the following form to log in:</p>
+    {% endif %}
+    <div class="login-form">
+        <form action="{% url 'login' %}" method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}" />
+            <p><input type="submit" value="Log in"></p>
+        </form>
+    </div>
+{% endblock %}
+```
+
+### ✅ Explanation:
+
+- **`{% if form.errors %}`** → Displays an error message if authentication fails.
+- **`<form action="{% url 'login' %}" method="post">`** → Submits credentials to Django’s built-in `LoginView`.
+- **`{% csrf_token %}`** → Adds **CSRF protection** to prevent security attacks.
+- **Hidden ** field (**`next`**variable)** → Redirects the user **to a specific page after login**.
+  - If the login page is accessed with a URL like `http://127.0.0.1:8000/account/login/?next=/dashboard/`, Django will redirect the user to  upon successful login to `dashboard` page.
+
+---
+
+## 📌 Step 4: Creating the `logged_out.html` Template
+
+Create `templates/registration/logged_out.html` and add the following code:
+
+```html
+{% extends "base.html" %}
+{% block title %}Logged out{% endblock %}
+{% block content %}
+    <h1>Logged out</h1>
+    <p>
+        You have been successfully logged out.
+        You can <a href="{% url 'login' %}">log in again</a>.
+    </p>
+{% endblock %}
+```
+
+### ✅ Explanation:
+
+- Extends `base.html` the main layout structure.
+- **Displays a logout confirmation message**.
+- **Includes a login link** → Allows users to log in again easily.
+
+---
+
+## 📌 Step 5: Ensuring Authentication Views Work
+
+With these templates in place, Django’s **LoginView** and **LogoutView** will now function properly. Users can:
+
+1️⃣ Visit `/account/login/` to log in. <br>
+2️⃣ Log out at `/account/logout/`, which renders `logged_out.html`. <br>
+3️⃣ **Be redirected after login** if a `next` parameter is provided. <br>
+
+
+---
+
 
