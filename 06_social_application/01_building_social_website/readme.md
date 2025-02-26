@@ -1183,11 +1183,25 @@ Edit the `templates/base.html` file and add the following code:
 1. Open **[http://127.0.0.1:8000/account/login/](http://127.0.0.1:8000/account/login/)** in the browser.
 2. Enter **valid login credentials** and click **Log-in**.
 3. You should now see the **Dashboard** page with the menu displayed.
-4. The **My dashboard** menu item is **highlighted** using CSS.
-5. The **user's name** appears on the right side of the header.
-6. Click the **Logout** button:
+
+<div align="center">
+  <img src="./images/08.jpg" alt="" width="600px"/>
+
+  **Figure 4.8**: The Dashboard page
+
+</div>
+
+1. The **My dashboard** menu item is **highlighted** using CSS.
+2. The **user's name** appears on the right side of the header.
+3. Click the **Logout** button:
    - You will be redirected to the logout page.
    - The **menu disappears**, and the **Log-in link** is displayed instead.
+<div align="center">
+  <img src="./images/09.jpg" alt="" width="600px"/>
+
+  **Figure 4.9**: The Logged out page
+
+</div>
 
 ---
 
