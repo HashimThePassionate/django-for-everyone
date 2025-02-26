@@ -976,4 +976,122 @@ With these templates in place, Django’s **LoginView** and **LogoutView** will 
 
 ---
 
+#  **Django Dashboard View Setup** 📌
+
+## 🚀 Overview
+
+In this guide, we will create a **dashboard view** that will be displayed when users log into their accounts. This will involve editing multiple files, including `views.py`, `urls.py`, `settings.py`, and creating a new template `dashboard.html`.
+
+---
+
+## 📂 Step 1: Editing `views.py`
+
+Edit the `views.py` file of the **account** application and add the following code:
+
+```python
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+@login_required  # Ensures only logged-in users can access this view
+def dashboard(request):
+    return render(
+        request,
+        'account/dashboard.html',  # Renders the dashboard template
+        {'section': 'dashboard'}   # Context data to highlight the menu section
+    )
+```
+
+### 📌 Code Explanation:
+
+- **`@login_required`**: This decorator ensures that only authenticated users can access the dashboard.
+- **`render(request, 'account/dashboard.html', {'section': 'dashboard'})`**:
+  - `request`: The HTTP request object.
+  - `'account/dashboard.html'`: The template file to render.
+  - `{'section': 'dashboard'}`: A dictionary with context data to highlight the active section in the menu.
+
+If an **unauthenticated user** tries to access this view, they will be redirected to the **login page**. Once they log in, they will be redirected back to the **dashboard**.
+
+---
+
+## 📂 Step 2: Creating `dashboard.html`
+
+Create a new file inside the `templates/account/` directory and name it `dashboard.html`.
+
+```html
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <p>Welcome to your dashboard.</p>
+{% endblock %}
+```
+
+### 📌 Code Explanation:
+
+- **`{% extends "base.html" %}`**: Inherits the base template (`base.html`) to maintain consistency.
+- **`{% block title %}`**: Sets the page title as "Dashboard".
+- **`{% block content %}`**:
+  - Displays an `<h1>` heading: "Dashboard".
+  - Displays a `<p>` tag: "Welcome to your dashboard.".
+
+This template ensures that the dashboard page is displayed properly to the authenticated users.
+
+---
+
+## 📂 Step 3: Updating `urls.py`
+
+Edit the `urls.py` file of the **account** application and add the following URL pattern:
+
+```python
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views
+
+urlpatterns = [
+    # Previous login URL
+    # path('login/', views.user_login, name='login'),
+    
+    # Login and logout URLs
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    
+    # New dashboard view
+    path('', views.dashboard, name='dashboard'),
+]
+```
+
+### 📌 Code Explanation:
+
+- **`path('', views.dashboard, name='dashboard')`**:
+  - Maps the **dashboard view**on.
+  - When users log in, they will be redirected here.
+
+---
+
+## 📂 Step 4: Configuring `settings.py`
+
+Edit the `settings.py` file of the **project** and add the following code:
+
+```python
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+```
+
+### 📌 Code Explanation:
+
+- **`LOGIN_REDIRECT_URL = 'dashboard'`**:
+  - After successful login, users will be redirected to the **dashboard** view.
+  - If no `next` parameter is present in the login request, this setting ensures redirection to the dashboard.
+- **`LOGIN_URL = 'login'`**:
+  - Specifies the **login page** URL.
+  - Used by Django’s authentication system.
+- **`LOGOUT_URL = 'logout'`**:
+  - Specifies the **logout page** URL.
+  - Ensures users are redirected properly after logging out.
+
+---
+
+
 
