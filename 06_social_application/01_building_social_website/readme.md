@@ -1203,11 +1203,74 @@ Edit the `templates/base.html` file and add the following code:
 
 </div>
 
+`Important Note:`
+>If you see the Logged out page of the Django administration site instead of your own Loggedout page, check the INSTALLED_APPS setting of your project and make sure that django.contrib.admin comes after the account application. Both applications contain logged-out templates located in the same relative path. The Django template loader will go through the different applications in the INSTALLED_APPS list and use the first template it finds.
 ---
 
 <div align="center">
 
-# `New Section Starts here`
+# `New Section Password Change Views`
 
 </div>
+
+# 🔐 **Django Change Password Implementation**
+
+## 🚀 Overview
+
+To allow users to change their password after logging in, we integrate Django's built-in **authentication views**. This guide explains how to set up **password change functionality** in Django by modifying `urls.py`.
+
+---
+
+## 📂 Step 1: Updating `urls.py`
+
+Open the `urls.py` file of the **account** application and add the following URL patterns:
+
+```python
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views
+
+urlpatterns = [
+    # path('login/', views.user_login, name='login'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    # Change password URLs
+    path(
+        'password-change/',
+        auth_views.PasswordChangeView.as_view(),
+        name='password_change'
+    ),  # View to handle password change
+    
+    path(
+        'password-change/done/',
+        auth_views.PasswordChangeDoneView.as_view(),
+        name='password_change_done'
+    ),  # View to display success message after password change
+    
+    path('', views.dashboard, name='dashboard'),
+]
+```
+
+---
+
+## 📌 Code Explanation
+
+### 🔄 Password Change Views:
+
+- **`path('password-change/', auth_views.PasswordChangeView.as_view(), name='password_change')`**:
+
+  - Uses Django’s built-in `PasswordChangeView`.
+  - Provides a form for **logged-in users** to change their password.
+  - Requires the user to **enter their old password** before setting a new one.
+  - Maps to `/account/password-change/`.
+
+- **`path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done')`**:
+
+  - Uses Django’s built-in `PasswordChangeDoneView`.
+  - Displays a **success message** after a user successfully changes their password.
+  - Maps to `/account/password-change/done/`.
+
+---
+
 
