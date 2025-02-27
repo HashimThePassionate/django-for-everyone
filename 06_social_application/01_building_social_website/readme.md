@@ -1349,7 +1349,7 @@ Create another file in the `templates/registration/` directory and name it `pass
 
 ## 🖥️ Step 3: Testing the Password Change Flow
 
-1. **Open `/account/password-change/` in your browser.**
+1. **Open `http://127.0.0.1:8000/account/password-change/` in your browser.**
    - If not logged in, Django redirects you to the login page.
 
 <div align="center">
@@ -1361,7 +1361,7 @@ Create another file in the `templates/registration/` directory and name it `pass
 
 1. **Authenticate yourself and access the change password form.**
 2. **Fill in your current password and new password, then click CHANGE.**
-3. **You will be redirected to `/account/password-change/done/` with a success message.**
+3. **You will be redirected to `http://127.0.0.1:8000/account/password-change/done/` with a success message.**
 
 <div align="center">
   <img src="./images/11.jpg" alt="" width="600px"/>
@@ -1370,4 +1370,81 @@ Create another file in the `templates/registration/` directory and name it `pass
 
 ---
 
+# 🔐 **Reset Password Functionality**
 
+## Overview ✨
+
+When users forget their password, they need a secure way to recover access to their account. This feature allows users to initiate a password reset process by submitting their email address. They will receive an email containing a secure link with a unique token, which enables them to create a new password. The following URL configuration leverages Django’s built-in authentication views to manage login, logout, password change, and password reset operations.
+
+## URL Configuration 📑
+
+In the `urls.py` file of the account application, the following URL patterns are defined:
+
+```python
+urlpatterns = [
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path(
+        'password-change/',
+        auth_views.PasswordChangeView.as_view(),
+        name='password_change'
+    ),
+    path(
+        'password-change/done/',
+        auth_views.PasswordChangeDoneView.as_view(),
+        name='password_change_done'
+    ),
+    # 🔐 Reset Password URLs
+    # 📩 Password Reset: Displays a form to request a password reset via email.
+    path(
+        'password-reset/',
+        auth_views.PasswordResetView.as_view(),
+        name='password_reset'
+    ),
+    path(
+        'password-reset/done/',
+        auth_views.PasswordResetDoneView.as_view(),
+        name='password_reset_done'
+    ),
+    path(
+        'password-reset/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(),
+        name='password_reset_confirm'
+    ),
+    path(
+        'password-reset/complete/',
+        auth_views.PasswordResetCompleteView.as_view(),
+        name='password_reset_complete'
+    ),
+    path('', views.dashboard, name='dashboard'),
+]
+```
+
+## Detailed Code Explanations 🔍
+- **`# reset password urls`**  
+  - **📌 Comment:** Indicates that the subsequent URL patterns are related to the password reset process.
+
+- **`path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),`**  
+  - **📩 Function:** Configures the URL `/password-reset/` to display a form where users can request a password reset by entering their email address.
+  - **🏷️ Naming:** The URL is named `password_reset` for reference during form submission and redirection.
+
+- **`path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),`**  
+  - **✉️ Function:** Once the password reset form is submitted, users are redirected to `/password-reset/done/` which confirms that an email has been sent.
+  - **🏷️ Naming:** The name `password_reset_done` is used to indicate this state.
+
+- **`path('password-reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),`**  
+  - **🔑 Function:** Handles the URL that users access from the reset email.  
+    - **`<uidb64>`:** Represents the user’s ID in base64 encoding.
+    - **`<token>`:** A unique token for security verification.
+  - **🛡️ Purpose:** The `PasswordResetConfirmView` validates these parameters and presents a form for setting a new password.
+  - **🏷️ Naming:** The name `password_reset_confirm` is used for reverse URL lookup.
+
+- **`path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),`**  
+  - **🎉 Function:** After successfully resetting the password, users are directed to `/password-reset/complete/` where the `PasswordResetCompleteView` confirms the process.
+  - **🏷️ Naming:** Named `password_reset_complete` to mark the final step of the reset process.
+
+- **`path('', views.dashboard, name='dashboard'),`**  
+  - **🏠 Function:** Maps the root URL of the account application to the `dashboard` view, typically serving as the user's landing page after login or password change.
+  - **🏷️ Naming:** The name `dashboard` provides a clear reference for the home view.
+
+---
