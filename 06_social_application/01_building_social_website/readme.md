@@ -1798,7 +1798,183 @@ Open the existing `registration/login.html` file of your `account` application. 
 ## 7. Test the Flow in Your Browser 🌐
 
 - Navigate to `http://127.0.0.1:8000/account/login/`.  
+
+<div align="center">
+  <img src="./images/12.jpg" alt="" width="600px"/>
+
+  **Figure 4.12**: The Log-in page, including a link to the reset password page
+
+</div>
+
 - You should now see a **“Forgotten your password?”** link.  
+  
+<div align="center">
+  <img src="./images/13.jpg" alt="" width="600px"/>
+
+  **Figure 4.13**: The restore password formge
+
+</div>
+
 - Clicking on this link will take you to the **Password Reset** page (`password_reset_form.html`), allowing you to enter your email and proceed with the password reset flow.
 
 ---
+
+# 📧 **SMTP Configuration & Authentication URL Patterns**
+
+## Overview ✨
+
+In this segment, we configure Django to send emails through the console (instead of a real SMTP server) for development purposes. This allows us to test the password reset feature without sending real emails. We also demonstrate how to replace custom URL patterns with Django’s built-in authentication URLs for a cleaner setup.
+
+---
+
+## 1. Configure the Email Backend in `settings.py` ⚙️
+
+Edit your project’s `settings.py` file and add the following line:
+
+```python
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`**  
+   - **🚀 Purpose**: Tells Django to send emails to the console (standard output) rather than using an SMTP server.  
+   - **🛠️ Development-Friendly**: This setup is perfect for local testing because you can see all outgoing emails directly in your terminal or command prompt.
+
+> **Note**: In production, you’d replace this setting with your actual SMTP credentials or another email backend.
+
+---
+
+## 2. Testing the Password Reset Flow 🏁
+
+1. **Open the login page**: Navigate to `http://127.0.0.1:8000/account/login/`.  
+2. **Click the “Forgotten your password?” link**: This takes you to the password reset page where you can enter an email address for an existing user.  
+3. **Submit your email**: Click **SEND E-MAIL** (or similar button).  
+<div align="center">
+  <img src="./images/14.jpg" alt="" width="600px"/>
+
+  **Figure 4.14**: The reset password email sent page
+
+</div>
+4. **Check the console**: In the shell or terminal where you’re running the development server, you’ll see the generated email message.
+
+Below is an example of what you might see in the console:
+
+```
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: test@gmail.com
+Date: Mon, 10 Jan 2024 19:05:18 -0000
+Message-ID: <162896791878.58862.14771487060402279558@MBP-amele.local>
+
+Someone asked for password reset for email test@gmail.com. Follow the link below:
+http://127.0.0.1:8000/account/password-reset/MQ/ardx0ub4973cfa2c70d652a190e79054bc479a/
+Your username, in case you've forgotten: test
+```
+
+### Explanation of the Console Output 🔍
+
+- **Email Headers**: The message shows standard email headers like `Subject`, `From`, `To`, and a timestamped `Message-ID`.  
+- **Email Body**: Matches the `password_reset_email.html` template you created. It includes a secure link containing a token to reset the user’s password.
+
+---
+
+## 3. Complete the Password Reset Process ✅
+
+1. **Copy the Password Reset Link**: From the console output, copy the URL, e.g. `http://127.0.0.1:8000/account/password-reset/MQ/ardx0u-b4973cfa2c70d652a190e79054bc479a/`.  
+2. **Open the Link in Your Browser**: You’ll be taken to the **password reset confirm** page (rendered by `password_reset_confirm.html`).  
+
+<div align="center">
+  <img src="./images/15.jpg" alt="" width="600px"/>
+
+  **Figure 4.15**:  The reset password form
+
+</div>
+
+
+1. **Enter a New Password**: Fill in the required fields and click **CHANGE MY PASSWORD**.  
+<div align="center">
+  <img src="./images/16.jpg" alt="" width="600px"/>
+
+  **Figure 4.16**:  The successful password reset page
+
+</div>
+
+2. **Success Page**: Django saves the new (hashed) password to the database and shows the **password reset complete** page. You can now log in with your new password.
+
+> **One-Time Token**: Each reset token can only be used once. If you try using the same link again, you’ll see a message indicating the token is invalid.
+
+---
+
+## 4. Replacing Custom URL Patterns with Django’s Built-In URLs 🛠️
+
+You have already set up custom URL patterns in your `urls.py` for login, logout, and password management. Django provides equivalent built-in URL patterns via `django.contrib.auth.urls`. This allows you to reduce boilerplate code.
+
+Open your `account/urls.py` file and **comment out** your existing authentication patterns, then **include** Django’s built-in patterns. Here’s an example:
+
+```python
+from django.urls import include, path
+from django.contrib.auth import views as auth_views
+from . import views
+
+urlpatterns = [
+    # previous login view
+    # path('login/', views.user_login, name='login'),
+    # path('login/', auth_views.LoginView.as_view(), name='login'),
+    # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    # change password urls
+    # path('password-change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+    # path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+
+    # reset password urls
+    # path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    # path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    # path('password-reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    # path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+    # ✨ Built-in authentication URL patterns
+    path('', include('django.contrib.auth.urls')),
+
+    # Dashboard view
+    path('', views.dashboard, name='dashboard'),
+]
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`from django.urls import include, path`**  
+   - 🧩 Imports Django’s URL functions, including `include()` for grouping multiple URL patterns.
+
+2. **`from django.contrib.auth import views as auth_views`**  
+   - 🔑 Imports Django’s built-in authentication views under the alias `auth_views`.
+
+3. **`from . import views`**  
+   - 🏠 Imports your local `views.py` functions, e.g., `dashboard`.
+
+4. **`urlpatterns = [ ... ]`**  
+   - 🚦 Defines the URL patterns for this app.
+
+5. **Commented-out lines** (e.g., `# path('login/', auth_views.LoginView.as_view(), name='login'),`)  
+   - 🛑 Temporarily disables your custom authentication patterns to avoid duplication.
+
+6. **`path('', include('django.contrib.auth.urls')),`**  
+   - ✨ Replaces your custom auth URLs with Django’s built-in patterns. These include:
+     - `/login/` and `/logout/`
+     - `/password_change/` and `/password_change/done/`
+     - `/password_reset/` and related URLs
+   - This approach reduces code duplication and leverages Django’s tested auth functionality.
+
+7. **`path('', views.dashboard, name='dashboard'),`**  
+   - 🏠 Keeps the dashboard URL as the default route for your `account` app.
+
+---
+
+<div align="center">
+
+# `New Section User Profile`
+
+</div>
