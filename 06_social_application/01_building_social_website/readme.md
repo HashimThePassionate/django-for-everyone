@@ -1368,6 +1368,8 @@ Create another file in the `templates/registration/` directory and name it `pass
 
   **Figure 4.11**: The successful change password page
 
+</div>
+
 ---
 
 # 🔐 **Reset Password Functionality**
@@ -1446,5 +1448,357 @@ urlpatterns = [
 - **`path('', views.dashboard, name='dashboard'),`**  
   - **🏠 Function:** Maps the root URL of the account application to the `dashboard` view, typically serving as the user's landing page after login or password change.
   - **🏷️ Naming:** The name `dashboard` provides a clear reference for the home view.
+
+---
+
+Below is a professional-style README section for implementing the reset password templates and updating the login page, complete with **beautiful emojis** and **line-by-line code explanations**.
+
+---
+
+# 🔐 **Password Reset Templates**
+
+## Overview ✨
+In this section, we create the necessary HTML templates to facilitate the password reset process in a Django application. These templates include forms and messages guiding users through resetting their password. Additionally, we update the existing `login.html` template to include a link to the password reset process.
+
+> **Note**: All templates should reside in the `templates/registration/` directory within your `account` application (or wherever your Django project is configured to look for authentication templates).
+
+---
+
+## 1. `password_reset_form.html` 📄
+
+Create a new file named `password_reset_form.html` in `templates/registration/` and add the following code:
+
+```html
+{% extends "base.html" %}
+{% block title %}Reset your password{% endblock %}
+{% block content %}
+  <h1>Forgotten your password?</h1>
+  <p>Enter your e-mail address to obtain a new password.</p>
+  <form method="post">
+    {{ form.as_p }}
+    <p><input type="submit" value="Send e-mail"></p>
+    {% csrf_token %}
+  </form>
+{% endblock %}
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`{% extends "base.html" %}`**  
+   - 🏗️ Inherits the layout from `base.html`, ensuring consistent design (header, footer, etc.).
+
+2. **`{% block title %}Reset your password{% endblock %}`**  
+   - 🏷️ Sets the title of the page to "Reset your password".
+
+3. **`{% block content %}`**  
+   - 📦 Begins the main content section where the reset form will be placed.
+
+4. **`<h1>Forgotten your password?</h1>`**  
+   - 📝 Heading prompting the user that they are on the “Forgotten password” page.
+
+5. **`<p>Enter your e-mail address to obtain a new password.</p>`**  
+   - 💡 Provides instructions to the user about what to do.
+
+6. **`<form method="post">`**  
+   - 🚀 Starts an HTML form that sends data via POST to the current URL.
+
+7. **`{{ form.as_p }}`**  
+   - 🧩 Renders the Django form in paragraph (`<p>`) tags for each field.
+
+8. **`<p><input type="submit" value="Send e-mail"></p>`**  
+   - 🚚 Submit button labeled "Send e-mail" to trigger the password reset request.
+
+9. **`{% csrf_token %}`**  
+   - 🔒 Includes Django’s CSRF token for security against cross-site request forgery.
+
+10. **`</form>`**  
+    - ✅ Closes the form tag.
+
+11. **`{% endblock %}`**  
+    - 🔚 Closes the content block.
+
+---
+
+## 2. `password_reset_email.html` 📧
+
+Create another file named `password_reset_email.html` in the same directory and add the following code:
+
+```html
+Someone asked for password reset for email {{ email }}. Follow the link below:
+{{ protocol }}://{{ domain }}{% url "password_reset_confirm" uidb64=uid token=token %}
+Your username, in case you've forgotten: {{ user.get_username }}
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`Someone asked for password reset for email {{ email }}.`**  
+   - 📝 Informs the email recipient that a password reset was requested for the specified email.
+
+2. **`Follow the link below:`**  
+   - 🚦 Guides the user to follow the link to continue the reset process.
+
+3. **`{{ protocol }}://{{ domain }}{% url "password_reset_confirm" uidb64=uid token=token %}`**  
+   - 🌐 Constructs the full URL for resetting the password, using:
+     - **`{{ protocol }}`**: Either `http` or `https`.
+     - **`{{ domain }}`**: The domain of the website (e.g., `127.0.0.1:8000`).
+     - **`{% url "password_reset_confirm" uidb64=uid token=token %}`**: Django template tag to build the link to the `password_reset_confirm` view, passing the unique user ID (base64-encoded) and the reset token.
+
+4. **`Your username, in case you've forgotten: {{ user.get_username }}`**  
+   - 📛 Provides the user’s username to help them recall their login credentials.
+
+> **Note**: This template is sent as the body of the reset password email. It’s purely text-based by default, but you can customize it to use HTML formatting if you configure your email backend accordingly.
+
+---
+
+## 3. `password_reset_done.html` ✅
+
+Create another file named `password_reset_done.html` in the same directory:
+
+```html
+{% extends "base.html" %}
+{% block title %}Reset your password{% endblock %}
+{% block content %}
+  <h1>Reset your password</h1>
+  <p>We've emailed you instructions for setting your password.</p>
+  <p>If you don't receive an email, please make sure you've entered the address
+  you registered with.</p>
+{% endblock %}
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`{% extends "base.html" %}`**  
+   - 🏗️ Inherits the base layout.
+
+2. **`{% block title %}Reset your password{% endblock %}`**  
+   - 🏷️ Sets the page title to "Reset your password".
+
+3. **`{% block content %}`**  
+   - 📦 Starts the main content block.
+
+4. **`<h1>Reset your password</h1>`**  
+   - 📝 Heading indicating the action being performed.
+
+5. **`<p>We've emailed you instructions for setting your password.</p>`**  
+   - ✉️ Confirms that instructions have been sent to the user’s email.
+
+6. **`<p>If you don't receive an email, please make sure you've entered the address you registered with.</p>`**  
+   - ❓ Offers guidance if the user does not receive the reset email.
+
+7. **`{% endblock %}`**  
+   - 🔚 Closes the content block.
+
+---
+
+## 4. `password_reset_confirm.html` 🔑
+
+Create another file named `password_reset_confirm.html`:
+
+```html
+{% extends "base.html" %}
+{% block title %}Reset your password{% endblock %}
+{% block content %}
+  <h1>Reset your password</h1>
+  {% if validlink %}
+    <p>Please enter your new password twice:</p>
+    <form method="post">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Change my password" /></p>
+    </form>
+  {% else %}
+    <p>The password reset link was invalid, possibly because it has already
+    been used. Please request a new password reset.</p>
+  {% endif %}
+{% endblock %}
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`{% extends "base.html" %}`**  
+   - 🏗️ Uses the base template.
+
+2. **`{% block title %}Reset your password{% endblock %}`**  
+   - 🏷️ Sets the page title.
+
+3. **`{% block content %}`**  
+   - 📦 Main content block starts.
+
+4. **`<h1>Reset your password</h1>`**  
+   - 📝 Heading clarifying the action.
+
+5. **`{% if validlink %}`**  
+   - 🔍 Checks whether the reset link is valid (provided by the `PasswordResetConfirmView`).
+
+6. **`<p>Please enter your new password twice:</p>`**  
+   - 📝 Instructs the user to fill out both password fields.
+
+7. **`<form method="post">`**  
+   - 🚀 Starts the POST form for submitting the new password.
+
+8. **`{{ form.as_p }}`**  
+   - 🧩 Renders the password reset form fields (new password, confirmation).
+
+9. **`{% csrf_token %}`**  
+   - 🔒 Security token to protect against CSRF attacks.
+
+10. **`<p><input type="submit" value="Change my password" /></p>`**  
+    - 🚚 A button to submit the new password.
+
+11. **`</form>`**  
+    - ✅ Closes the form.
+
+12. **`{% else %}`**  
+    - ❓ If the link is invalid or expired, this block is displayed instead.
+
+13. **`<p>The password reset link was invalid, possibly because it has already been used. Please request a new password reset.</p>`**  
+    - ⚠️ Informs the user about the invalid/expired link.
+
+14. **`{% endif %}`**  
+    - 🔚 Closes the `if` statement.
+
+15. **`{% endblock %}`**  
+    - 🔚 Ends the content block.
+
+---
+
+## 5. `password_reset_complete.html` 🎉
+
+Finally, create `password_reset_complete.html`:
+
+```html
+{% extends "base.html" %}
+{% block title %}Password reset{% endblock %}
+{% block content %}
+  <h1>Password set</h1>
+  <p>Your password has been set. You can <a href="{% url "login" %}">log in
+  now</a></p>
+{% endblock %}
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`{% extends "base.html" %}`**  
+   - 🏗️ Uses the base layout.
+
+2. **`{% block title %}Password reset{% endblock %}`**  
+   - 🏷️ Sets the page title to "Password reset".
+
+3. **`{% block content %}`**  
+   - 📦 Begins the content section.
+
+4. **`<h1>Password set</h1>`**  
+   - 📝 Indicates that the new password has been successfully saved.
+
+5. **`<p>Your password has been set. You can <a href="{% url "login" %}">log in now</a></p>`**  
+   - 🚀 Provides a direct link to the login page so the user can immediately log in with their new password.
+
+6. **`{% endblock %}`**  
+   - 🔚 Closes the content block.
+
+---
+
+## 6. Update the `login.html` Template 🚪
+
+Open the existing `registration/login.html` file of your `account` application. Add the lines highlighted by HTML comments (or just follow the instructions below). The template should look like this:
+
+```html
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+  <h1>Log-in</h1>
+  {% if form.errors %}
+    <p>
+      Your username and password didn't match.
+      Please try again.
+    </p>
+  {% else %}
+    <p>Please, use the following form to log-in:</p>
+  {% endif %}
+  <div class="login-form">
+    <form action="{% url 'login' %}" method="post">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}" />
+      <p><input type="submit" value="Log-in"></p>
+    </form>
+    <p> <!-- Reset Password link -->
+      <a href="{% url "password_reset" %}">
+        Forgotten your password?
+      </a>
+    </p>
+  </div>
+{% endblock %}
+```
+
+### Line-by-Line Explanation 🔍
+
+1. **`{% extends "base.html" %}`**  
+   - 🏗️ Inherits the common layout.
+
+2. **`{% block title %}Log-in{% endblock %}`**  
+   - 🏷️ Sets the page title to “Log-in”.
+
+3. **`{% block content %}`**  
+   - 📦 Opens the main content section.
+
+4. **`<h1>Log-in</h1>`**  
+   - 📝 Page heading for the login form.
+
+5. **`{% if form.errors %}`**  
+   - 🔎 Checks if there are any form errors.
+
+6. **`<p>Your username and password didn't match. Please try again.</p>`**  
+   - ⚠️ Error message if the credentials are invalid.
+
+7. **`{% else %}`**  
+   - ✔️ If no errors, shows a simple instruction message.
+
+8. **`<p>Please, use the following form to log-in:</p>`**  
+   - 💬 Instruction for logging in.
+
+9. **`<div class="login-form">`**  
+   - 📦 A container for the login form (could be styled with CSS).
+
+10. **`<form action="{% url 'login' %}" method="post">`**  
+    - 🚀 POSTs the login credentials to Django’s login view.
+
+11. **`{{ form.as_p }}`**  
+    - 🧩 Renders the username and password fields.
+
+12. **`{% csrf_token %}`**  
+    - 🔒 Protects the form with CSRF token.
+
+13. **`<input type="hidden" name="next" value="{{ next }}" />`**  
+    - 🔀 Preserves the next URL if the user was redirected here from another page.
+
+14. **`<p><input type="submit" value="Log-in"></p>`**  
+    - 🚪 The button to submit the login form.
+
+15. **`</form>`**  
+    - ✅ Closes the login form.
+
+16. **`<p> <!-- Reset Password link -->`**  
+    - 📝 Comment indicating this is where the reset password link is placed.
+
+17. **`<a href="{% url "password_reset" %}">Forgotten your password?</a>`**  
+    - 🔗 A link that takes the user to the password reset page if they’ve forgotten their password.
+
+18. **`</p>`**  
+    - ✅ Closes the paragraph tag.
+
+19. **`</div>`**  
+    - ✅ Closes the login form container.
+
+20. **`{% endblock %}`**  
+    - 🔚 Ends the content block.
+
+---
+
+## 7. Test the Flow in Your Browser 🌐
+
+- Navigate to `http://127.0.0.1:8000/account/login/`.  
+- You should now see a **“Forgotten your password?”** link.  
+- Clicking on this link will take you to the **Password Reset** page (`password_reset_form.html`), allowing you to enter your email and proceed with the password reset flow.
 
 ---
