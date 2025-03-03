@@ -2219,7 +2219,6 @@ Django uses the first hasher in the list (PBKDF2PasswordHasher) to hash all new 
 
 This section details how to set up URL patterns in the `urls.py` file for the account application. The URL configuration includes Django’s built-in authentication URLs, a dashboard view, and a registration view.
 
----
 
 ## 🛣️ **URL Configuration**
 
@@ -2236,7 +2235,124 @@ urlpatterns = [)
 ]
 ```
 
----
-
 This configuration enables the following:.
 - **Registration**: Provides a dedicated URL (`register/`) for user registration, linking to the custom registration view defined in `views.py`.
+
+
+---
+ 
+#  **Django Account Templates** 🚀
+
+Lets create and set up templates for user registration and update the login page to include a registration link. Each section is detailed with explanations and emojis for clarity.
+
+---
+
+## 📄 Creating the Registration Templatesl
+
+Create a new template file named `register.html` in the `templates/account/` directory. This template extends the base layout and displays a form for new users to create an account.
+
+```html
+{% extends "base.html" %}
+{% block title %}Create an account{% endblock %}
+{% block content %}
+  <h1>Create an account</h1>
+  <p>Please, sign up using the following form:</p>
+  <form method="post">
+    {{ user_form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Create my account"></p>
+  </form>
+{% endblock %}
+```
+
+**Explanation:**  
+- The template uses `{% extends "base.html" %}` to inherit from your base layout.
+- The `title` block is overridden to set the page title.
+- The `content` block contains a header, a prompt, and a form that displays the registration fields using `{{ user_form.as_p }}`.
+- The `{% csrf_token %}` tag ensures the form is secure against Cross-Site Request Forgery attacks.
+
+### 🎉 register_done.html
+
+Create another template file named `register_done.html` in the same directory. This template is shown after a new user account is successfully created.
+
+```html
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+  <h1>Welcome {{ new_user.first_name }}!</h1>
+  <p>
+    Your account has been successfully created.
+    Now you can <a href="{% url "login" %}">log in</a>.
+  </p>
+{% endblock %}
+```
+
+**Explanation:**  
+- This template also extends the base layout.
+- It sets a custom title "Welcome" and greets the new user by their first name.
+- It informs the user that their account has been created and provides a link to the login page using Django’s `{% url "login" %}` template tag.
+
+## 🔍 Verifying the Registration Process
+
+### 🌐 Testing the Registration
+
+1. **Open the Registration Page:**  
+   Navigate to [http://127.0.0.1:8000/account/register/](http://127.0.0.1:8000/account/register/) in your browser. You should see the registration form created with `register.html`.
+
+
+<div align="center">
+  <img src="./images/17.jpg" alt="" width="600px"/>
+
+  **Figure 4.17**: The account creation form
+
+</div>
+
+2. **Create a New User:**  
+   Fill in the details and click the **Create my account** button. If all fields are valid, the new user is created and you are redirected to the success page (`register_done.html`).
+
+<div align="center">
+  <img src="./images/18.jpg" alt="" width="600px"/>
+
+  **Figure 4.18**: The account is successfully created page
+
+</div>
+
+3. **Login Verification:**  
+   Click the log in link provided on the success page. Use the username and password you registered with to verify that you can access your newly created account.
+
+## 🔗 Updating the Login Page with a Registration Link
+
+### 🛠️ Modifying registration/login.html
+
+To make it easier for users to register, add a registration link directly on the login page. Edit the `registration/login.html` template.
+
+1. **Locate the Current Login Prompt:**  
+   Find the line that reads:
+   ```html
+   <p>Please, use the following form to log-in:</p>
+   ```
+
+2. **Replace with Updated Text and Link:**  
+   Update the code to include a registration prompt:
+   ```html
+   <p>
+     Please, use the following form to log-in.
+     If you don't have an account <a href="{% url "register" %}">register here</a>.
+   </p>
+   ```
+
+3. **Verify the Update:**  
+   Open [http://127.0.0.1:8000/account/login/](http://127.0.0.1:8000/account/login/) in your browser. The page should now display the updated prompt with a clickable link to the registration page.
+
+<div align="center">
+  <img src="./images/19.jpg" alt="" width="600px"/>
+
+  **Figure 4.19**: The Log-in page including a link to register
+
+</div>
+
+**Explanation:**  
+- The updated prompt informs users that if they don't have an account, they can register by clicking the provided link.
+- This enhances user navigation and improves overall user experience by making the registration process easily accessible from the login page.
+
+---
