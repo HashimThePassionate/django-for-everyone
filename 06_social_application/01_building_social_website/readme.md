@@ -2122,3 +2122,95 @@ class UserRegistrationForm(forms.ModelForm):
 - **Field-Specific vs. General Clean Methods:**  
   While Django forms provide a general `clean()` method to validate the entire form, using field-specific methods like `clean_password2()` allows for more granular control. This approach avoids unintentionally overriding other built-in validations (such as unique username checks).
 
+---
+
+#  **Django User Registration & Password Hashing** 🔐
+
+This document explains how Django provides a user registration system using the `UserCreationForm` from `django.contrib.auth.forms` and describes how to create a custom user registration view along with an explanation of Django's password hashing mechanism.
+
+## 📝 Register View Implementation
+
+Edit the `views.py` file of the account application and add the following code. The code creates a new user account by utilizing a custom `UserRegistrationForm` and includes comments to highlight each step:
+
+```python
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import render
+from .forms import LoginForm, UserRegistrationForm  # import UserRegistrationForm
+
+# Register View
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save(commit=False)
+            # Set the chosen password
+            new_user.set_password(
+                user_form.cleaned_data['password']
+            )
+            # Save the User object
+            new_user.save()
+            return render(
+                request,
+                'account/register_done.html',
+                {'new_user': new_user}
+            )
+    else:
+        user_form = UserRegistrationForm()
+    return render(
+        request,
+        'account/register.html',
+        {'user_form': user_form}
+    )
+```
+
+---
+
+## 📋 Explanation of the Register View
+
+- **User Creation**: The view handles both GET and POST requests. When a POST request is made, the view validates the submitted form data using the custom `UserRegistrationForm`.
+
+- **Password Handling**:  
+  Instead of saving the raw password entered by the user, the code uses the `set_password()` method of the user model. This method automatically hashes the password before storing it in the database.  
+  Django stores passwords in hashed form for enhanced security, preventing clear text storage.
+
+- **Password Hashing Process**:  
+  Hashing transforms the given password into a fixed-length value using a mathematical algorithm. This ensures that if the database is compromised, retrieving the original passwords would require a significant amount of computational effort.
+
+---
+
+## 🔒 Django Password Hashing
+
+Django, by default, employs the PBKDF2 algorithm with a SHA256 hash to securely store user passwords. However, Django is versatile and supports checking passwords hashed with various algorithms, including:
+
+- **PBKDF2SHA1**
+- **argon2**
+- **bcrypt**
+- **scrypt**
+
+### ⚙️ Default PASSWORD_HASHERS Setting
+
+The following list defines the default password hashers supported by Django:
+
+```python
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.ScryptPasswordHasher',
+]
+```
+
+Django uses the first hasher in the list (PBKDF2PasswordHasher) to hash all new passwords, while the remaining hashers are available to check existing passwords.
+
+---
+
+## 💡 Important Tip
+
+- **scrypt Hasher**:  
+  Introduced in Django 4.0, the `scrypt` hasher is more secure and is recommended over PBKDF2. However, PBKDF2 remains the default because `scrypt` requires OpenSSL 1.1+ and additional memory.
+
+---
