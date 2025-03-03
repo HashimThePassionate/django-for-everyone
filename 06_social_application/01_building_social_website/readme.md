@@ -2214,3 +2214,29 @@ Django uses the first hasher in the list (PBKDF2PasswordHasher) to hash all new 
   Introduced in Django 4.0, the `scrypt` hasher is more secure and is recommended over PBKDF2. However, PBKDF2 remains the default because `scrypt` requires OpenSSL 1.1+ and additional memory.
 
 ---
+
+# 🔗 Django Account URL Patterns
+
+This section details how to set up URL patterns in the `urls.py` file for the account application. The URL configuration includes Django’s built-in authentication URLs, a dashboard view, and a registration view.
+
+---
+
+## 🛣️ **URL Configuration**
+
+Edit the `urls.py` file of your account application and add the following URL patterns, with comments highlighting the functionality of each route:
+
+```python
+from django.urls import path, include
+from . import views
+
+urlpatterns = [)
+    path('', include('django.contrib.auth.urls')),
+    path('', views.dashboard, name='dashboard'),
+    path('register/', views.register, name='register'),  # Register url
+]
+```
+
+---
+
+This configuration enables the following:.
+- **Registration**: Provides a dedicated URL (`register/`) for user registration, linking to the custom registration view defined in `views.py`.
