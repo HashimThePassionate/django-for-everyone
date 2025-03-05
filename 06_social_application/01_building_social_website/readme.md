@@ -2355,4 +2355,91 @@ To make it easier for users to register, add a registration link directly on the
 - The updated prompt informs users that if they don't have an account, they can register by clicking the provided link.
 - This enhances user navigation and improves overall user experience by making the registration process easily accessible from the login page.
 
+
+<div align="center">
+
+# `New Section Extending the user model`
+
+</div>
+
+# **Extending the Django User Model with a Profile** 🚀
+
+Django’s built-in user model is versatile and sufficient for many standard use cases. However, it only offers a limited set of predefined fields. If your application requires storing additional information—like a user’s date of birth or profile picture—you can extend the default user model by creating a separate **Profile** model. This approach uses a one-to-one relationship to ensure that each user has a unique profile, while keeping the authentication model uncluttered.
+
+## Code Implementation 💻
+
+Add the following code to your `models.py` file in the account application. The inline comments help explain each part of the implementation:
+
+```python
+from django.db import models
+from django.conf import settings  # import settings
+
+# add Profile Class
+class Profile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    date_of_birth = models.DateField(blank=True, null=True)
+    photo = models.ImageField(
+        upload_to='users/%Y/%m/%d/',
+        blank=True
+    )
+    
+    def __str__(self):
+        return f'Profile of {self.user.username}'
+```
+
+## Detailed Explanation of the Commented Code 📝
+
+### `from django.conf import settings  # import settings`
+- **Purpose:**  
+  This line imports the Django settings module.  
+- **Why It's Important:**  
+  Using `settings.AUTH_USER_MODEL` allows your code to be flexible by referencing the user model defined in your project’s settings. This is crucial when using a custom user model instead of Django’s default `auth.User`, ensuring your code works regardless of the user model's implementation.
+
+### `# add Profile Class`
+- **Purpose:**  
+  This comment introduces the creation of the **Profile** class.  
+- **Why It's Important:**  
+  The Profile model is designed to extend the existing user model by storing additional details (like date of birth and a profile photo) without modifying the original user model. This separation of concerns makes the application easier to maintain and scale.
+
+### `user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)`
+- **Purpose:**  
+  Establishes a one-to-one relationship between the Profile model and the user model.
+- **Why It's Important:**  
+  - **One-to-One Relationship:**  
+    This type of relationship ensures that every user has a unique profile, and each profile is linked to exactly one user.
+  - **Generic Reference:**  
+    By using `settings.AUTH_USER_MODEL`, the code can accommodate custom user models.
+  - **Cascade Delete:**  
+    The `on_delete=models.CASCADE` parameter guarantees that if a user is deleted, their associated profile is automatically removed. This maintains data integrity by preventing orphaned profile records.
+
+### `date_of_birth = models.DateField(blank=True, null=True)`
+- **Purpose:**  
+  Creates a field to store the user's date of birth.
+- **Why It's Important:**  
+  - **Optional Field:**  
+    The parameters `blank=True` and `null=True` allow this field to be optional. This means that users may choose not to provide their date of birth without causing validation errors.
+  - **Data Type:**  
+    Using `DateField` ensures that only valid date entries are stored, and it provides useful date-related functionalities such as querying and formatting dates.
+
+### `photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)`
+- **Purpose:**  
+  Adds an image field to store the user's profile photo.
+- **Why It's Important:**  
+  - **Image Validation:**  
+    `ImageField` not only stores the file path but also validates that the uploaded file is a valid image format.
+  - **Dynamic Storage Path:**  
+    The `upload_to` parameter specifies a dynamic directory structure based on the current year, month, and day. This organizes uploaded images chronologically, making file management easier.
+  - **Optional Field:**  
+    The `blank=True` parameter means users aren’t forced to upload a photo during profile creation.
+
+### `def __str__(self): return f'Profile of {self.user.username}'`
+- **Purpose:**  
+  This method defines the string representation of the Profile instance.
+- **Why It's Important:**  
+  Providing a clear, human-readable representation for model instances is helpful during debugging and when working in the Django admin. By returning the username, it’s easy to identify which profile belongs to which user.
+
 ---
+
