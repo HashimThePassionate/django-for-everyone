@@ -2613,3 +2613,62 @@ After defining the Profile model, you'll need to create the corresponding databa
 
 ---
 
+# **let users edit their profiles on the website** 📝
+---
+
+```python
+# ...
+from .models import Profile  # import Profile
+# ...
+
+class UserEditForm(forms.ModelForm):  # add UserEditForm
+    class Meta:
+        model = get_user_model()
+        fields = ['first_name', 'last_name', 'email']
+
+# ProfileEditForm
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['date_of_birth', 'photo']
+```
+
+---
+
+## Detailed Explanation of the Commented Code 📝💡
+
+- **`from .models import Profile  # import Profile`**  
+  - **Purpose:**  
+    This line imports the `Profile` model from the current application's `models.py` file.  
+  - **Explanation:**  
+    Importing the Profile model is essential because it is later used in the `ProfileEditForm`. This makes the Profile model available in the forms module so that the form can reference and operate on it. 🔗
+
+- **`class UserEditForm(forms.ModelForm):  # add UserEditForm`**  
+  - **Purpose:**  
+    This comment indicates that a new form named `UserEditForm` is being created.  
+  - **Explanation:**  
+    The `UserEditForm` is a subclass of Django’s `forms.ModelForm`. It allows users to update their personal information—specifically, the first name, last name, and email. The form is linked to the user model returned by `get_user_model()`, ensuring it always uses the active user model for the project. 👤
+
+- **`# ProfileEditForm`**  
+  - **Purpose:**  
+    This comment acts as a marker to indicate that the following form is for editing profile-specific data.  
+  - **Explanation:**  
+    It clearly separates the two forms, showing that while the first form handles core user data, the next form is dedicated to the additional profile data. 📋
+
+- **`class ProfileEditForm(forms.ModelForm):`**  
+  - **Purpose:**  
+    This line defines the new form `ProfileEditForm` as a subclass of `forms.ModelForm`.  
+  - **Explanation:**  
+    The `ProfileEditForm` is used to edit the extra profile information stored in the custom `Profile` model. It creates a form that can be rendered in templates and processed in views to update the profile details. ✏️
+
+- **`class Meta:` block inside `ProfileEditForm`**  
+  - **Purpose:**  
+    The Meta class specifies which model the form is associated with and which fields should be included.  
+  - **Explanation:**  
+    - **`model = Profile`:**  
+      This line tells Django that the form is based on the custom `Profile` model. This association automatically generates form fields for the model's attributes. 🏷️
+    - **`fields = ['date_of_birth', 'photo']`:**  
+      This line lists the specific fields from the Profile model that users are allowed to edit—namely, `date_of_birth` and `photo`. This focused selection helps maintain a clear separation between core user data and additional profile information. 🔍
+
+---
