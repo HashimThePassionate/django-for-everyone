@@ -2672,3 +2672,313 @@ class ProfileEditForm(forms.ModelForm):
       This line lists the specific fields from the Profile model that users are allowed to edit—namely, `date_of_birth` and `photo`. This focused selection helps maintain a clear separation between core user data and additional profile information. 🔍
 
 ---
+
+# **Edit the views.py file of the account application and add the following lines:**
+
+
+```python
+# ...
+from .models import Profile  # add Profile
+# ...
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(
+                user_form.cleaned_data['password']
+            )
+            new_user.save()
+            # Create the user profile
+            Profile.objects.create(user=new_user)
+            return render(
+                request,
+                'account/register_done.html',
+                {'new_user': new_user}
+            )
+    else:
+        user_form = UserRegistrationForm()
+    return render(
+        request,
+        'account/register.html',
+        {'user_form': user_form}
+    )
+```
+
+---
+
+## Detailed Explanation of the Commented Code 📝💡
+
+- **`from .models import Profile  # add Profile`**  
+  - **Purpose:**  
+    This line imports the `Profile` model from the current application's `models.py` file.  
+  - **Explanation:**  
+    Importing the Profile model is essential because later in the registration process, we need to create a Profile instance. Without importing it, the code wouldn’t be able to reference the Profile model to create a user profile after a new user is registered. 🔗
+
+- **`# Create the user profile`**  
+  - **Purpose:**  
+    This comment indicates that a new Profile object is being created immediately after a new user is saved to the database.  
+  - **Explanation:**  
+    Once the `new_user` is saved, the line `Profile.objects.create(user=new_user)` automatically creates a Profile instance associated with that user. This ensures that every user who registers through the site will have an associated profile created for them. However, note that users created via the Django admin will not have a profile created automatically unless you implement signals. This approach maintains a clear separation between core user data and additional profile details, and it’s a common pattern for extending user information. 🛠️
+
+---
+
+# **Edit the views.py file of the account application:**
+
+```python
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import render
+from .forms import (
+    LoginForm,
+    UserRegistrationForm,
+    UserEditForm,  # UserEditForm
+    ProfileEditForm  # ProfileEditForm
+)
+from .models import Profile
+
+# ...
+
+# Edit
+@login_required
+def edit(request):
+    if request.method == 'POST':
+        user_form = UserEditForm(
+            instance=request.user,
+            data=request.POST
+        )
+        profile_form = ProfileEditForm(
+            instance=request.user.profile,
+            data=request.POST,
+            files=request.FILES
+        )
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+    return render(
+        request,
+        'account/edit.html',
+        {
+            'user_form': user_form,
+            'profile_form': profile_form
+        }
+    )
+```
+
+Next, add the following URL pattern to the `urls.py` file of the account application:
+
+```python
+urlpatterns = [
+    #...
+    path('', include('django.contrib.auth.urls')),
+    path('', views.dashboard, name='dashboard'),
+    path('register/', views.register, name='register'),
+    path('edit/', views.edit, name='edit'),  # edit form
+]
+```
+
+---
+
+## Detailed Explanation of the Commented Code 📝💡
+
+- **`UserEditForm` and `ProfileEditForm` in the forms import:**  
+  - **Purpose:**  
+    These comments mark the import of two model forms used in this view.  
+  - **Explanation:**  
+    The `UserEditForm` is used for editing the built-in user model data (first name, last name, and email), while the `ProfileEditForm` is for editing the custom profile data (date of birth and photo). This separation ensures that each form deals with a specific set of data. 👤🖼️
+
+- **`@login_required` decorator above the edit view:**  
+  - **Purpose:**  
+    This decorator restricts access to the view to only authenticated users.  
+  - **Explanation:**  
+    By using `@login_required`, only users who are logged in can access the edit view. This prevents unauthorized users from attempting to modify profile information. 🔒
+
+- **`instance=request.user` in UserEditForm initialization:**  
+  - **Purpose:**  
+    Specifies that the form should be pre-populated with data from the currently logged-in user.  
+  - **Explanation:**  
+    This ensures that when a user visits the edit page, their existing personal information is displayed in the form fields, making it easier for them to update their details. 👤✏️
+
+- **`instance=request.user.profile` in ProfileEditForm initialization:**  
+  - **Purpose:**  
+    Indicates that the form should use the current user's associated profile data.  
+  - **Explanation:**  
+    Similarly, this populates the profile form with the user's existing profile information (such as date of birth and photo), enabling easy editing of additional details. 📝🖼️
+
+- **`data=request.POST` and `files=request.FILES` in the POST branch:**  
+  - **Purpose:**  
+    These parameters pass the submitted form data and uploaded files to the corresponding forms.  
+  - **Explanation:**  
+    The `data=request.POST` parameter feeds the posted data into the form, while `files=request.FILES` handles file uploads (such as a new profile picture). This ensures both textual and file data are processed correctly. 📥
+
+- **`if user_form.is_valid() and profile_form.is_valid():`**  
+  - **Purpose:**  
+    Validates both forms to ensure the data meets the defined criteria.  
+  - **Explanation:**  
+    Only if both forms pass validation will the changes be saved. This protects the database from invalid or inconsistent data. ✅
+
+- **`user_form.save()` and `profile_form.save()` inside the valid data block:**  
+  - **Purpose:**  
+    Saves the changes made to the user's data and profile.  
+  - **Explanation:**  
+    These calls commit the updates to the database, ensuring that the user's personal and profile information are updated simultaneously. 💾
+
+- **URL pattern comment `# edit form` in urls.py:**  
+  - **Purpose:**  
+    Highlights the addition of the URL pattern for the edit view.  
+  - **Explanation:**  
+    This pattern maps the URL `/edit/` to the `edit` view, allowing authenticated users to access the profile editing page. This clear routing ensures that the edit functionality is properly linked in your account application. 🌐
+
+---
+
+
+# **Creating the Edit Template and Updating the Dashboard Template** 📝
+
+### 1. Creating the Edit Template
+
+Create a file named **edit.html** in the **templates/account/** directory with the following content:
+
+```html
+{% extends "base.html" %}
+{% block title %}Edit your account{% endblock %}
+{% block content %}
+  <h1>Edit your account</h1>
+  <p>You can edit your account using the following form:</p>
+  <form method="post" enctype="multipart/form-data">
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Save changes"></p>
+  </form>
+{% endblock %}
+```
+
+#### Detailed Explanation of the Edit Template Code 📝💡
+
+- **`{% extends "base.html" %}`**  
+  - **Purpose:**  
+    This line indicates that the template inherits from **base.html**, ensuring a consistent layout and style across your site.  
+  - **Explanation:**  
+    By extending **base.html**, you reuse the common structure (such as header, footer, and CSS includes) defined in your base template. This promotes DRY (Don't Repeat Yourself) principles. 🌟
+
+- **`{% block title %}Edit your account{% endblock %}`**  
+  - **Purpose:**  
+    This block sets the title of the page.  
+  - **Explanation:**  
+    The text "Edit your account" is inserted into the title block defined in **base.html**, which is typically rendered in the browser's title bar or tab. 🏷️
+
+- **`{% block content %}` and `{% endblock %}`**  
+  - **Purpose:**  
+    These tags mark the content section that will be rendered on the page.  
+  - **Explanation:**  
+    Everything between these tags (the heading, paragraph, and form) defines the unique content for the edit page. This block overrides a placeholder in **base.html**. 📋
+
+- **`<form method="post" enctype="multipart/form-data">`**  
+  - **Purpose:**  
+    Defines an HTML form for editing user data.  
+  - **Explanation:**  
+    - **`method="post"`** ensures that form data is sent securely using a POST request.  
+    - **`enctype="multipart/form-data"`** is required to handle file uploads (e.g., profile picture uploads). Without this attribute, file data would not be transmitted correctly. 📤
+
+- **`{{ user_form.as_p }}` and `{{ profile_form.as_p }}`**  
+  - **Purpose:**  
+    These tags render the user and profile forms as HTML paragraphs.  
+  - **Explanation:**  
+    The forms are rendered with their fields wrapped in `<p>` tags, ensuring they are displayed in a readable, vertically-stacked format. This makes the form easy to use and visually appealing. 📝
+
+- **`{% csrf_token %}`**  
+  - **Purpose:**  
+    Inserts a CSRF (Cross-Site Request Forgery) token into the form for security.  
+  - **Explanation:**  
+    The token prevents CSRF attacks by ensuring that the form submission comes from your site. It’s a critical security feature in Django forms. 🔒
+
+- **`<input type="submit" value="Save changes">`**  
+  - **Purpose:**  
+    Creates a submit button to send the form data.  
+  - **Explanation:**  
+    When the user clicks this button, the form data (including any file uploads) is submitted to the server for processing. ✅
+
+---
+
+### 2. Updating the Dashboard Template
+
+Open **templates/account/dashboard.html** and add the following lines where appropriate:
+
+```html
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+  <h1>Dashboard</h1>
+  <p>
+    Welcome to your dashboard. You can <a href="{% url "edit" %}">edit your profile</a> or 
+    <!-- Edit form -->
+    <a href="{% url "password_change" %}">change your password</a> <!-- change password -->
+  </p>
+{% endblock %}
+```
+
+#### Detailed Explanation of the Dashboard Template Code 📝💡
+
+- **`{% block title %}Dashboard{% endblock %}`**  
+  - **Purpose:**  
+    Sets the page title to "Dashboard".  
+  - **Explanation:**  
+    This title appears in the browser’s tab and gives context to the user about the page they’re on. 🏷️
+
+- **`<a href="{% url "edit" %}">edit your profile</a>`**  
+  - **Purpose:**  
+    Provides a link for users to navigate to the edit profile page.  
+  - **Explanation:**  
+    The `{% url "edit" %}` tag dynamically generates the URL for the view that handles editing a user's profile, ensuring the link remains correct even if URL patterns change. This makes navigation intuitive and reliable. 🔗
+
+- **`<!-- Edit form -->`**  
+  - **Purpose:**  
+    This inline comment indicates that the link to edit the profile is associated with the edit form functionality.  
+  - **Explanation:**  
+    It helps developers quickly understand the purpose of the adjacent link without affecting the rendered HTML. 📝
+
+- **`<a href="{% url "password_change" %}">change your password</a>`**  
+  - **Purpose:**  
+    Provides a link for users to navigate to the password change page.  
+  - **Explanation:**  
+    Like the edit link, this uses the `{% url %}` tag to generate the correct URL dynamically, facilitating seamless navigation for changing passwords. 🔒
+
+- **`<!-- change password -->`**  
+  - **Purpose:**  
+    This inline comment explains that the link is intended for changing the user’s password.  
+  - **Explanation:**  
+    It acts as a note for developers, clarifying the function of the link. 🛡️
+
+---
+
+### 3. Testing and Additional Notes
+
+- **Testing:**  
+  - After creating **edit.html**, navigate to **http://127.0.0.1:8000/account/register/** and register a new user.  
+
+<div align="center">
+  <img src="./images/22.jpg" alt="" width="600px"/>
+
+  **Figure 4.22**: The profile edit form
+
+</div>
+
+  - Then, log in and visit **http://127.0.0.1:8000/account/edit/**. You should see the edit form with both the user and profile fields.
+
+<div align="center">
+  <img src="./images/23.jpg" alt="" width="600px"/>
+
+  **Figure 4.23**: Dashboard page content, including links to edit a profile and change a password
+
+</div>
+  - Access the dashboard at **http://127.0.0.1:8000/account/** to verify that the links for editing the profile and changing the password are visible and functional.
+
+- **Using a Custom User Model:**  
+  Django also allows you to substitute the default user model with a custom one. The custom model should inherit from Django’s **AbstractUser** class, which provides the full implementation of the default user as an abstract model. For more details, check out the [Django documentation](https://docs.djangoproject.com/en/5.0/topics/auth/customizing/#substituting-a-custom-user-model).  
+  - **Note:** While a custom user model offers greater flexibility, it may require additional integration work with third-party applications that expect the default user model.
+
+---
